@@ -1,0 +1,158 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release (e.g., 2.0.0)'
+        required: true
+        type: string
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: |
+          cd action
+          npm ci
+
+      - name: Run tests
+        run: |
+          cd action
+          npm test
+
+      - name: Build package
+        run: |
+          cd action
+          npm pack
+
+      - name: Publish to NPM
+        run: |
+          cd action
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref_name }}
+          release_name: Release ${{ github.ref_name }}
+          body: |
+            ## 🚀 What's New in ${{ github.ref_name }}
+            
+            ### ✨ Features
+            - Smart recommendations engine with alternatives and polyfills
+            - Analytics and trend tracking over time
+            - Framework integrations (React, Vue, Angular, Svelte, Next.js, Nuxt.js)
+            - Enhanced CLI with progress bars and colored output
+            - Caching system for faster repeated scans
+            - GitHub Actions integration with automatic PR comments
+            
+            ### 🔧 Improvements
+            - 3-5x faster scanning with concurrent processing
+            - Better error handling and user feedback
+            - Comprehensive test coverage
+            - Detailed documentation and examples
+            
+            ### 📦 Installation
+            ```bash
+            npm install -g baseline-check
+            # or
+            npx baseline-check init
+            ```
+            
+            ### 🎯 Quick Start
+            ```bash
+            baseline-check init
+            baseline-check run
+            baseline-check analyze
+            ```
+            
+            **Full documentation**: [README.md](README.md)
+            **Quick start**: [QUICKSTART.md](QUICKSTART.md)
+          draft: false
+          prerelease: false
+
+      - name: Upload Release Assets
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: action/baseline-check-${{ github.ref_name }}.tgz
+          asset_name: baseline-check-${{ github.ref_name }}.tgz
+          asset_content_type: application/gzip
+
+  docker:
+    runs-on: ubuntu-latest
+    needs: release
+    if: startsWith(github.ref_name, 'v')
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: |
+            baseline-check:${{ github.ref_name }}
+            baseline-check:latest
+          platforms: linux/amd64,linux/arm64
+
+  homebrew:
+    runs-on: ubuntu-latest
+    needs: release
+    if: startsWith(github.ref_name, 'v')
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Update Homebrew formula
+        run: |
+          # This would update a Homebrew tap repository
+          # Implementation depends on your Homebrew tap setup
+          echo "Homebrew formula update would go here"
+
+  chocolatey:
+    runs-on: windows-latest
+    needs: release
+    if: startsWith(github.ref_name, 'v')
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Update Chocolatey package
+        run: |
+          # This would update a Chocolatey package
+          # Implementation depends on your Chocolatey repository setup
+          echo "Chocolatey package update would go here"

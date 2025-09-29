@@ -1,0 +1,1779 @@
+{
+  "metadata": {
+    "scannedFiles": 287,
+    "processedFiles": 287,
+    "errorCount": 0,
+    "skippedFiles": 0,
+    "generatedAt": "2025-09-29T18:47:15.930Z",
+    "version": "2.0.0",
+    "config": {
+      "patterns": [
+        "**/*.{js,ts,tsx,jsx,css,html}",
+        "**/*.vue",
+        "**/*.svelte"
+      ],
+      "ignore": [
+        "**/node_modules/**",
+        "**/dist/**",
+        "**/build/**",
+        "**/.git/**",
+        "**/coverage/**",
+        "**/.next/**",
+        "**/out/**"
+      ],
+      "performance": {
+        "maxFileSize": 1048576,
+        "concurrentFiles": 10,
+        "cacheResults": true
+      }
+    },
+    "processedFeatures": 22,
+    "unknownFeatures": 6,
+    "compatibilityCheckedAt": "2025-09-29T18:47:53.882Z"
+  },
+  "detected": [
+    {
+      "feature": "window.fetch",
+      "files": [
+        "../dashboard/app.js",
+        "../action/test/scan.test.js",
+        "../action/node_modules/undici-types/fetch.d.ts",
+        "../action/node_modules/undici-types/formdata.d.ts",
+        "../action/node_modules/@types/node/test.d.ts",
+        "../action/node_modules/@types/node/web-globals/fetch.d.ts"
+      ],
+      "count": 6
+    },
+    {
+      "feature": "Optional chaining",
+      "files": [
+        "../dashboard/app.js",
+        "../action/src/check.js",
+        "../action/src/scan.js",
+        "../action/test/scan.test.js",
+        "../action/node_modules/globby/index.js",
+        "../action/src/reporters/summary.js",
+        "../action/node_modules/@sindresorhus/merge-streams/index.js",
+        "../action/node_modules/@types/node/events.d.ts",
+        "../action/node_modules/picomatch/lib/constants.js",
+        "../action/node_modules/@types/node/fs/promises.d.ts"
+      ],
+      "count": 10
+    },
+    {
+      "feature": "Top-level await",
+      "files": [
+        "../dashboard/app.js",
+        "../action/src/check.js",
+        "../action/src/scan.js",
+        "../action/test/check.test.js",
+        "../action/test/scan.test.js",
+        "../action/test/summary.test.js",
+        "../action/node_modules/unicorn-magic/default.d.ts",
+        "../action/src/reporters/summary.js",
+        "../action/node_modules/@sindresorhus/merge-streams/index.js",
+        "../action/node_modules/commander/lib/command.js",
+        "../action/node_modules/fastq/test/example.ts",
+        "../action/node_modules/fastq/test/promise.js"
+      ],
+      "count": 12
+    },
+    {
+      "feature": "css.grid",
+      "files": [
+        "../dashboard/styles.css",
+        "../action/test/scan.test.js",
+        "../action/src/reporters/summary.js"
+      ],
+      "count": 3
+    },
+    {
+      "feature": "css.flexbox",
+      "files": [
+        "../dashboard/styles.css"
+      ],
+      "count": 1
+    },
+    {
+      "feature": "css.min_max",
+      "files": [
+        "../dashboard/styles.css",
+        "../action/src/scan.js",
+        "../action/node_modules/fill-range/index.js",
+        "../action/node_modules/to-regex-range/index.js",
+        "../action/src/reporters/summary.js",
+        "../action/node_modules/@sindresorhus/merge-streams/index.js",
+        "../action/node_modules/braces/lib/parse.js",
+        "../action/node_modules/@types/node/events.d.ts",
+        "../action/node_modules/fast-glob/out/settings.js",
+        "../action/node_modules/commander/lib/help.js",
+        "../action/node_modules/commander/lib/suggestSimilar.js",
+        "../action/node_modules/picomatch/lib/parse.js"
+      ],
+      "count": 12
+    },
+    {
+      "feature": "navigator.clipboard.writeText",
+      "files": [
+        "../action/src/check.js",
+        "../action/src/scan.js",
+        "../action/test/scan.test.js"
+      ],
+      "count": 3
+    },
+    {
+      "feature": "navigator.clipboard.readText",
+      "files": [
+        "../action/src/check.js",
+        "../action/src/scan.js"
+      ],
+      "count": 2
+    },
+    {
+      "feature": "AbortSignal",
+      "files": [
+        "../action/src/check.js",
+        "../action/src/scan.js",
+        "../action/node_modules/undici-types/dispatcher.d.ts",
+        "../action/node_modules/undici-types/fetch.d.ts",
+        "../action/node_modules/undici-types/patch.d.ts",
+        "../action/node_modules/@types/node/child_process.d.ts",
+        "../action/node_modules/@types/node/events.d.ts",
+        "../action/node_modules/@types/node/fs.d.ts",
+        "../action/node_modules/@types/node/http.d.ts",
+        "../action/node_modules/@types/node/http2.d.ts",
+        "../action/node_modules/@types/node/net.d.ts",
+        "../action/node_modules/@types/node/readline.d.ts",
+        "../action/node_modules/@types/node/stream.d.ts",
+        "../action/node_modules/@types/node/test.d.ts",
+        "../action/node_modules/@types/node/util.d.ts",
+        "../action/node_modules/@types/node/worker_threads.d.ts",
+        "../action/node_modules/@types/node/fs/promises.d.ts",
+        "../action/node_modules/@types/node/stream/web.d.ts",
+        "../action/node_modules/@types/node/web-globals/abortcontroller.d.ts",
+        "../action/node_modules/@types/node/web-globals/events.d.ts"
+      ],
+      "count": 20
+    },
+    {
+      "feature": "Dynamic import",
+      "files": [
+        "../action/src/config.js",
+        "../action/node_modules/undici-types/index.d.ts",
+        "../action/node_modules/@types/node/buffer.d.ts",
+        "../action/node_modules/@types/node/constants.d.ts",
+        "../action/node_modules/@types/node/crypto.d.ts",
+        "../action/node_modules/@types/node/module.d.ts",
+        "../action/node_modules/@types/node/process.d.ts",
+        "../action/node_modules/@types/node/test.d.ts",
+        "../action/node_modules/@types/node/vm.d.ts",
+        "../action/node_modules/commander/lib/help.js",
+        "../action/node_modules/@types/node/stream/web.d.ts"
+      ],
+      "count": 11
+    },
+    {
+      "feature": "dialog.element",
+      "files": [
+        "../action/src/scan.js",
+        "../action/test/scan.test.js"
+      ],
+      "count": 2
+    },
+    {
+      "feature": "details.element",
+      "files": [
+        "../action/src/scan.js",
+        "../action/test/scan.test.js"
+      ],
+      "count": 2
+    },
+    {
+      "feature": "summary.element",
+      "files": [
+        "../action/src/scan.js",
+        "../action/test/scan.test.js"
+      ],
+      "count": 2
+    },
+    {
+      "feature": "css.container_queries",
+      "files": [
+        "../action/src/scan.js",
+        "../action/test/scan.test.js"
+      ],
+      "count": 2
+    },
+    {
+      "feature": "WebSocket",
+      "files": [
+        "../action/test/scan.test.js"
+      ],
+      "count": 1
+    },
+    {
+      "feature": "Nullish coalescing",
+      "files": [
+        "../action/test/scan.test.js",
+        "../action/node_modules/globby/ignore.js",
+        "../action/node_modules/globby/index.js",
+        "../action/node_modules/@sindresorhus/merge-streams/index.js",
+        "../action/node_modules/@types/node/http.d.ts"
+      ],
+      "count": 5
+    },
+    {
+      "feature": "css.has_pseudo",
+      "files": [
+        "../action/test/scan.test.js"
+      ],
+      "count": 1
+    },
+    {
+      "feature": "css.clamp",
+      "files": [
+        "../action/test/scan.test.js"
+      ],
+      "count": 1
+    },
+    {
+      "feature": "AbortController",
+      "files": [
+        "../action/node_modules/@sindresorhus/merge-streams/index.js",
+        "../action/node_modules/@types/node/child_process.d.ts",
+        "../action/node_modules/@types/node/dgram.d.ts",
+        "../action/node_modules/@types/node/events.d.ts",
+        "../action/node_modules/@types/node/fs.d.ts",
+        "../action/node_modules/@types/node/readline.d.ts",
+        "../action/node_modules/@types/node/stream.d.ts",
+        "../action/node_modules/@types/node/fs/promises.d.ts"
+      ],
+      "count": 8
+    },
+    {
+      "feature": "URL.createObjectURL",
+      "files": [
+        "../action/node_modules/@types/node/buffer.d.ts",
+        "../action/node_modules/@types/node/url.d.ts"
+      ],
+      "count": 2
+    },
+    {
+      "feature": "URL.revokeObjectURL",
+      "files": [
+        "../action/node_modules/@types/node/url.d.ts"
+      ],
+      "count": 1
+    },
+    {
+      "feature": "BigInt",
+      "files": [
+        "../action/node_modules/@types/node/util.d.ts"
+      ],
+      "count": 1
+    }
+  ],
+  "results": [
+    {
+      "feature": "window.fetch",
+      "files": [
+        "../dashboard/app.js",
+        "../action/test/scan.test.js",
+        "../action/node_modules/undici-types/fetch.d.ts",
+        "../action/node_modules/undici-types/formdata.d.ts",
+        "../action/node_modules/@types/node/test.d.ts",
+        "../action/node_modules/@types/node/web-globals/fetch.d.ts"
+      ],
+      "count": 6,
+      "status": "baseline_like",
+      "mdn": "https://developer.mozilla.org/docs/Web/API/Window/fetch",
+      "browsers": {
+        "chrome": [
+          {
+            "version": "42"
+          }
+        ],
+        "chrome_android": [
+          {
+            "version": "42"
+          }
+        ],
+        "deno": [
+          {
+            "version": "1.0"
+          }
+        ],
+        "edge": [
+          {
+            "version": "14"
+          }
+        ],
+        "firefox": [
+          {
+            "version": "39"
+          }
+        ],
+        "firefox_android": [
+          {
+            "version": "39"
+          }
+        ],
+        "nodejs": [
+          {
+            "version": "18.0.0"
+          }
+        ],
+        "oculus": [
+          {
+            "version": "5.0"
+          }
+        ],
+        "opera": [
+          {
+            "version": "29"
+          }
+        ],
+        "opera_android": [
+          {
+            "version": "29"
+          }
+        ],
+        "safari": [
+          {
+            "version": "10.1"
+          }
+        ],
+        "safari_ios": [
+          {
+            "version": "10.3"
+          }
+        ],
+        "samsunginternet_android": [
+          {
+            "version": "4.0"
+          }
+        ],
+        "webview_android": [
+          {
+            "version": "42"
+          }
+        ],
+        "webview_ios": [
+          {
+            "version": "10.3"
+          }
+        ]
+      }
+    },
+    {
+      "feature": "Optional chaining",
+      "files": [
+        "../dashboard/app.js",
+        "../action/src/check.js",
+        "../action/src/scan.js",
+        "../action/test/scan.test.js",
+        "../action/node_modules/globby/index.js",
+        "../action/src/reporters/summary.js",
+        "../action/node_modules/@sindresorhus/merge-streams/index.js",
+        "../action/node_modules/@types/node/events.d.ts",
+        "../action/node_modules/picomatch/lib/constants.js",
+        "../action/node_modules/@types/node/fs/promises.d.ts"
+      ],
+      "count": 10,
+      "status": "baseline_like",
+      "mdn": "https://developer.mozilla.org/docs/Web/JavaScript/Reference/Operators/Optional_chaining",
+      "browsers": {
+        "chrome": [
+          {
+            "version": "80"
+          }
+        ],
+        "chrome_android": [
+          {
+            "version": "80"
+          }
+        ],
+        "deno": [
+          {
+            "version": "1.0"
+          }
+        ],
+        "edge": [
+          {
+            "version": "80"
+          }
+        ],
+        "firefox": [
+          {
+            "version": "74"
+          }
+        ],
+        "firefox_android": [
+          {
+            "version": "79"
+          }
+        ],
+        "nodejs": [
+          {
+            "version": "14.0.0"
+          }
+        ],
+        "oculus": [
+          {
+            "version": "9.0"
+          }
+        ],
+        "opera": [
+          {
+            "version": "67"
+          }
+        ],
+        "opera_android": [
+          {
+            "version": "57"
+          }
+        ],
+        "safari": [
+          {
+            "version": "13.1"
+          }
+        ],
+        "safari_ios": [
+          {
+            "version": "13.4"
+          }
+        ],
+        "samsunginternet_android": [
+          {
+            "version": "13.0"
+          }
+        ],
+        "webview_android": [
+          {
+            "version": "80"
+          }
+        ],
+        "webview_ios": [
+          {
+            "version": "13.4"
+          }
+        ]
+      }
+    },
+    {
+      "feature": "Top-level await",
+      "files": [
+        "../dashboard/app.js",
+        "../action/src/check.js",
+        "../action/src/scan.js",
+        "../action/test/check.test.js",
+        "../action/test/scan.test.js",
+        "../action/test/summary.test.js",
+        "../action/node_modules/unicorn-magic/default.d.ts",
+        "../action/src/reporters/summary.js",
+        "../action/node_modules/@sindresorhus/merge-streams/index.js",
+        "../action/node_modules/commander/lib/command.js",
+        "../action/node_modules/fastq/test/example.ts",
+        "../action/node_modules/fastq/test/promise.js"
+      ],
+      "count": 12,
+      "status": "unknown",
+      "mdn": null,
+      "browsers": {}
+    },
+    {
+      "feature": "css.grid",
+      "files": [
+        "../dashboard/styles.css",
+        "../action/test/scan.test.js",
+        "../action/src/reporters/summary.js"
+      ],
+      "count": 3,
+      "status": "baseline_like",
+      "browsers": {
+        "chrome": [
+          {
+            "version": "57"
+          }
+        ],
+        "chrome_android": [
+          {
+            "version": "57"
+          }
+        ],
+        "edge": [
+          {
+            "version": "16"
+          },
+          {
+            "version": "12"
+          }
+        ],
+        "firefox": [
+          {
+            "version": "52"
+          }
+        ],
+        "firefox_android": [
+          {
+            "version": "52"
+          }
+        ],
+        "ie": [
+          {
+            "version": "10"
+          }
+        ],
+        "oculus": [
+          {
+            "version": "5.0"
+          }
+        ],
+        "opera": [
+          {
+            "version": "44"
+          }
+        ],
+        "opera_android": [
+          {
+            "version": "43"
+          }
+        ],
+        "safari": [
+          {
+            "version": "10.1"
+          }
+        ],
+        "safari_ios": [
+          {
+            "version": "10.3"
+          }
+        ],
+        "samsunginternet_android": [
+          {
+            "version": "6.0"
+          }
+        ],
+        "webview_android": [
+          {
+            "version": "57"
+          }
+        ],
+        "webview_ios": [
+          {
+            "version": "10.3"
+          }
+        ]
+      }
+    },
+    {
+      "feature": "css.flexbox",
+      "files": [
+        "../dashboard/styles.css"
+      ],
+      "count": 1,
+      "status": "baseline_like",
+      "browsers": {
+        "chrome": [
+          {
+            "version": "29"
+          },
+          {
+            "version": "21"
+          }
+        ],
+        "chrome_android": [
+          {
+            "version": "29"
+          },
+          {
+            "version": "25"
+          }
+        ],
+        "edge": [
+          {
+            "version": "12"
+          }
+        ],
+        "firefox": [
+          {
+            "version": "20"
+          }
+        ],
+        "firefox_android": [
+          {
+            "version": "20"
+          }
+        ],
+        "ie": [
+          {
+            "version": "11"
+          },
+          {
+            "version": "8"
+          }
+        ],
+        "oculus": [
+          {
+            "version": "5.0"
+          },
+          {
+            "version": "5.0"
+          }
+        ],
+        "opera": [
+          {
+            "version": "16"
+          },
+          {
+            "version": "15"
+          },
+          {
+            "version": "12.1",
+            "removed": "15"
+          }
+        ],
+        "opera_android": [
+          {
+            "version": "16"
+          },
+          {
+            "version": "14"
+          },
+          {
+            "version": "12.1",
+            "removed": "14"
+          }
+        ],
+        "safari": [
+          {
+            "version": "9"
+          },
+          {
+            "version": "7"
+          }
+        ],
+        "safari_ios": [
+          {
+            "version": "9"
+          },
+          {
+            "version": "7"
+          }
+        ],
+        "samsunginternet_android": [
+          {
+            "version": "2.0"
+          },
+          {
+            "version": "1.5"
+          }
+        ],
+        "webview_android": [
+          {
+            "version": "4.4"
+          },
+          {
+            "version": "4.4"
+          }
+        ],
+        "webview_ios": [
+          {
+            "version": "9"
+          },
+          {
+            "version": "7"
+          }
+        ]
+      }
+    },
+    {
+      "feature": "css.min_max",
+      "files": [
+        "../dashboard/styles.css",
+        "../action/src/scan.js",
+        "../action/node_modules/fill-range/index.js",
+        "../action/node_modules/to-regex-range/index.js",
+        "../action/src/reporters/summary.js",
+        "../action/node_modules/@sindresorhus/merge-streams/index.js",
+        "../action/node_modules/braces/lib/parse.js",
+        "../action/node_modules/@types/node/events.d.ts",
+        "../action/node_modules/fast-glob/out/settings.js",
+        "../action/node_modules/commander/lib/help.js",
+        "../action/node_modules/commander/lib/suggestSimilar.js",
+        "../action/node_modules/picomatch/lib/parse.js"
+      ],
+      "count": 12,
+      "status": "unknown",
+      "mdn": null,
+      "browsers": {}
+    },
+    {
+      "feature": "navigator.clipboard.writeText",
+      "files": [
+        "../action/src/check.js",
+        "../action/src/scan.js",
+        "../action/test/scan.test.js"
+      ],
+      "count": 3,
+      "status": "baseline_like",
+      "mdn": "https://developer.mozilla.org/docs/Web/API/Clipboard/writeText",
+      "browsers": {
+        "chrome": [
+          {
+            "version": "66"
+          }
+        ],
+        "chrome_android": [
+          {
+            "version": "66"
+          }
+        ],
+        "edge": [
+          {
+            "version": "79"
+          }
+        ],
+        "firefox": [
+          {
+            "version": "63"
+          }
+        ],
+        "firefox_android": [
+          {
+            "version": "63"
+          }
+        ],
+        "oculus": [
+          {
+            "version": "5.0"
+          }
+        ],
+        "opera": [
+          {
+            "version": "53"
+          }
+        ],
+        "opera_android": [
+          {
+            "version": "47"
+          }
+        ],
+        "safari": [
+          {
+            "version": "13.1"
+          }
+        ],
+        "safari_ios": [
+          {
+            "version": "13.4"
+          }
+        ],
+        "samsunginternet_android": [
+          {
+            "version": "9.0"
+          }
+        ],
+        "webview_android": [
+          {
+            "version": "66"
+          }
+        ],
+        "webview_ios": [
+          {
+            "version": "13.4"
+          }
+        ]
+      }
+    },
+    {
+      "feature": "navigator.clipboard.readText",
+      "files": [
+        "../action/src/check.js",
+        "../action/src/scan.js"
+      ],
+      "count": 2,
+      "status": "baseline_like",
+      "mdn": "https://developer.mozilla.org/docs/Web/API/Clipboard/readText",
+      "browsers": {
+        "chrome": [
+          {
+            "version": "66"
+          }
+        ],
+        "chrome_android": [
+          {
+            "version": "66"
+          }
+        ],
+        "edge": [
+          {
+            "version": "79"
+          }
+        ],
+        "firefox": [
+          {
+            "version": "125"
+          }
+        ],
+        "firefox_android": [
+          {
+            "version": "125"
+          }
+        ],
+        "oculus": [
+          {
+            "version": "5.0"
+          }
+        ],
+        "opera": [
+          {
+            "version": "53"
+          }
+        ],
+        "opera_android": [
+          {
+            "version": "47"
+          }
+        ],
+        "safari": [
+          {
+            "version": "13.1"
+          }
+        ],
+        "safari_ios": [
+          {
+            "version": "13.4"
+          }
+        ],
+        "samsunginternet_android": [
+          {
+            "version": "9.0"
+          }
+        ],
+        "webview_android": [
+          {
+            "version": "66"
+          }
+        ],
+        "webview_ios": [
+          {
+            "version": "13.4"
+          }
+        ]
+      }
+    },
+    {
+      "feature": "AbortSignal",
+      "files": [
+        "../action/src/check.js",
+        "../action/src/scan.js",
+        "../action/node_modules/undici-types/dispatcher.d.ts",
+        "../action/node_modules/undici-types/fetch.d.ts",
+        "../action/node_modules/undici-types/patch.d.ts",
+        "../action/node_modules/@types/node/child_process.d.ts",
+        "../action/node_modules/@types/node/events.d.ts",
+        "../action/node_modules/@types/node/fs.d.ts",
+        "../action/node_modules/@types/node/http.d.ts",
+        "../action/node_modules/@types/node/http2.d.ts",
+        "../action/node_modules/@types/node/net.d.ts",
+        "../action/node_modules/@types/node/readline.d.ts",
+        "../action/node_modules/@types/node/stream.d.ts",
+        "../action/node_modules/@types/node/test.d.ts",
+        "../action/node_modules/@types/node/util.d.ts",
+        "../action/node_modules/@types/node/worker_threads.d.ts",
+        "../action/node_modules/@types/node/fs/promises.d.ts",
+        "../action/node_modules/@types/node/stream/web.d.ts",
+        "../action/node_modules/@types/node/web-globals/abortcontroller.d.ts",
+        "../action/node_modules/@types/node/web-globals/events.d.ts"
+      ],
+      "count": 20,
+      "status": "baseline_like",
+      "mdn": "https://developer.mozilla.org/docs/Web/API/AbortSignal",
+      "browsers": {
+        "chrome": [
+          {
+            "version": "66"
+          }
+        ],
+        "chrome_android": [
+          {
+            "version": "66"
+          }
+        ],
+        "deno": [
+          {
+            "version": "1.0"
+          }
+        ],
+        "edge": [
+          {
+            "version": "16"
+          }
+        ],
+        "firefox": [
+          {
+            "version": "57"
+          }
+        ],
+        "firefox_android": [
+          {
+            "version": "57"
+          }
+        ],
+        "nodejs": [
+          {
+            "version": "14.17.0"
+          }
+        ],
+        "oculus": [
+          {
+            "version": "5.0"
+          }
+        ],
+        "opera": [
+          {
+            "version": "53"
+          }
+        ],
+        "opera_android": [
+          {
+            "version": "47"
+          }
+        ],
+        "safari": [
+          {
+            "version": "11.1"
+          }
+        ],
+        "safari_ios": [
+          {
+            "version": "11.3"
+          }
+        ],
+        "samsunginternet_android": [
+          {
+            "version": "9.0"
+          }
+        ],
+        "webview_android": [
+          {
+            "version": "66"
+          }
+        ],
+        "webview_ios": [
+          {
+            "version": "11.3"
+          }
+        ]
+      }
+    },
+    {
+      "feature": "Dynamic import",
+      "files": [
+        "../action/src/config.js",
+        "../action/node_modules/undici-types/index.d.ts",
+        "../action/node_modules/@types/node/buffer.d.ts",
+        "../action/node_modules/@types/node/constants.d.ts",
+        "../action/node_modules/@types/node/crypto.d.ts",
+        "../action/node_modules/@types/node/module.d.ts",
+        "../action/node_modules/@types/node/process.d.ts",
+        "../action/node_modules/@types/node/test.d.ts",
+        "../action/node_modules/@types/node/vm.d.ts",
+        "../action/node_modules/commander/lib/help.js",
+        "../action/node_modules/@types/node/stream/web.d.ts"
+      ],
+      "count": 11,
+      "status": "unknown",
+      "mdn": null,
+      "browsers": {}
+    },
+    {
+      "feature": "dialog.element",
+      "files": [
+        "../action/src/scan.js",
+        "../action/test/scan.test.js"
+      ],
+      "count": 2,
+      "status": "baseline_like",
+      "mdn": "https://developer.mozilla.org/docs/Web/HTML/Element/dialog",
+      "browsers": {
+        "chrome": [
+          {
+            "version": "37"
+          }
+        ],
+        "chrome_android": [
+          {
+            "version": "37"
+          }
+        ],
+        "edge": [
+          {
+            "version": "79"
+          }
+        ],
+        "firefox": [
+          {
+            "version": "98"
+          }
+        ],
+        "firefox_android": [
+          {
+            "version": "98"
+          }
+        ],
+        "oculus": [
+          {
+            "version": "5.0"
+          }
+        ],
+        "opera": [
+          {
+            "version": "24"
+          }
+        ],
+        "opera_android": [
+          {
+            "version": "24"
+          }
+        ],
+        "safari": [
+          {
+            "version": "15.4"
+          }
+        ],
+        "safari_ios": [
+          {
+            "version": "15.4"
+          }
+        ],
+        "samsunginternet_android": [
+          {
+            "version": "3.0"
+          }
+        ],
+        "webview_android": [
+          {
+            "version": "37"
+          }
+        ],
+        "webview_ios": [
+          {
+            "version": "15.4"
+          }
+        ]
+      }
+    },
+    {
+      "feature": "details.element",
+      "files": [
+        "../action/src/scan.js",
+        "../action/test/scan.test.js"
+      ],
+      "count": 2,
+      "status": "baseline_like",
+      "mdn": "https://developer.mozilla.org/docs/Web/HTML/Element/details",
+      "browsers": {
+        "chrome": [
+          {
+            "version": "12"
+          }
+        ],
+        "chrome_android": [
+          {
+            "version": "18"
+          }
+        ],
+        "edge": [
+          {
+            "version": "79"
+          }
+        ],
+        "firefox": [
+          {
+            "version": "49"
+          }
+        ],
+        "firefox_android": [
+          {
+            "version": "49"
+          }
+        ],
+        "oculus": [
+          {
+            "version": "5.0"
+          }
+        ],
+        "opera": [
+          {
+            "version": "15"
+          }
+        ],
+        "opera_android": [
+          {
+            "version": "14"
+          }
+        ],
+        "safari": [
+          {
+            "version": "6"
+          }
+        ],
+        "safari_ios": [
+          {
+            "version": "6"
+          }
+        ],
+        "samsunginternet_android": [
+          {
+            "version": "1.0"
+          }
+        ],
+        "webview_android": [
+          {
+            "version": "4.4"
+          }
+        ],
+        "webview_ios": [
+          {
+            "version": "6"
+          }
+        ]
+      }
+    },
+    {
+      "feature": "summary.element",
+      "files": [
+        "../action/src/scan.js",
+        "../action/test/scan.test.js"
+      ],
+      "count": 2,
+      "status": "baseline_like",
+      "mdn": "https://developer.mozilla.org/docs/Web/HTML/Element/summary",
+      "browsers": {
+        "chrome": [
+          {
+            "version": "12"
+          }
+        ],
+        "chrome_android": [
+          {
+            "version": "18"
+          }
+        ],
+        "edge": [
+          {
+            "version": "79"
+          }
+        ],
+        "firefox": [
+          {
+            "version": "49"
+          }
+        ],
+        "firefox_android": [
+          {
+            "version": "49"
+          }
+        ],
+        "oculus": [
+          {
+            "version": "5.0"
+          }
+        ],
+        "opera": [
+          {
+            "version": "15"
+          }
+        ],
+        "opera_android": [
+          {
+            "version": "14"
+          }
+        ],
+        "safari": [
+          {
+            "version": "6"
+          }
+        ],
+        "safari_ios": [
+          {
+            "version": "6"
+          }
+        ],
+        "samsunginternet_android": [
+          {
+            "version": "1.0"
+          }
+        ],
+        "webview_android": [
+          {
+            "version": "4"
+          }
+        ],
+        "webview_ios": [
+          {
+            "version": "6"
+          }
+        ]
+      }
+    },
+    {
+      "feature": "css.container_queries",
+      "files": [
+        "../action/src/scan.js",
+        "../action/test/scan.test.js"
+      ],
+      "count": 2,
+      "status": "unknown",
+      "mdn": null,
+      "browsers": {}
+    },
+    {
+      "feature": "WebSocket",
+      "files": [
+        "../action/test/scan.test.js"
+      ],
+      "count": 1,
+      "status": "baseline_like",
+      "mdn": "https://developer.mozilla.org/docs/Web/API/WebSocket",
+      "browsers": {
+        "chrome": [
+          {
+            "version": "5"
+          }
+        ],
+        "chrome_android": [
+          {
+            "version": "18"
+          }
+        ],
+        "deno": [
+          {
+            "version": "1.4"
+          }
+        ],
+        "edge": [
+          {
+            "version": "12"
+          }
+        ],
+        "firefox": [
+          {
+            "version": "11"
+          },
+          {
+            "version": "7",
+            "removed": "11"
+          }
+        ],
+        "firefox_android": [
+          {
+            "version": "14"
+          },
+          {
+            "version": "7",
+            "removed": "14"
+          }
+        ],
+        "ie": [
+          {
+            "version": "10"
+          }
+        ],
+        "nodejs": [
+          {
+            "version": "22.0.0"
+          }
+        ],
+        "oculus": [
+          {
+            "version": "5.0"
+          }
+        ],
+        "opera": [
+          {
+            "version": "12.1"
+          }
+        ],
+        "opera_android": [
+          {
+            "version": "12.1"
+          }
+        ],
+        "safari": [
+          {
+            "version": "5"
+          }
+        ],
+        "safari_ios": [
+          {
+            "version": "4.2"
+          }
+        ],
+        "samsunginternet_android": [
+          {
+            "version": "1.0"
+          }
+        ],
+        "webview_android": [
+          {
+            "version": "4.4"
+          }
+        ],
+        "webview_ios": [
+          {
+            "version": "4.2"
+          }
+        ]
+      }
+    },
+    {
+      "feature": "Nullish coalescing",
+      "files": [
+        "../action/test/scan.test.js",
+        "../action/node_modules/globby/ignore.js",
+        "../action/node_modules/globby/index.js",
+        "../action/node_modules/@sindresorhus/merge-streams/index.js",
+        "../action/node_modules/@types/node/http.d.ts"
+      ],
+      "count": 5,
+      "status": "baseline_like",
+      "mdn": "https://developer.mozilla.org/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing",
+      "browsers": {
+        "chrome": [
+          {
+            "version": "80"
+          }
+        ],
+        "chrome_android": [
+          {
+            "version": "80"
+          }
+        ],
+        "deno": [
+          {
+            "version": "1.0"
+          }
+        ],
+        "edge": [
+          {
+            "version": "80"
+          }
+        ],
+        "firefox": [
+          {
+            "version": "72"
+          }
+        ],
+        "firefox_android": [
+          {
+            "version": "79"
+          }
+        ],
+        "nodejs": [
+          {
+            "version": "14.0.0"
+          }
+        ],
+        "oculus": [
+          {
+            "version": "9.0"
+          }
+        ],
+        "opera": [
+          {
+            "version": "67"
+          }
+        ],
+        "opera_android": [
+          {
+            "version": "57"
+          }
+        ],
+        "safari": [
+          {
+            "version": "13.1"
+          }
+        ],
+        "safari_ios": [
+          {
+            "version": "13.4"
+          }
+        ],
+        "samsunginternet_android": [
+          {
+            "version": "13.0"
+          }
+        ],
+        "webview_android": [
+          {
+            "version": "80"
+          }
+        ],
+        "webview_ios": [
+          {
+            "version": "13.4"
+          }
+        ]
+      }
+    },
+    {
+      "feature": "css.has_pseudo",
+      "files": [
+        "../action/test/scan.test.js"
+      ],
+      "count": 1,
+      "status": "baseline_like",
+      "mdn": "https://developer.mozilla.org/docs/Web/CSS/:has",
+      "browsers": {
+        "chrome": [
+          {
+            "version": "105"
+          }
+        ],
+        "chrome_android": [
+          {
+            "version": "105"
+          }
+        ],
+        "edge": [
+          {
+            "version": "105"
+          }
+        ],
+        "firefox": [
+          {
+            "version": "121"
+          }
+        ],
+        "firefox_android": [
+          {
+            "version": "121"
+          }
+        ],
+        "opera": [
+          {
+            "version": "91"
+          }
+        ],
+        "opera_android": [
+          {
+            "version": "72"
+          }
+        ],
+        "safari": [
+          {
+            "version": "15.4"
+          }
+        ],
+        "safari_ios": [
+          {
+            "version": "15.4"
+          }
+        ],
+        "samsunginternet_android": [
+          {
+            "version": "20.0"
+          }
+        ],
+        "webview_android": [
+          {
+            "version": "105"
+          }
+        ],
+        "webview_ios": [
+          {
+            "version": "15.4"
+          }
+        ]
+      }
+    },
+    {
+      "feature": "css.clamp",
+      "files": [
+        "../action/test/scan.test.js"
+      ],
+      "count": 1,
+      "status": "baseline_like",
+      "mdn": "https://developer.mozilla.org/docs/Web/CSS/clamp",
+      "browsers": {
+        "chrome": [
+          {
+            "version": "79"
+          }
+        ],
+        "chrome_android": [
+          {
+            "version": "79"
+          }
+        ],
+        "edge": [
+          {
+            "version": "79"
+          }
+        ],
+        "firefox": [
+          {
+            "version": "75"
+          }
+        ],
+        "firefox_android": [
+          {
+            "version": "79"
+          }
+        ],
+        "oculus": [
+          {
+            "version": "8.0"
+          }
+        ],
+        "opera": [
+          {
+            "version": "66"
+          }
+        ],
+        "opera_android": [
+          {
+            "version": "57"
+          }
+        ],
+        "safari": [
+          {
+            "version": "13.1"
+          }
+        ],
+        "safari_ios": [
+          {
+            "version": "13.4"
+          }
+        ],
+        "samsunginternet_android": [
+          {
+            "version": "12.0"
+          }
+        ],
+        "webview_android": [
+          {
+            "version": "79"
+          }
+        ],
+        "webview_ios": [
+          {
+            "version": "13.4"
+          }
+        ]
+      }
+    },
+    {
+      "feature": "AbortController",
+      "files": [
+        "../action/node_modules/@sindresorhus/merge-streams/index.js",
+        "../action/node_modules/@types/node/child_process.d.ts",
+        "../action/node_modules/@types/node/dgram.d.ts",
+        "../action/node_modules/@types/node/events.d.ts",
+        "../action/node_modules/@types/node/fs.d.ts",
+        "../action/node_modules/@types/node/readline.d.ts",
+        "../action/node_modules/@types/node/stream.d.ts",
+        "../action/node_modules/@types/node/fs/promises.d.ts"
+      ],
+      "count": 8,
+      "status": "baseline_like",
+      "mdn": "https://developer.mozilla.org/docs/Web/API/AbortController",
+      "browsers": {
+        "chrome": [
+          {
+            "version": "66"
+          }
+        ],
+        "chrome_android": [
+          {
+            "version": "66"
+          }
+        ],
+        "deno": [
+          {
+            "version": "1.0"
+          }
+        ],
+        "edge": [
+          {
+            "version": "16"
+          }
+        ],
+        "firefox": [
+          {
+            "version": "57"
+          }
+        ],
+        "firefox_android": [
+          {
+            "version": "57"
+          }
+        ],
+        "nodejs": [
+          {
+            "version": "14.17.0"
+          }
+        ],
+        "oculus": [
+          {
+            "version": "5.0"
+          }
+        ],
+        "opera": [
+          {
+            "version": "53"
+          }
+        ],
+        "opera_android": [
+          {
+            "version": "47"
+          }
+        ],
+        "safari": [
+          {
+            "version": "12.1"
+          },
+          {
+            "version": "11.1"
+          }
+        ],
+        "safari_ios": [
+          {
+            "version": "12.2"
+          },
+          {
+            "version": "11.3"
+          }
+        ],
+        "samsunginternet_android": [
+          {
+            "version": "9.0"
+          }
+        ],
+        "webview_android": [
+          {
+            "version": "66"
+          }
+        ],
+        "webview_ios": [
+          {
+            "version": "12.2"
+          },
+          {
+            "version": "11.3"
+          }
+        ]
+      }
+    },
+    {
+      "feature": "URL.createObjectURL",
+      "files": [
+        "../action/node_modules/@types/node/buffer.d.ts",
+        "../action/node_modules/@types/node/url.d.ts"
+      ],
+      "count": 2,
+      "status": "unknown",
+      "mdn": null,
+      "browsers": {}
+    },
+    {
+      "feature": "URL.revokeObjectURL",
+      "files": [
+        "../action/node_modules/@types/node/url.d.ts"
+      ],
+      "count": 1,
+      "status": "unknown",
+      "mdn": null,
+      "browsers": {}
+    },
+    {
+      "feature": "BigInt",
+      "files": [
+        "../action/node_modules/@types/node/util.d.ts"
+      ],
+      "count": 1,
+      "status": "baseline_like",
+      "mdn": "https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/BigInt",
+      "browsers": {
+        "chrome": [
+          {
+            "version": "67"
+          }
+        ],
+        "chrome_android": [
+          {
+            "version": "67"
+          }
+        ],
+        "deno": [
+          {
+            "version": "1.0"
+          }
+        ],
+        "edge": [
+          {
+            "version": "79"
+          }
+        ],
+        "firefox": [
+          {
+            "version": "68"
+          }
+        ],
+        "firefox_android": [
+          {
+            "version": "68"
+          }
+        ],
+        "nodejs": [
+          {
+            "version": "10.4.0"
+          }
+        ],
+        "oculus": [
+          {
+            "version": "6.0"
+          }
+        ],
+        "opera": [
+          {
+            "version": "54"
+          }
+        ],
+        "opera_android": [
+          {
+            "version": "48"
+          }
+        ],
+        "safari": [
+          {
+            "version": "14"
+          }
+        ],
+        "safari_ios": [
+          {
+            "version": "14"
+          }
+        ],
+        "samsunginternet_android": [
+          {
+            "version": "9.0"
+          }
+        ],
+        "webview_android": [
+          {
+            "version": "67"
+          }
+        ],
+        "webview_ios": [
+          {
+            "version": "14"
+          }
+        ]
+      }
+    }
+  ]
+}

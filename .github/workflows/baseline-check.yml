@@ -1,0 +1,47 @@
+name: Baseline Compatibility Check
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  baseline:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          
+      - name: Install dependencies
+        run: |
+          cd action
+          npm ci
+          
+      - name: Run baseline check
+        run: |
+          cd action
+          npm run start run -- --paths "../" --out "../baseline-report.json"
+          
+      - name: Upload report
+        uses: actions/upload-artifact@v4
+        with:
+          name: baseline-report
+          path: baseline-report.json
+          
+      - name: Generate PR comment
+        if: github.event_name == 'pull_request'
+        run: |
+          cd action
+          npm run start report -- --report "../baseline-report.json" --format markdown > comment.md
+          gh pr comment ${{ github.event.pull_request.number }} --body-file comment.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Publish dashboard
+        if: github.ref == 'refs/heads/main'
+        run: |
+          cp baseline-report.json dashboard/
+          echo "Dashboard updated with latest report"
