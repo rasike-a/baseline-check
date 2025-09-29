@@ -211,9 +211,7 @@ export class AnalyticsEngine {
     aggregated.overall.totalFeatures += analyticsData.features.total;
 
     // Track most used features
-    for (const result of analyticsData.features.byStatus) {
-      // This would need to be implemented based on actual feature usage
-    }
+    // This would need to be implemented based on actual feature usage
 
     // Add to trends
     aggregated.overall.riskTrend.push({
