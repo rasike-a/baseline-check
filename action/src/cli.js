@@ -9,6 +9,9 @@ import { ProgressBar, Spinner, Logger, Table } from './ui.js';
 import { RecommendationEngine } from './recommendations.js';
 import { FrameworkIntegrations } from './integrations.js';
 import { AnalyticsEngine } from './analytics.js';
+import { InteractiveMode } from './interactive.js';
+import { ErrorHandler } from './error-handler.js';
+import { ExamplesGenerator } from './examples.js';
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -352,6 +355,87 @@ program
       }
     } catch (error) {
       logger.error(`Cache operation failed: ${error.message}`);
+      process.exit(1);
+    }
+  });
+
+program
+  .command('interactive')
+  .alias('i')
+  .description('Start interactive mode with watch functionality')
+  .option('-p, --path <path>', 'Initial path to scan', '.')
+  .option('-v, --verbose', 'Verbose output')
+  .action(async (options) => {
+    const interactive = new InteractiveMode(options);
+    await interactive.start();
+  });
+
+program
+  .command('fix')
+  .description('Get quick fixes for compatibility issues')
+  .option('-f, --feature <feature>', 'Feature to get fix for')
+  .option('-o, --output <file>', 'Output file for fix code')
+  .action(async (options) => {
+    const logger = new Logger();
+    const errorHandler = new ErrorHandler();
+    
+    if (!options.feature) {
+      logger.error('Please specify a feature with --feature');
+      logger.info('Example: npx baseline-check-tool fix --feature="css.grid"');
+      process.exit(1);
+    }
+    
+    try {
+      const error = errorHandler.getErrorMessage(options.feature, 'risky');
+      const fixCode = errorHandler.generateFixCommand(options.feature);
+      
+      if (options.output) {
+        fs.writeFileSync(options.output, fixCode);
+        logger.success(`Fix code written to: ${options.output}`);
+      } else {
+        console.log(errorHandler.formatError(error));
+        console.log('\n📝 Fix code:');
+        console.log(fixCode);
+      }
+    } catch (error) {
+      logger.error(`Fix generation failed: ${error.message}`);
+      process.exit(1);
+    }
+  });
+
+program
+  .command('examples')
+  .description('Show examples and best practices for different frameworks')
+  .option('-f, --framework <framework>', 'Framework to show examples for (react/vue/angular/vanilla)', 'vanilla')
+  .option('-o, --output <file>', 'Output file for examples')
+  .option('--all', 'Show examples for all frameworks')
+  .action(async (options) => {
+    const logger = new Logger();
+    const examplesGenerator = new ExamplesGenerator();
+    
+    try {
+      let content;
+      
+      if (options.all) {
+        content = examplesGenerator.generateAllExamples();
+      } else {
+        const availableFrameworks = examplesGenerator.getAvailableFrameworks();
+        if (!availableFrameworks.includes(options.framework)) {
+          logger.error(`Unknown framework: ${options.framework}`);
+          logger.info(`Available frameworks: ${availableFrameworks.join(', ')}`);
+          process.exit(1);
+        }
+        content = examplesGenerator.generateExamples(options.framework);
+      }
+      
+      if (options.output) {
+        fs.writeFileSync(options.output, content);
+        logger.success(`Examples written to: ${options.output}`);
+      } else {
+        console.log(content);
+      }
+    } catch (error) {
+      logger.error(`Examples generation failed: ${error.message}`);
       process.exit(1);
     }
   });
