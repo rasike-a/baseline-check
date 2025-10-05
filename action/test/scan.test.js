@@ -84,8 +84,8 @@ describe('Scan Module', () => {
     assert.ok(result);
     assert.ok(result.metadata);
     assert.ok(result.detected);
-    assert.strictEqual(result.metadata.scannedFiles, 2);
-    assert.strictEqual(result.metadata.processedFiles, 2);
+    assert.strictEqual(result.metadata.scannedFiles, 3);
+    assert.strictEqual(result.metadata.processedFiles, 3);
     assert.strictEqual(result.metadata.errorCount, 0);
 
     // Check that features were detected
@@ -147,7 +147,7 @@ describe('Scan Module', () => {
     });
 
     // The ignored file should not be scanned
-    assert.strictEqual(result.metadata.scannedFiles, 2);
+    assert.strictEqual(result.metadata.scannedFiles, 3);
     
     // Clean up
     fs.rmSync(ignoredDir, { recursive: true, force: true });

@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import fs from 'node:fs';
 import { program } from 'commander';
 import { scan } from './scan.js';
 import { check } from './check.js';
@@ -12,7 +13,6 @@ import { AnalyticsEngine } from './analytics.js';
 import { InteractiveMode } from './interactive.js';
 import { ErrorHandler } from './error-handler.js';
 import { ExamplesGenerator } from './examples.js';
-import fs from 'node:fs';
 import path from 'node:path';
 
 program
@@ -78,15 +78,26 @@ program
       
       // Step 1: Scan
       console.log('📁 Scanning for features...');
-      await scan({
+      const scanResult = await scan({
         paths: options.paths,
         out: options.out,
         config: options.config
       });
       
+      // Verify scan completed successfully
+      if (!scanResult || !scanResult.metadata) {
+        throw new Error('Scan failed to complete');
+      }
+      
       if (options.check !== false) {
         // Step 2: Check compatibility
         console.log('🔍 Checking browser compatibility...');
+        
+        // Verify the scan output file exists
+        if (!fs.existsSync(options.out)) {
+          throw new Error(`Report file "${options.out}" does not exist`);
+        }
+        
         await check({
           report: options.out,
           out: options.out

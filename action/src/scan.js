@@ -211,17 +211,19 @@ export async function scan(options = {}) {
       cache.setCachedResult(cacheKey, report);
     }
     
-    // Record analytics
-    try {
-      analytics.recordScan(report, {
-        paths: roots,
-        config: options.config,
-        duration: Date.now() - startTime
-      });
-    } catch (error) {
-      // Analytics is optional, don't fail the scan
-      console.warn('Analytics recording failed:', error.message);
-    }
+    // Record analytics (temporarily disabled)
+    // try {
+    //   if (config.performance?.cacheResults !== false) {
+    //     analytics.recordScan(report, {
+    //       paths: roots,
+    //       config: options.config,
+    //       duration: Date.now() - startTime
+    //     });
+    //   }
+    // } catch (error) {
+    //   // Analytics is optional, don't fail the scan
+    //   console.warn('Analytics recording failed:', error.message);
+    // }
     
     return report;
   } catch (error) {

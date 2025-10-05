@@ -1,6 +1,6 @@
 {
   "name": "baseline-check-tool",
-  "version": "2.0.0",
+  "version": "2.1.2",
   "description": "Check web features for baseline browser compatibility with smart recommendations and analytics",
   "type": "module",
   "bin": {
@@ -17,8 +17,16 @@
     "scan": "node src/cli.js scan",
     "check": "node src/cli.js check",
     "test": "node --test test/**/*.test.js",
-    "prepublishOnly": "echo 'Skipping tests for initial publish'",
-    "postinstall": "echo '🎉 baseline-check installed! Run: npx baseline-check init'"
+    "test:ci": "npm test && npm run lint",
+    "lint": "echo 'Linting not configured' || true",
+    "build": "echo 'Build completed - using source files'",
+    "build:package": "npm pack",
+    "prepublishOnly": "npm test",
+    "postinstall": "echo '🎉 baseline-check installed! Run: npx baseline-check init'",
+    "ci:test": "npm test",
+    "ci:build": "npm run build",
+    "ci:security": "npm audit --audit-level=moderate",
+    "ci:compatibility": "npx baseline-check-tool@2.1.1 run --paths 'src' --out 'ci-compatibility.json' && npx baseline-check-tool@2.1.1 check --report 'ci-compatibility.json'"
   },
   "keywords": [
     "web",
@@ -51,8 +59,7 @@
     "url": "https://github.com/baseline-check/baseline-check/issues"
   },
   "dependencies": {
-    "@mdn/browser-compat-data": "^5.6.0",
-    "baseline-check": "file:baseline-check-2.0.0.tgz",
+    "@mdn/browser-compat-data": "^5.7.6",
     "commander": "^11.1.0",
     "globby": "^14.0.0"
   },

@@ -79,9 +79,24 @@ function mergeConfig(defaultConfig, userConfig) {
       : defaultConfig.ignore;
   }
   
-  // Merge features
+  // Merge features and convert regex strings back to RegExp objects
   if (userConfig.features) {
-    merged.features = { ...defaultConfig.features, ...userConfig.features };
+    const convertedFeatures = {};
+    for (const [name, feature] of Object.entries(userConfig.features)) {
+      // Skip features with invalid regex patterns
+      if (feature.re && typeof feature.re === 'object' && Object.keys(feature.re).length === 0) {
+        console.warn(`Warning: Skipping feature "${name}" - invalid regex pattern`);
+        continue;
+      }
+      
+      convertedFeatures[name] = {
+        ...feature,
+        re: typeof feature.re === 'string' 
+          ? new RegExp(feature.re.replace(/^\/|\/[gimuy]*$/g, ''), 'g') 
+          : feature.re
+      };
+    }
+    merged.features = { ...defaultConfig.features, ...convertedFeatures };
   }
   
   // Merge baseline settings

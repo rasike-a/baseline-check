@@ -27,8 +27,8 @@ export class AnalyticsEngine {
         processedFiles: report.metadata?.processedFiles || 0,
         errorCount: report.metadata?.errorCount || 0
       },
-      features: this.analyzeFeatures(report.results || []),
-      trends: this.calculateTrends(report.results || [])
+      features: this.analyzeFeatures(report.results || report.detected || []),
+      trends: this.calculateTrends(report.results || report.detected || [])
     };
 
     // Save individual scan

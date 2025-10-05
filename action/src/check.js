@@ -5,10 +5,42 @@ import { fileURLToPath } from "node:url";
 // Load browser compatibility data
 let bcd;
 try {
+  // Try multiple possible locations for BCD data
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = path.dirname(__filename);
-  const bcdPath = path.resolve(__dirname, "../node_modules/@mdn/browser-compat-data/data.json");
-  bcd = JSON.parse(fs.readFileSync(bcdPath, "utf8"));
+  
+  const possiblePaths = [
+    // When installed as package
+    path.resolve(__dirname, "../node_modules/@mdn/browser-compat-data/data.json"),
+    // When installed globally
+    path.resolve(process.cwd(), "node_modules/@mdn/browser-compat-data/data.json"),
+    // When using npx
+    path.resolve(process.cwd(), "../node_modules/@mdn/browser-compat-data/data.json"),
+    // When using npx from different directory
+    path.resolve(process.cwd(), "../../node_modules/@mdn/browser-compat-data/data.json"),
+    // When installed globally
+    path.resolve("/usr/local/lib/node_modules/@mdn/browser-compat-data/data.json"),
+    // When installed in user directory
+    path.resolve(process.env.HOME + "/.npm-global/lib/node_modules/@mdn/browser-compat-data/data.json")
+  ];
+  
+  let bcdPath = null;
+  for (const testPath of possiblePaths) {
+    try {
+      if (fs.existsSync(testPath)) {
+        bcdPath = testPath;
+        break;
+      }
+    } catch (e) {
+      // Continue to next path
+    }
+  }
+  
+  if (bcdPath) {
+    bcd = JSON.parse(fs.readFileSync(bcdPath, "utf8"));
+  } else {
+    throw new Error("BCD data not found in any expected location");
+  }
 } catch (error) {
   console.warn("Warning: Could not load browser compatibility data:", error.message);
   bcd = {};
