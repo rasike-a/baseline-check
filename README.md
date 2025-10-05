@@ -1,5 +1,10 @@
 # Baseline Check
 
+[![CI/CD Pipeline](https://github.com/baseline-check/baseline-check/workflows/CI/CD%20Pipeline/badge.svg)](https://github.com/baseline-check/baseline-check/actions)
+[![Security Scan](https://github.com/baseline-check/baseline-check/workflows/Security%20Scan/badge.svg)](https://github.com/baseline-check/baseline-check/actions)
+[![NPM Version](https://img.shields.io/npm/v/baseline-check-tool.svg)](https://www.npmjs.com/package/baseline-check-tool)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 A comprehensive tool for checking web features against baseline browser compatibility. Helps developers identify which modern web features they're using and whether they have broad browser support.
 
 ## Features
@@ -268,6 +273,32 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
+
+## 🚀 CI/CD Integration
+
+This project includes comprehensive GitHub Actions workflows for:
+
+### Automated Workflows
+- **CI/CD Pipeline**: Automated testing, building, and deployment
+- **Pull Request Checks**: Validates changes and runs compatibility checks
+- **Security Scanning**: Regular security audits and vulnerability scanning
+- **Docker Builds**: Automated container builds and publishing
+- **Release Management**: Automated versioning and NPM publishing
+
+### Workflow Features
+- ✅ **Multi-Node Testing**: Tests on Node.js 18+
+- ✅ **Security Scanning**: Trivy and CodeQL analysis
+- ✅ **Compatibility Checks**: Self-testing with baseline-check
+- ✅ **Automated Releases**: GitHub releases with changelogs
+- ✅ **Docker Publishing**: Multi-arch container builds
+- ✅ **Dependency Updates**: Automated via Dependabot
+
+### Status Badges
+The project includes status badges showing:
+- Build status
+- Security scan results
+- NPM package version
+- License information
 
 ## Contributing
 
