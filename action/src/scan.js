@@ -6,9 +6,10 @@ import { loadConfig, validateConfig } from "./config.js";
 import { CacheManager } from "./cache.js";
 import { AnalyticsEngine } from "./analytics.js";
 import { ProgressBar, Logger } from "./ui.js";
+import { createFeatureDetector } from "./features/index.js";
 
 // Performance optimization: Process files in batches
-async function processFilesInBatches(files, features, config, add) {
+async function processFilesInBatches(files, features, config, add, featureDetector) {
   const batchSize = config.performance?.concurrentFiles || 10;
   const maxFileSize = config.performance?.maxFileSize || 1024 * 1024; // 1MB
   let processedFiles = 0;
@@ -30,10 +31,13 @@ async function processFilesInBatches(files, features, config, add) {
 
         const txt = fs.readFileSync(file, "utf8");
         
-        // Check all features
-        for (const feature of features) {
-          if (feature.re.test(txt)) add(feature.name, file);
-        }
+        // Use enhanced feature detection
+        const detectedFeatures = featureDetector.detectFeatures(txt, file);
+        
+        // Add detected features to results
+        detectedFeatures.forEach(feature => {
+          add(feature.name, file);
+        });
         
         processedFiles++;
       } catch (error) {
@@ -118,8 +122,11 @@ export async function scan(options = {}) {
     candidates.set(feature, arr);
   };
 
-  // Default feature detection patterns
-  const defaultFeatures = {
+  // Create enhanced feature detector
+  const featureDetector = createFeatureDetector(config?.featurePreset || 'default');
+  
+  // Add original baseline features for backward compatibility
+  const originalFeatures = {
     // Web APIs
     "window.fetch": { re: /\bfetch\(/g, category: "api" },
     "navigator.clipboard.writeText": { re: /navigator\.clipboard\.writeText\b/g, category: "api" },
@@ -157,9 +164,21 @@ export async function scan(options = {}) {
     "css.backdrop_filter": { re: /backdrop-filter\s*:/g, category: "css" },
     "css.scroll_behavior": { re: /scroll-behavior\s*:/g, category: "css" }
   };
-
-  // Merge with custom features from config
-  const features = { ...defaultFeatures, ...config?.features };
+  
+  // Add original features to detector
+  Object.entries(originalFeatures).forEach(([name, config]) => {
+    featureDetector.addCustomFeature(name, config);
+  });
+  
+  // Add custom features from config
+  if (config?.features) {
+    Object.entries(config.features).forEach(([name, featureConfig]) => {
+      featureDetector.addCustomFeature(name, featureConfig);
+    });
+  }
+  
+  // Get all features for processing
+  const features = featureDetector.getAllFeatures();
   const featureList = Object.entries(features).map(([name, config]) => ({ name, ...config }));
 
   // Enhanced file processing with performance optimizations
@@ -167,7 +186,8 @@ export async function scan(options = {}) {
     files, 
     featureList, 
     config, 
-    add
+    add,
+    featureDetector
   );
 
   console.log(`Processed ${processedFiles} files${errorCount > 0 ? ` (${errorCount} errors)` : ""}${skippedFiles > 0 ? ` (${skippedFiles} skipped)` : ""}`);

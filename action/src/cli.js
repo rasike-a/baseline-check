@@ -17,6 +17,9 @@ import { AIAnalyzer, AIRecommendations, AICodeFixer, AILearning } from './ai/ind
 import { RealtimeMonitor } from './monitoring/realtime-monitor.js';
 import { AlertSystem } from './monitoring/alert-system.js';
 import { RealtimeDashboard } from './monitoring/realtime-dashboard.js';
+import { handlePerformanceCommand } from './commands/performance-command.js';
+import { createFeatureDetector, getFeatureStats } from './features/index.js';
+import { SecurityAnalysis } from './security/index.js';
 import path from 'node:path';
 
 program
@@ -960,5 +963,400 @@ function convertToCSV(data) {
   
   return csv.join('\n');
 }
+
+// Helper function to scan directory for files
+async function scanDirectory(dirPath) {
+  const files = [];
+  const entries = await fs.promises.readdir(dirPath, { withFileTypes: true });
+  
+  for (const entry of entries) {
+    const fullPath = path.join(dirPath, entry.name);
+    if (entry.isDirectory() && !entry.name.startsWith('.') && entry.name !== 'node_modules') {
+      const subFiles = await scanDirectory(fullPath);
+      files.push(...subFiles);
+    } else if (entry.isFile() && /\.(js|jsx|ts|tsx|css|scss|sass|less|html|htm)$/.test(entry.name)) {
+      files.push(fullPath);
+    }
+  }
+  
+  return files;
+}
+
+// Performance Analysis Commands
+program
+  .command('performance')
+  .description('Analyze performance and generate optimization recommendations')
+  .option('-p, --paths <paths>', 'Comma-separated paths to analyze', '.')
+  .option('-r, --report <file>', 'Use existing scan report', 'baseline-report.json')
+  .option('-o, --output <file>', 'Output file for performance analysis', 'performance-analysis.json')
+  .option('-d, --dashboard', 'Generate performance dashboard')
+  .option('-t, --theme <theme>', 'Dashboard theme (light/dark)', 'dark')
+  .action(async (options) => {
+    try {
+      await handlePerformanceCommand(options);
+    } catch (error) {
+      process.exit(1);
+    }
+  });
+
+// Keep the old implementation as backup for now
+program
+  .command('performance-old')
+  .description('Old performance analysis (backup)')
+  .option('-p, --paths <paths>', 'Comma-separated paths to analyze', '.')
+  .option('-r, --report <file>', 'Use existing scan report', 'baseline-report.json')
+  .option('-o, --output <file>', 'Output file for performance analysis', 'performance-analysis.json')
+  .option('-d, --dashboard', 'Generate performance dashboard')
+  .option('-t, --theme <theme>', 'Dashboard theme (light/dark)', 'dark')
+  .action(async (options) => {
+    const logger = new Logger();
+    const spinner = new Spinner('Analyzing performance...');
+
+    try {
+      spinner.start();
+
+      // Initialize performance analysis
+      const performanceAnalysis = new PerformanceAnalysis();
+
+      // Get files to analyze
+      let files = [];
+      let scanResults = null;
+
+      if (options.report && fs.existsSync(options.report)) {
+        // Use existing scan report
+        const reportData = JSON.parse(await fs.promises.readFile(options.report, 'utf8'));
+        scanResults = reportData;
+        
+        // Check if scannedFiles is an array or just a count
+        if (Array.isArray(reportData.scannedFiles)) {
+          files = reportData.scannedFiles;
+        } else {
+          // If scannedFiles is just a count, we need to scan the paths directly
+          const pathArray = options.paths.split(',').map(p => p.trim());
+          files = [];
+          for (const scanPath of pathArray) {
+            const stats = await fs.promises.stat(scanPath);
+            if (stats.isDirectory()) {
+              const dirFiles = await scanDirectory(scanPath);
+              files.push(...dirFiles);
+            } else {
+              files.push(scanPath);
+            }
+          }
+        }
+        logger.info(`📊 Using existing scan report: ${options.report}`);
+        logger.info(`📁 Files to analyze: ${files.length} files`);
+      } else {
+        // Run scan first
+        logger.info('🔍 Running scan to gather performance data...');
+        const scanOptions = {
+          paths: options.paths,
+          out: 'temp-scan-report.json'
+        };
+        await scan(scanOptions);
+        
+        if (fs.existsSync('temp-scan-report.json')) {
+          const reportData = JSON.parse(await fs.promises.readFile('temp-scan-report.json', 'utf8'));
+          scanResults = reportData;
+          files = reportData.scannedFiles || [];
+          
+          // Clean up temp file
+          await fs.promises.unlink('temp-scan-report.json');
+        } else {
+          // Fallback: scan the paths directly
+          const pathArray = options.paths.split(',').map(p => p.trim());
+          files = [];
+          for (const scanPath of pathArray) {
+            const stats = await fs.promises.stat(scanPath);
+            if (stats.isDirectory()) {
+              const dirFiles = await scanDirectory(scanPath);
+              files.push(...dirFiles);
+            } else {
+              files.push(scanPath);
+            }
+          }
+          scanResults = { results: [] };
+        }
+        logger.info(`📁 Files to analyze: ${files.length} files`);
+      }
+
+      // Run performance analysis
+      const results = await performanceAnalysis.analyze(files, scanResults);
+
+      // Save results
+      await fs.promises.writeFile(options.output, JSON.stringify(results, null, 2));
+
+      spinner.stop();
+
+      // Display summary
+      logger.success('🚀 Performance analysis completed!');
+      logger.info(`📊 Overall Score: ${results.summary.overallScore}/100 (Grade: ${results.summary.performanceGrade})`);
+      logger.info(`🐛 Issues Found: ${results.summary.totalIssues} (${results.summary.criticalIssues} critical)`);
+      logger.info(`💡 Recommendations: ${results.summary.totalRecommendations} (${results.summary.highPriorityRecommendations} high priority)`);
+      logger.info(`📁 Results saved: ${options.output}`);
+
+      // Generate dashboard if requested
+      if (options.dashboard) {
+        const dashboardPath = `dashboards/performance/performance-dashboard-${Date.now()}.html`;
+        await fs.promises.mkdir('dashboards/performance', { recursive: true });
+        await fs.promises.writeFile(dashboardPath, results.dashboard);
+        logger.success(`🌐 Performance dashboard: file://${path.resolve(dashboardPath)}`);
+      }
+
+    } catch (error) {
+      spinner.stop();
+      logger.error(`Performance analysis failed: ${error.message}`);
+      process.exit(1);
+    }
+  });
+
+program
+  .command('performance-dashboard')
+  .description('Generate performance dashboard from existing analysis')
+  .option('-i, --input <file>', 'Input performance analysis file', 'performance-analysis.json')
+  .option('-o, --output <file>', 'Output HTML file', 'performance-dashboard.html')
+  .option('-t, --theme <theme>', 'Dashboard theme (light/dark)', 'dark')
+  .action(async (options) => {
+    const logger = new Logger();
+
+    try {
+      if (!fs.existsSync(options.input)) {
+        logger.error(`Performance analysis file not found: ${options.input}`);
+        logger.info('Run "baseline-check performance" first to generate analysis data');
+        process.exit(1);
+      }
+
+      const analysisData = JSON.parse(await fs.promises.readFile(options.input, 'utf8'));
+      const performanceAnalysis = new PerformanceAnalysis({ theme: options.theme });
+      
+      const dashboardHTML = performanceAnalysis.dashboard.generateHTML(
+        analysisData.analysis,
+        analysisData.recommendations
+      );
+
+      const outputPath = options.output.startsWith('dashboards/') ? options.output : `dashboards/performance/${options.output}`;
+      await fs.promises.mkdir(path.dirname(outputPath), { recursive: true });
+      await fs.promises.writeFile(outputPath, dashboardHTML);
+
+      logger.success(`🌐 Performance dashboard generated: ${outputPath}`);
+      logger.info(`📊 Open in browser: file://${path.resolve(outputPath)}`);
+
+    } catch (error) {
+      logger.error(`Dashboard generation failed: ${error.message}`);
+      process.exit(1);
+    }
+  });
+
+program
+  .command('features')
+  .description('Show enhanced feature detection capabilities')
+  .option('-p, --preset <preset>', 'Feature preset (default, minimal, modern, react, vue, angular, pwa)', 'default')
+  .option('-c, --category <category>', 'Show features by category', '')
+  .option('-f, --framework <framework>', 'Show features by framework', '')
+  .option('-s, --stats', 'Show feature statistics')
+  .action(async (options) => {
+    const logger = new Logger();
+
+    try {
+      const detector = createFeatureDetector(options.preset);
+      const features = detector.getAllFeatures();
+      const stats = detector.getStats();
+
+      if (options.stats) {
+        logger.info('📊 Feature Detection Statistics');
+        logger.info(`Total Features: ${stats.total}`);
+        logger.info('\nBy Category:');
+        Object.entries(stats.byCategory).forEach(([category, count]) => {
+          logger.info(`  ${category}: ${count} features`);
+        });
+        
+        if (Object.keys(stats.byFramework).length > 0) {
+          logger.info('\nBy Framework:');
+          Object.entries(stats.byFramework).forEach(([framework, count]) => {
+            logger.info(`  ${framework}: ${count} features`);
+          });
+        }
+        return;
+      }
+
+      if (options.category) {
+        const categoryFeatures = detector.getFeaturesByCategory(options.category);
+        if (Object.keys(categoryFeatures).length === 0) {
+          logger.warn(`No features found for category: ${options.category}`);
+          return;
+        }
+        
+        logger.info(`🔍 Features in category: ${options.category}`);
+        Object.entries(categoryFeatures).forEach(([name, config]) => {
+          logger.info(`  • ${name}: ${config.description || 'No description'}`);
+        });
+        return;
+      }
+
+      if (options.framework) {
+        const frameworkFeatures = detector.getFeaturesByFramework(options.framework);
+        if (Object.keys(frameworkFeatures).length === 0) {
+          logger.warn(`No features found for framework: ${options.framework}`);
+          return;
+        }
+        
+        logger.info(`🔍 Features for framework: ${options.framework}`);
+        Object.entries(frameworkFeatures).forEach(([name, config]) => {
+          logger.info(`  • ${name}: ${config.description || 'No description'}`);
+        });
+        return;
+      }
+
+      // Show all features grouped by category
+      logger.info(`🔍 Enhanced Feature Detection (${options.preset} preset)`);
+      logger.info(`Total Features: ${stats.total}\n`);
+
+      const categories = {};
+      Object.entries(features).forEach(([name, config]) => {
+        const category = config.category || 'other';
+        if (!categories[category]) categories[category] = [];
+        categories[category].push({ name, ...config });
+      });
+
+      Object.entries(categories).forEach(([category, categoryFeatures]) => {
+        logger.info(`${category.toUpperCase()} (${categoryFeatures.length} features):`);
+        categoryFeatures.forEach(feature => {
+          const framework = feature.framework ? ` [${feature.framework}]` : '';
+          logger.info(`  • ${feature.name}${framework}: ${feature.description || 'No description'}`);
+        });
+        logger.info('');
+      });
+
+    } catch (error) {
+      logger.error(`Failed to show features: ${error.message}`);
+      process.exit(1);
+    }
+  });
+
+program
+  .command('security')
+  .description('Analyze codebase for security vulnerabilities')
+  .option('-p, --paths <paths>', 'Comma-separated paths to analyze', 'src')
+  .option('-o, --output <file>', 'Output file for security analysis', 'security-analysis.json')
+  .option('-d, --dashboard <file>', 'Generate security dashboard', 'security-dashboard.html')
+  .option('-t, --theme <theme>', 'Dashboard theme (light/dark)', 'dark')
+  .option('--no-xss', 'Disable XSS detection')
+  .option('--no-csrf', 'Disable CSRF detection')
+  .option('--no-csp', 'Disable CSP analysis')
+  .option('--no-https', 'Disable HTTPS analysis')
+  .action(async (options) => {
+    const logger = new Logger();
+
+    try {
+      // Parse paths
+      const paths = options.paths.split(',').map(p => p.trim());
+      
+      // Find files to analyze
+      const files = [];
+      for (const path of paths) {
+        const stat = fs.statSync(path);
+        if (stat.isDirectory()) {
+          const glob = await import('globby');
+          const dirFiles = await glob.globby([`${path}/**/*.{js,ts,jsx,tsx,html,css,vue,svelte}`], {
+            ignore: ['**/node_modules/**', '**/dist/**', '**/build/**']
+          });
+          files.push(...dirFiles);
+        } else {
+          files.push(path);
+        }
+      }
+
+      if (files.length === 0) {
+        logger.warn('No files found to analyze');
+        return;
+      }
+
+      logger.info(`🔒 Analyzing ${files.length} files for security vulnerabilities...`);
+
+      // Configure security analysis
+      const securityOptions = {
+        analyzer: {
+          enableXSSDetection: options.xss !== false,
+          enableCSRFDetection: options.csrf !== false,
+          enableCSPAnalysis: options.csp !== false,
+          enableHTTPSAnalysis: options.https !== false
+        },
+        dashboard: {
+          theme: options.theme
+        }
+      };
+
+      const securityAnalysis = new SecurityAnalysis(securityOptions);
+      const results = await securityAnalysis.analyze(files);
+
+      // Save analysis results
+      await fs.promises.writeFile(options.output, JSON.stringify(results.analysis, null, 2));
+      logger.success(`🔒 Security analysis saved: ${options.output}`);
+
+      // Generate dashboard if requested
+      if (options.dashboard) {
+        const dashboardPath = options.dashboard.startsWith('dashboards/') ? options.dashboard : `dashboards/security/${options.dashboard}`;
+        await fs.promises.mkdir(path.dirname(dashboardPath), { recursive: true });
+        await fs.promises.writeFile(dashboardPath, results.dashboard);
+        logger.success(`🌐 Security dashboard generated: ${dashboardPath}`);
+        logger.info(`📊 Open in browser: file://${path.resolve(dashboardPath)}`);
+      }
+
+      // Display summary
+      const summary = results.summary;
+      logger.info(`\n📊 Security Analysis Summary:`);
+      logger.info(`   Security Score: ${summary.securityScore}/100`);
+      logger.info(`   Risk Level: ${summary.riskLevel.toUpperCase()}`);
+      logger.info(`   Vulnerabilities: ${summary.totalVulnerabilities}`);
+      logger.info(`   Recommendations: ${summary.totalRecommendations}`);
+      logger.info(`   Estimated Effort: ${summary.estimatedEffort}`);
+
+      if (summary.totalVulnerabilities > 0) {
+        logger.info(`\n⚠️  ${summary.totalVulnerabilities} security vulnerabilities found`);
+        logger.info(`   Run with --dashboard to see detailed analysis`);
+      } else {
+        logger.success(`\n✅ No security vulnerabilities found!`);
+      }
+
+    } catch (error) {
+      logger.error(`Security analysis failed: ${error.message}`);
+      process.exit(1);
+    }
+  });
+
+program
+  .command('security-dashboard')
+  .description('Generate security dashboard from existing analysis')
+  .option('-i, --input <file>', 'Input security analysis file', 'security-analysis.json')
+  .option('-o, --output <file>', 'Output HTML file', 'security-dashboard.html')
+  .option('-t, --theme <theme>', 'Dashboard theme (light/dark)', 'dark')
+  .action(async (options) => {
+    const logger = new Logger();
+
+    try {
+      if (!fs.existsSync(options.input)) {
+        logger.error(`Security analysis file not found: ${options.input}`);
+        logger.info('Run "baseline-check security" first to generate analysis data');
+        process.exit(1);
+      }
+
+      const analysisData = JSON.parse(await fs.promises.readFile(options.input, 'utf8'));
+      const securityAnalysis = new SecurityAnalysis({ dashboard: { theme: options.theme } });
+      
+      const recommendations = securityAnalysis.generateRecommendations(analysisData);
+      const dashboardHTML = securityAnalysis.generateDashboard(analysisData, recommendations);
+      
+      const outputPath = options.output.startsWith('dashboards/') ? options.output : `dashboards/security/${options.output}`;
+      await fs.promises.mkdir(path.dirname(outputPath), { recursive: true });
+      await fs.promises.writeFile(outputPath, dashboardHTML);
+
+      logger.success(`🌐 Security dashboard generated: ${outputPath}`);
+      logger.info(`📊 Open in browser: file://${path.resolve(outputPath)}`);
+
+    } catch (error) {
+      logger.error(`Dashboard generation failed: ${error.message}`);
+      process.exit(1);
+    }
+  });
 
 program.parse();

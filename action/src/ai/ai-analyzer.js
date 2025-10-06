@@ -3,7 +3,6 @@
  * Provides intelligent analysis and smart suggestions for web compatibility
  */
 
-import fs from 'node:fs';
 import path from 'node:path';
 
 export class AIAnalyzer {

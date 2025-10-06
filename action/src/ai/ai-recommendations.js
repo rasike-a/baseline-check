@@ -3,8 +3,6 @@
  * Provides intelligent, contextual recommendations for web compatibility
  */
 
-import fs from 'node:fs';
-import path from 'node:path';
 
 export class AIRecommendations {
   constructor(options = {}) {

@@ -175,6 +175,35 @@ baseline-*.json
 baseline-*.html
 baseline-*.md
 
+# Analysis result files
+*-analysis*.json
+*-scan*.json
+*-debug*.json
+*-output*.json
+*-test*.json
+enhanced-*.json
+security-*.json
+performance-*.json
+ai-*.json
+
+# Temporary test directories
+test-*-temp/
+test-*-debug*/
+test-performance-*/
+test-scan-*/
+test-monitor-*/
+test-integration-*/
+
+# Cache directories
+.baseline-cache/
+.cache/
+cache/
+
+# Learning and analytics data
+learning-data.json
+alert-history.json
+*.analytics.json
+
 # NPM package files
 *.tgz
 
