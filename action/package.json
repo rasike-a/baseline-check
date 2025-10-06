@@ -16,8 +16,12 @@
     "start": "node src/cli.js",
     "scan": "node src/cli.js scan",
     "check": "node src/cli.js check",
+    "monitor": "node src/cli.js monitor",
+    "dashboard": "node src/cli.js dashboard",
+    "alerts": "node src/cli.js alerts",
     "test": "node --test test/**/*.test.js",
     "test:ci": "npm test && npm run lint",
+    "test:monitoring": "node --test test/monitoring.test.js",
     "lint": "echo 'Linting not configured' || true",
     "build": "echo 'Build completed - using source files'",
     "build:package": "npm pack",
@@ -26,7 +30,12 @@
     "ci:test": "npm test",
     "ci:build": "npm run build",
     "ci:security": "npm audit --audit-level=moderate",
-    "ci:compatibility": "npx baseline-check-tool@2.1.1 run --paths 'src' --out 'ci-compatibility.json' && npx baseline-check-tool@2.1.1 check --report 'ci-compatibility.json'"
+    "ci:compatibility": "npx baseline-check-tool@2.1.1 run --paths 'src' --out 'ci-compatibility.json' && npx baseline-check-tool@2.1.1 check --report 'ci-compatibility.json'",
+    "demo:monitor": "node src/cli.js monitor --paths 'src' --dashboard --alerts",
+    "demo:dashboard": "node src/cli.js dashboard --theme dark --output demo-dashboard.html",
+    "demo:realtime": "node demo-realtime-monitoring.js",
+    "dashboards": "./open-dashboards.sh",
+    "dashboards:open": "./open-dashboards.sh"
   },
   "keywords": [
     "web",

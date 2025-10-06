@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baseline Check Tool - Dashboard Hub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .dashboard-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .card-icon {
+            font-size: 2.5rem;
+            margin-right: 15px;
+        }
+        
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .card-subtitle {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+        
+        .card-description {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .card-features {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+        
+        .card-features li {
+            padding: 5px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .card-features li:before {
+            content: "✅";
+            position: absolute;
+            left: 0;
+        }
+        
+        .card-button {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .card-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .card-button:after {
+            content: " ↗";
+            font-size: 0.8em;
+            opacity: 0.7;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        
+        .status-working {
+            background: #4caf50;
+            color: white;
+        }
+        
+        .status-demo {
+            background: #ff9800;
+            color: white;
+        }
+        
+        .status-testing {
+            background: #2196f3;
+            color: white;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            opacity: 0.8;
+        }
+        
+        .category-section {
+            margin: 40px 0;
+        }
+        
+        .category-title {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Dashboard Hub</h1>
+            <p>Baseline Check Tool - Choose Your Dashboard</p>
+            <p style="font-size: 0.9rem; opacity: 0.8; margin-top: 10px;">
+                💡 All dashboards open in new tabs so you can keep this hub open
+            </p>
+        </div>
+        
+        <div class="category-section">
+            <h2 class="category-title">🎨 Demo & Showcase</h2>
+            <div class="dashboard-grid">
+                <div class="dashboard-card" onclick="openDashboard('demos/demo-charts.html', true)">
+                    <div class="card-header">
+                        <div class="card-icon">📊</div>
+                        <div>
+                            <div class="card-title">Chart Showcase <span class="status-badge status-working">Working</span></div>
+                            <div class="card-subtitle">Interactive Charts Demo</div>
+                        </div>
+                    </div>
+                    <div class="card-description">
+                        Beautiful, fully functional charts with real-time updates. Perfect for hackathon demonstrations.
+                    </div>
+                    <ul class="card-features">
+                        <li>Bar, Line, and Pie Charts</li>
+                        <li>Interactive Controls</li>
+                        <li>Auto-refresh every 2 seconds</li>
+                        <li>Professional Design</li>
+                    </ul>
+                    <a href="demos/demo-charts.html" class="card-button" target="_blank">Open Dashboard</a>
+                </div>
+                
+                <div class="dashboard-card" onclick="openDashboard('demos/test-charts.html', true)">
+                    <div class="card-header">
+                        <div class="card-icon">🧪</div>
+                        <div>
+                            <div class="card-title">Chart Testing <span class="status-badge status-testing">Testing</span></div>
+                            <div class="card-subtitle">Simple Chart Functions</div>
+                        </div>
+                    </div>
+                    <div class="card-description">
+                        Minimal chart implementation for testing and debugging. Great for live demonstrations.
+                    </div>
+                    <ul class="card-features">
+                        <li>Debug Controls</li>
+                        <li>Individual Chart Testing</li>
+                        <li>Status Updates</li>
+                        <li>Easy to Modify</li>
+                    </ul>
+                    <a href="demos/test-charts.html" class="card-button" target="_blank">Open Dashboard</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="category-section">
+            <h2 class="category-title">🚀 Real-time Monitoring</h2>
+            <div class="dashboard-grid">
+                <div class="dashboard-card" onclick="openDashboard('realtime/realtime-dashboard.html', true)">
+                    <div class="card-header">
+                        <div class="card-icon">⚡</div>
+                        <div>
+                            <div class="card-title">Real-time Monitor <span class="status-badge status-working">Working</span></div>
+                            <div class="card-subtitle">Live File Monitoring</div>
+                        </div>
+                    </div>
+                    <div class="card-description">
+                        Monitor files in real-time with live alerts and statistics. Perfect for development workflows.
+                    </div>
+                    <ul class="card-features">
+                        <li>Live File Watching</li>
+                        <li>Real-time Alerts</li>
+                        <li>Statistics Dashboard</li>
+                        <li>Mock Data Simulation</li>
+                    </ul>
+                    <a href="realtime/realtime-dashboard.html" class="card-button" target="_blank">Open Dashboard</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="category-section">
+            <h2 class="category-title">📊 Advanced Analytics</h2>
+            <div class="dashboard-grid">
+                <div class="dashboard-card" onclick="openDashboard('charts/charts-dashboard.html', true)">
+                    <div class="card-header">
+                        <div class="card-icon">📈</div>
+                        <div>
+                            <div class="card-title">Advanced Charts <span class="status-badge status-demo">In Progress</span></div>
+                            <div class="card-subtitle">Full Analytics Suite</div>
+                        </div>
+                    </div>
+                    <div class="card-description">
+                        Comprehensive analytics dashboard with multiple chart types and real-time data visualization.
+                    </div>
+                    <ul class="card-features">
+                        <li>Multiple Chart Types</li>
+                        <li>Chart Switching</li>
+                        <li>Real-time Updates</li>
+                        <li>Professional UI</li>
+                    </ul>
+                    <a href="charts/charts-dashboard.html" class="card-button" target="_blank">Open Dashboard</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="category-section">
+            <h2 class="category-title">📄 Static Reports</h2>
+            <div class="dashboard-grid">
+                <div class="dashboard-card" onclick="openDashboard('static/working-report.html', true)">
+                    <div class="card-header">
+                        <div class="card-icon">📋</div>
+                        <div>
+                            <div class="card-title">Demo Report <span class="status-badge status-working">Working</span></div>
+                            <div class="card-subtitle">Embedded Demo Data</div>
+                        </div>
+                    </div>
+                    <div class="card-description">
+                        View and analyze scan results with embedded demo data. Perfect for reviewing compatibility reports.
+                    </div>
+                    <ul class="card-features">
+                        <li>Live Demo Data (8 features)</li>
+                        <li>Filtering & Sorting</li>
+                        <li>Interactive Statistics</li>
+                        <li>Browser Support Matrix</li>
+                        <li>Responsive Design</li>
+                    </ul>
+                    <a href="static/working-report.html" class="card-button" target="_blank">Open Dashboard</a>
+                </div>
+                
+                <div class="dashboard-card" onclick="openDashboard('static/real-report.html', true)">
+                    <div class="card-header">
+                        <div class="card-icon">📊</div>
+                        <div>
+                            <div class="card-title">Real Report <span class="status-badge status-working">Working</span></div>
+                            <div class="card-subtitle">Live Scan Data</div>
+                        </div>
+                    </div>
+                    <div class="card-description">
+                        View real scan results from the baseline-check tool. Loads actual JSON data from scans.
+                    </div>
+                    <ul class="card-features">
+                        <li>Real Scan Data (26 features)</li>
+                        <li>JSON File Loading</li>
+                        <li>File Source Tracking</li>
+                        <li>MDN Documentation Links</li>
+                        <li>Fallback to Demo Data</li>
+                    </ul>
+                    <a href="static/real-report.html" class="card-button" target="_blank">Open Dashboard</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Baseline Check Tool v2.2.0 - Dashboard Hub</p>
+            <p>Choose the right dashboard for your needs</p>
+        </div>
+    </div>
+    
+    <script>
+        function openDashboard(path, newTab = true) {
+            if (newTab) {
+                window.open(path, '_blank');
+            } else {
+                window.location.href = path;
+            }
+        }
+        
+        // Add some interactive effects
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.dashboard-card');
+            
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -14,6 +14,9 @@ import { InteractiveMode } from './interactive.js';
 import { ErrorHandler } from './error-handler.js';
 import { ExamplesGenerator } from './examples.js';
 import { AIAnalyzer, AIRecommendations, AICodeFixer, AILearning } from './ai/index.js';
+import { RealtimeMonitor } from './monitoring/realtime-monitor.js';
+import { AlertSystem } from './monitoring/alert-system.js';
+import { RealtimeDashboard } from './monitoring/realtime-dashboard.js';
 import path from 'node:path';
 
 program
@@ -771,6 +774,191 @@ function generateAIHTMLReport(output) {
     `).join('')}
 </body>
 </html>`;
+}
+
+// Real-time Monitoring Commands
+program
+  .command('monitor')
+  .description('Start real-time monitoring with alerts and dashboard')
+  .option('-p, --paths <paths>', 'Comma-separated paths to monitor', '.')
+  .option('--dashboard', 'Open real-time dashboard in browser')
+  .option('--alerts', 'Enable alert notifications')
+  .option('--poll-interval <ms>', 'Polling interval in milliseconds', '1000')
+  .option('--theme <theme>', 'Dashboard theme (light/dark)', 'dark')
+  .action(async (options) => {
+    const logger = new Logger();
+    const spinner = new Spinner('Starting real-time monitoring...');
+    
+    try {
+      spinner.start();
+      
+      // Initialize monitoring system
+      const monitor = new RealtimeMonitor({
+        watchPaths: options.paths.split(',').map(p => p.trim()),
+        pollInterval: parseInt(options.pollInterval),
+        enableAlerts: options.alerts
+      });
+      
+      const alertSystem = new AlertSystem({
+        notificationChannels: options.alerts ? ['console', 'file'] : ['console']
+      });
+      
+      const dashboard = new RealtimeDashboard({
+        theme: options.theme
+      });
+      
+      // Setup event handlers
+      monitor.on('alert', async (alert) => {
+        await alertSystem.processAlert(alert);
+      });
+      
+      monitor.on('error', (error) => {
+        logger.error(`Monitor error: ${error.message}`);
+      });
+      
+      // Start monitoring
+      await monitor.start();
+      
+      // Generate dashboard
+      if (options.dashboard) {
+        const dashboardPath = await dashboard.start(monitor, alertSystem);
+        logger.success(`🌐 Dashboard: file://${path.resolve(dashboardPath)}`);
+      }
+      
+      spinner.stop();
+      logger.success('🚀 Real-time monitoring started');
+      logger.info(`👀 Watching: ${options.paths}`);
+      logger.info('Press Ctrl+C to stop monitoring');
+      
+      // Keep the process running
+      process.on('SIGINT', async () => {
+        console.log('\n🛑 Stopping monitoring...');
+        monitor.stop();
+        logger.success('✅ Monitoring stopped');
+        process.exit(0);
+      });
+      
+      // Keep alive
+      setInterval(() => {}, 1000);
+      
+    } catch (error) {
+      spinner.stop();
+      logger.error(`Monitoring failed: ${error.message}`);
+      process.exit(1);
+    }
+  });
+
+program
+  .command('dashboard')
+  .description('Generate real-time monitoring dashboard')
+  .option('-p, --paths <paths>', 'Comma-separated paths to monitor', '.')
+  .option('-t, --theme <theme>', 'Dashboard theme (light/dark)', 'dark')
+  .option('-o, --output <file>', 'Output HTML file', 'realtime-dashboard.html')
+  .action(async (options) => {
+    const logger = new Logger();
+    
+    try {
+      const dashboard = new RealtimeDashboard({
+        theme: options.theme
+      });
+      
+      const html = dashboard.generateHTML();
+      const outputPath = options.output.startsWith('dashboards/') ? options.output : `dashboards/charts/${options.output}`;
+      await fs.promises.writeFile(outputPath, html);
+      
+      logger.success(`🌐 Dashboard generated: ${options.output}`);
+      logger.info(`📊 Open in browser: file://${path.resolve(options.output)}`);
+      
+    } catch (error) {
+      logger.error(`Dashboard generation failed: ${error.message}`);
+      process.exit(1);
+    }
+  });
+
+program
+  .command('alerts')
+  .description('Manage alerts and notifications')
+  .option('--stats', 'Show alert statistics')
+  .option('--clear', 'Clear all active alerts')
+  .option('--export <format>', 'Export alert data (json/csv)', 'json')
+  .action(async (options) => {
+    const logger = new Logger();
+    
+    try {
+      const alertSystem = new AlertSystem();
+      
+      if (options.stats) {
+        const stats = alertSystem.getStats();
+        console.log('\n📊 Alert Statistics:');
+        console.log(`Total Alerts: ${stats.total}`);
+        console.log(`Active Alerts: ${stats.active}`);
+        console.log(`Last 24h: ${stats.last24h}`);
+        console.log(`Last 1h: ${stats.last1h}`);
+        console.log(`Escalated: ${stats.escalated}`);
+        
+        if (Object.keys(stats.bySeverity).length > 0) {
+          console.log('\nBy Severity:');
+          Object.entries(stats.bySeverity).forEach(([severity, count]) => {
+            console.log(`  ${severity}: ${count}`);
+          });
+        }
+        
+        if (Object.keys(stats.byType).length > 0) {
+          console.log('\nBy Type:');
+          Object.entries(stats.byType).forEach(([type, count]) => {
+            console.log(`  ${type}: ${count}`);
+          });
+        }
+      } else if (options.clear) {
+        alertSystem.clearAllAlerts();
+        logger.success('🧹 All alerts cleared');
+      } else if (options.export) {
+        const data = {
+          stats: alertSystem.getStats(),
+          activeAlerts: alertSystem.getActiveAlerts(),
+          history: alertSystem.alertHistory
+        };
+        
+        const filename = `alerts-export.${options.export}`;
+        const content = options.export === 'json' 
+          ? JSON.stringify(data, null, 2)
+          : convertToCSV(data);
+        
+        await fs.promises.writeFile(filename, content);
+        logger.success(`📊 Alert data exported: ${filename}`);
+      } else {
+        logger.info('Alert management commands:');
+        logger.info('  --stats     Show alert statistics');
+        logger.info('  --clear     Clear all active alerts');
+        logger.info('  --export    Export alert data');
+      }
+      
+    } catch (error) {
+      logger.error(`Alert management failed: ${error.message}`);
+      process.exit(1);
+    }
+  });
+
+// Helper function for CSV export
+function convertToCSV(data) {
+  const csv = [];
+  
+  // Stats CSV
+  csv.push('Alert Statistics');
+  csv.push('Metric,Value');
+  csv.push(`Total Alerts,${data.stats.total}`);
+  csv.push(`Active Alerts,${data.stats.active}`);
+  csv.push(`Last 24h,${data.stats.last24h}`);
+  csv.push(`Last 1h,${data.stats.last1h}`);
+  csv.push(`Escalated,${data.stats.escalated}`);
+  
+  csv.push('\nActive Alerts');
+  csv.push('Type,Severity,File,Message,Timestamp');
+  data.activeAlerts.forEach(alert => {
+    csv.push(`${alert.type},${alert.severity},"${alert.filePath}","${alert.message}",${new Date(alert.timestamp).toISOString()}`);
+  });
+  
+  return csv.join('\n');
 }
 
 program.parse();

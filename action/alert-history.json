@@ -1,0 +1,102 @@
+[
+  {
+    "type": "critical",
+    "severity": "critical",
+    "message": "1 critical issues found",
+    "filePath": "demo-monitoring/problematic-code.js",
+    "recommendations": [
+      {
+        "type": "local",
+        "category": "security",
+        "pattern": "eval-usage",
+        "severity": "critical",
+        "message": "Never use eval() as it can execute arbitrary code",
+        "suggestion": "// Use JSON.parse() or other safe alternatives",
+        "matches": 2,
+        "lines": [
+          12,
+          14
+        ],
+        "confidence": 0.8
+      }
+    ],
+    "id": "bz4ayn",
+    "timestamp": 1759723337696,
+    "status": "active",
+    "count": 1
+  },
+  {
+    "type": "risk",
+    "severity": "high",
+    "message": "High risk score detected: 100%",
+    "filePath": "demo-monitoring/problematic-code.js",
+    "value": 100,
+    "threshold": 70,
+    "id": "q356ck",
+    "timestamp": 1759723337696,
+    "status": "active",
+    "count": 1
+  },
+  {
+    "type": "risk",
+    "severity": "high",
+    "message": "High risk score detected: 75%",
+    "filePath": "demo-monitoring/good-code.js",
+    "value": 75,
+    "threshold": 70,
+    "id": "ukelwm",
+    "timestamp": 1759723337695,
+    "status": "active",
+    "count": 1
+  },
+  {
+    "type": "critical",
+    "severity": "critical",
+    "message": "1 critical issues found",
+    "filePath": "/Users/admin/Documents/Rasike/projects/baseline-check/action/demo-monitoring/problematic-code.js",
+    "recommendations": [
+      {
+        "type": "local",
+        "category": "security",
+        "pattern": "eval-usage",
+        "severity": "critical",
+        "message": "Never use eval() as it can execute arbitrary code",
+        "suggestion": "// Use JSON.parse() or other safe alternatives",
+        "matches": 2,
+        "lines": [
+          12,
+          14
+        ],
+        "confidence": 0.8
+      }
+    ],
+    "id": "m0a2db",
+    "timestamp": 1759723336688,
+    "status": "active",
+    "count": 1
+  },
+  {
+    "type": "risk",
+    "severity": "high",
+    "message": "High risk score detected: 100%",
+    "filePath": "/Users/admin/Documents/Rasike/projects/baseline-check/action/demo-monitoring/problematic-code.js",
+    "value": 100,
+    "threshold": 70,
+    "id": "y1sirg",
+    "timestamp": 1759723336688,
+    "status": "active",
+    "count": 1
+  },
+  {
+    "type": "risk",
+    "severity": "high",
+    "message": "High risk score detected: 75%",
+    "filePath": "/Users/admin/Documents/Rasike/projects/baseline-check/action/demo-monitoring/good-code.js",
+    "value": 75,
+    "threshold": 70,
+    "id": "g4jb9i",
+    "timestamp": 1759723336685,
+    "status": "active",
+    "count": 1
+  }
+]
