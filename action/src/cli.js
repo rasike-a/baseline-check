@@ -1271,7 +1271,7 @@ program
       }
 
       if (files.length === 0) {
-        logger.warn('No files found to analyze');
+        logger.warning('No files found to analyze');
         return;
       }
 
@@ -1405,7 +1405,7 @@ program
       }
 
       if (files.length === 0) {
-        logger.warn('No files found to analyze');
+        logger.warning('No files found to analyze');
         return;
       }
 
@@ -1550,7 +1550,7 @@ program
       }
 
       if (files.length === 0) {
-        logger.warn('No files found to analyze');
+        logger.warning('No files found to analyze');
         return;
       }
 
@@ -1821,7 +1821,7 @@ program
       }
 
       if (files.length === 0) {
-        logger.warn('No files found to analyze');
+        logger.warning('No files found to analyze');
         return;
       }
 
@@ -1871,7 +1871,7 @@ program
       logger.info(`   Analysis Time: ${summary.analysisTime}ms`);
 
       if (compliance?.scores?.overall < 80) {
-        logger.warn(`\n⚠️  Baseline compliance score is below 80`);
+        logger.warning(`\n⚠️  Baseline compliance score is below 80`);
         logger.info(`   Run with --dashboard to see detailed analysis and recommendations`);
       } else {
         logger.success(`\n✅ Excellent baseline compliance!`);
@@ -1949,7 +1949,7 @@ program
       }
 
       if (files.length === 0) {
-        logger.warn('No files found to analyze');
+        logger.warning('No files found to analyze');
         return;
       }
 
