@@ -18,6 +18,7 @@ import { RealtimeMonitor } from './monitoring/realtime-monitor.js';
 import { AlertSystem } from './monitoring/alert-system.js';
 import { RealtimeDashboard } from './monitoring/realtime-dashboard.js';
 import { handlePerformanceCommand } from './commands/performance-command.js';
+import { handleEnhancedPerformanceCommand } from './commands/enhanced-performance-command.js';
 import { createFeatureDetector, getFeatureStats } from './features/index.js';
 import { SecurityAnalysis } from './security/index.js';
 import { AccessibilityAnalysis } from './accessibility/index.js';
@@ -999,6 +1000,24 @@ program
     try {
       await handlePerformanceCommand(options);
     } catch (error) {
+      process.exit(1);
+    }
+  });
+
+program
+  .command('performance-enhanced')
+  .description('Enhanced performance analysis with optimization and bundle analysis')
+  .option('-p, --paths <paths>', 'Comma-separated paths to analyze', '.')
+  .option('-r, --report <file>', 'Use existing scan report', 'baseline-report.json')
+  .option('-o, --output <file>', 'Output file for enhanced performance analysis', 'enhanced-performance-analysis.json')
+  .option('-d, --dashboard', 'Generate enhanced performance dashboard')
+  .option('-t, --theme <theme>', 'Dashboard theme (light/dark)', 'dark')
+  .option('--fix', 'Apply automatic optimizations')
+  .action(async (options) => {
+    try {
+      await handleEnhancedPerformanceCommand(options);
+    } catch (error) {
+      console.error('Enhanced performance analysis failed:', error.message);
       process.exit(1);
     }
   });

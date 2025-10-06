@@ -241,6 +241,25 @@ export class BundleAnalyzer {
       });
     }
 
+    // Check for duplicate dependencies
+    const duplicateDeps = this.detectDuplicateDependencies(content);
+    if (duplicateDeps.length > 0) {
+      issues.push({
+        type: 'duplicate_dependencies',
+        severity: 'medium',
+        category: 'dependency_analysis',
+        title: 'Duplicate dependencies detected',
+        description: `Found ${duplicateDeps.length} duplicate dependencies: ${duplicateDeps.map(d => d.name).join(', ')}`,
+        file: bundlePath,
+        line: 1,
+        code: `Duplicates: ${duplicateDeps.map(d => `${d.name}(${d.count})`).join(', ')}`,
+        suggestion: 'Remove duplicate dependencies to reduce bundle size',
+        fix: 'Use webpack resolve.alias or npm dedupe to remove duplicates',
+        impact: 'Medium',
+        effort: 'Low'
+      });
+    }
+
     // Check for large dependencies
     const largeDependencies = this.findLargeDependencies(content);
     largeDependencies.forEach(dep => {
@@ -260,9 +279,8 @@ export class BundleAnalyzer {
       });
     });
 
-    // Check for duplicate dependencies
-    const duplicates = this.findDuplicateDependencies(content);
-    if (duplicates.length > 0) {
+    // Check for duplicate dependencies (already declared above)
+    if (duplicateDeps.length > 0) {
       issues.push({
         type: 'duplicate_dependencies',
         severity: 'medium',
@@ -654,6 +672,34 @@ export class BundleAnalyzer {
     const requireMatches = content.match(/require\(['"][^'"]+['"]\)/g) || [];
     const importMatches = content.match(/import\s+.*\s+from\s+['"][^'"]+['"]/g) || [];
     return requireMatches.length + importMatches.length;
+  }
+
+  /**
+   * Detect duplicate dependencies
+   */
+  detectDuplicateDependencies(content) {
+    const deps = new Map();
+    const requirePattern = /require\(['"]([^'"]+)['"]\)/g;
+    const importPattern = /import\s+.*\s+from\s+['"]([^'"]+)['"]/g;
+    
+    let match;
+    while ((match = requirePattern.exec(content)) !== null) {
+      const dep = match[1];
+      if (!dep.startsWith('.') && !dep.startsWith('/')) {
+        deps.set(dep, (deps.get(dep) || 0) + 1);
+      }
+    }
+    
+    while ((match = importPattern.exec(content)) !== null) {
+      const dep = match[1];
+      if (!dep.startsWith('.') && !dep.startsWith('/')) {
+        deps.set(dep, (deps.get(dep) || 0) + 1);
+      }
+    }
+    
+    return Array.from(deps.entries())
+      .filter(([name, count]) => count > 1)
+      .map(([name, count]) => ({ name, count }));
   }
 
   findLargeDependencies(content) {
