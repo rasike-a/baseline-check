@@ -13,6 +13,7 @@ import { AnalyticsEngine } from './analytics.js';
 import { InteractiveMode } from './interactive.js';
 import { ErrorHandler } from './error-handler.js';
 import { ExamplesGenerator } from './examples.js';
+import { AIAnalyzer, AIRecommendations, AICodeFixer, AILearning } from './ai/index.js';
 import path from 'node:path';
 
 program
@@ -450,5 +451,326 @@ program
       process.exit(1);
     }
   });
+
+// AI-Powered Commands
+program
+  .command('ai-analyze')
+  .description('AI-powered code analysis with smart recommendations')
+  .option('-p, --paths <paths>', 'Comma-separated paths to analyze', '.')
+  .option('-o, --out <file>', 'Output file for AI analysis results', 'ai-analysis.json')
+  .option('-c, --config <file>', 'Configuration file path')
+  .option('--api-key <key>', 'OpenAI API key for cloud analysis')
+  .option('--local-only', 'Use only local analysis (no cloud API)')
+  .option('--format <format>', 'Output format (json/markdown/html)', 'json')
+  .action(async (options) => {
+    const logger = new Logger();
+    const spinner = new Spinner('Analyzing code with AI...');
+    
+    try {
+      spinner.start();
+      
+      const aiAnalyzer = new AIAnalyzer({
+        apiKey: options.apiKey || process.env.OPENAI_API_KEY,
+        enableCloudAnalysis: !options.localOnly,
+        enableLocalAnalysis: true
+      });
+      
+      const paths = options.paths.split(',').map(p => p.trim());
+      const results = [];
+      
+      for (const path of paths) {
+        if (fs.existsSync(path)) {
+          const files = await getFiles(path);
+          
+          for (const file of files) {
+            const code = fs.readFileSync(file, 'utf8');
+            const analysis = await aiAnalyzer.analyzeCode(code, file, {
+              framework: 'unknown',
+              browsers: ['chrome', 'firefox', 'safari', 'edge']
+            });
+            results.push(analysis);
+          }
+        }
+      }
+      
+      const output = {
+        timestamp: new Date().toISOString(),
+        totalFiles: results.length,
+        analyses: results,
+        summary: {
+          totalRecommendations: results.reduce((sum, r) => sum + (r.recommendations?.length || 0), 0),
+          averageRiskScore: results.reduce((sum, r) => sum + (r.riskScore || 0), 0) / results.length,
+          averageCompatibilityScore: results.reduce((sum, r) => sum + (r.compatibilityScore || 0), 0) / results.length
+        }
+      };
+      
+      if (options.format === 'json') {
+        fs.writeFileSync(options.out, JSON.stringify(output, null, 2));
+      } else if (options.format === 'markdown') {
+        const markdown = generateAIMarkdownReport(output);
+        fs.writeFileSync(options.out, markdown);
+      } else if (options.format === 'html') {
+        const html = generateAIHTMLReport(output);
+        fs.writeFileSync(options.out, html);
+      }
+      
+      spinner.stop();
+      logger.success(`AI analysis completed: ${options.out}`);
+      logger.info(`Analyzed ${results.length} files with ${output.summary.totalRecommendations} recommendations`);
+      
+    } catch (error) {
+      spinner.stop();
+      logger.error(`AI analysis failed: ${error.message}`);
+      process.exit(1);
+    }
+  });
+
+program
+  .command('ai-fix')
+  .description('AI-powered automatic code fixing')
+  .option('-f, --file <file>', 'File to fix')
+  .option('-r, --report <file>', 'Analysis report file')
+  .option('--dry-run', 'Show what would be fixed without making changes')
+  .option('--backup', 'Create backup before fixing')
+  .action(async (options) => {
+    const logger = new Logger();
+    
+    try {
+      const aiCodeFixer = new AICodeFixer({
+        enableAutoFix: !options.dryRun,
+        enableBackup: options.backup
+      });
+      
+      if (options.file) {
+        // Fix single file
+        const code = fs.readFileSync(options.file, 'utf8');
+        const analysis = await analyzeFileForFixes(code, options.file);
+        
+        if (options.dryRun) {
+          logger.info('Dry run - would apply the following fixes:');
+          analysis.recommendations.forEach(rec => {
+            console.log(`- ${rec.message}`);
+            console.log(`  Fix: ${rec.suggestion}`);
+          });
+        } else {
+          const result = await aiCodeFixer.applyFixes(options.file, analysis.recommendations);
+          
+          if (result.success) {
+            logger.success(`Applied ${result.fixesApplied.length} fixes to ${options.file}`);
+            if (result.backupPath) {
+              logger.info(`Backup created: ${result.backupPath}`);
+            }
+          } else {
+            logger.error(`Fix application failed: ${result.errors.join(', ')}`);
+          }
+        }
+      } else if (options.report) {
+        // Fix based on analysis report
+        const report = JSON.parse(fs.readFileSync(options.report, 'utf8'));
+        const filesToFix = new Set();
+        
+        report.analyses.forEach(analysis => {
+          if (analysis.recommendations?.length > 0) {
+            filesToFix.add(analysis.filePath);
+          }
+        });
+        
+        for (const filePath of filesToFix) {
+          if (fs.existsSync(filePath)) {
+            const analysis = report.analyses.find(a => a.filePath === filePath);
+            
+            if (options.dryRun) {
+              logger.info(`Would fix ${filePath}:`);
+              analysis.recommendations.forEach(rec => {
+                console.log(`- ${rec.message}`);
+              });
+            } else {
+              const result = await aiCodeFixer.applyFixes(filePath, analysis.recommendations);
+              
+              if (result.success) {
+                logger.success(`Fixed ${filePath}: ${result.fixesApplied.length} fixes applied`);
+              } else {
+                logger.error(`Failed to fix ${filePath}: ${result.errors.join(', ')}`);
+              }
+            }
+          }
+        }
+      } else {
+        logger.error('Please specify either --file or --report');
+        process.exit(1);
+      }
+      
+    } catch (error) {
+      logger.error(`AI fix failed: ${error.message}`);
+      process.exit(1);
+    }
+  });
+
+program
+  .command('ai-learn')
+  .description('AI learning and personalization features')
+  .option('--stats', 'Show learning statistics')
+  .option('--export <format>', 'Export learning data (json/csv)')
+  .option('--reset', 'Reset learning data')
+  .action(async (options) => {
+    const logger = new Logger();
+    
+    try {
+      const aiLearning = new AILearning();
+      
+      if (options.stats) {
+        const stats = aiLearning.getLearningStats();
+        console.log('\n📊 AI Learning Statistics:');
+        console.log(`Total Patterns: ${stats.totalPatterns}`);
+        console.log(`Total Users: ${stats.totalUsers}`);
+        console.log(`Total Interactions: ${stats.totalInteractions}`);
+        console.log(`Average Confidence: ${(stats.averageConfidence * 100).toFixed(1)}%`);
+        
+        if (stats.topPatterns.length > 0) {
+          console.log('\n🔝 Top Patterns:');
+          stats.topPatterns.forEach((pattern, index) => {
+            console.log(`${index + 1}. ${pattern.type} (${(pattern.confidence * 100).toFixed(1)}% confidence)`);
+          });
+        }
+      } else if (options.export) {
+        const data = await aiLearning.exportLearningData(options.export);
+        const filename = `learning-data.${options.export}`;
+        fs.writeFileSync(filename, data);
+        logger.success(`Learning data exported to: ${filename}`);
+      } else if (options.reset) {
+        // Reset learning data
+        fs.unlinkSync(aiLearning.options.learningDataPath);
+        logger.success('Learning data reset');
+      } else {
+        logger.info('AI Learning commands:');
+        logger.info('  --stats     Show learning statistics');
+        logger.info('  --export    Export learning data');
+        logger.info('  --reset     Reset learning data');
+      }
+      
+    } catch (error) {
+      logger.error(`AI learning failed: ${error.message}`);
+      process.exit(1);
+    }
+  });
+
+// Helper functions
+async function getFiles(path) {
+  const files = [];
+  
+  if (fs.statSync(path).isDirectory()) {
+    const entries = fs.readdirSync(path, { withFileTypes: true });
+    
+    for (const entry of entries) {
+      const fullPath = `${path}/${entry.name}`;
+      if (entry.isDirectory() && !entry.name.startsWith('.') && entry.name !== 'node_modules') {
+        files.push(...await getFiles(fullPath));
+      } else if (entry.isFile() && /\.(js|jsx|ts|tsx|css|html)$/.test(entry.name)) {
+        files.push(fullPath);
+      }
+    }
+  } else {
+    files.push(path);
+  }
+  
+  return files;
+}
+
+async function analyzeFileForFixes(code, filePath) {
+  const aiAnalyzer = new AIAnalyzer({ enableLocalAnalysis: true });
+  return await aiAnalyzer.analyzeCode(code, filePath);
+}
+
+function generateAIMarkdownReport(output) {
+  let markdown = `# AI Analysis Report\n\n`;
+  markdown += `**Generated:** ${output.timestamp}\n`;
+  markdown += `**Files Analyzed:** ${output.totalFiles}\n`;
+  markdown += `**Total Recommendations:** ${output.summary.totalRecommendations}\n\n`;
+  
+  markdown += `## Summary\n\n`;
+  markdown += `- **Average Risk Score:** ${output.summary.averageRiskScore.toFixed(1)}%\n`;
+  markdown += `- **Average Compatibility Score:** ${output.summary.averageCompatibilityScore.toFixed(1)}%\n\n`;
+  
+  markdown += `## File Analysis\n\n`;
+  
+  output.analyses.forEach((analysis, index) => {
+    markdown += `### ${index + 1}. ${analysis.filePath}\n\n`;
+    markdown += `- **Risk Score:** ${analysis.riskScore}%\n`;
+    markdown += `- **Compatibility Score:** ${analysis.compatibilityScore}%\n`;
+    markdown += `- **Recommendations:** ${analysis.recommendations?.length || 0}\n\n`;
+    
+    if (analysis.recommendations?.length > 0) {
+      markdown += `#### Recommendations:\n\n`;
+      analysis.recommendations.forEach(rec => {
+        markdown += `- **${rec.severity.toUpperCase()}:** ${rec.message}\n`;
+        if (rec.suggestion) {
+          markdown += `  - Fix: ${rec.suggestion}\n`;
+        }
+        markdown += `\n`;
+      });
+    }
+    
+    markdown += `---\n\n`;
+  });
+  
+  return markdown;
+}
+
+function generateAIHTMLReport(output) {
+  return `<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Analysis Report</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .header { background: #f5f5f5; padding: 20px; border-radius: 8px; }
+        .summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 20px 0; }
+        .stat-card { background: #e3f2fd; padding: 15px; border-radius: 8px; text-align: center; }
+        .file-analysis { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 8px; }
+        .recommendation { margin: 10px 0; padding: 10px; background: #fff3e0; border-left: 4px solid #ff9800; }
+        .critical { border-left-color: #f44336; }
+        .high { border-left-color: #ff9800; }
+        .medium { border-left-color: #ffc107; }
+        .low { border-left-color: #4caf50; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🤖 AI Analysis Report</h1>
+        <p><strong>Generated:</strong> ${output.timestamp}</p>
+        <p><strong>Files Analyzed:</strong> ${output.totalFiles}</p>
+        <p><strong>Total Recommendations:</strong> ${output.summary.totalRecommendations}</p>
+    </div>
+    
+    <div class="summary">
+        <div class="stat-card">
+            <h3>Average Risk Score</h3>
+            <p>${output.summary.averageRiskScore.toFixed(1)}%</p>
+        </div>
+        <div class="stat-card">
+            <h3>Average Compatibility Score</h3>
+            <p>${output.summary.averageCompatibilityScore.toFixed(1)}%</p>
+        </div>
+    </div>
+    
+    <h2>File Analysis</h2>
+    ${output.analyses.map((analysis, index) => `
+        <div class="file-analysis">
+            <h3>${index + 1}. ${analysis.filePath}</h3>
+            <p><strong>Risk Score:</strong> ${analysis.riskScore}% | 
+               <strong>Compatibility Score:</strong> ${analysis.compatibilityScore}% | 
+               <strong>Recommendations:</strong> ${analysis.recommendations?.length || 0}</p>
+            
+            ${analysis.recommendations?.map(rec => `
+                <div class="recommendation ${rec.severity}">
+                    <strong>${rec.severity.toUpperCase()}:</strong> ${rec.message}
+                    ${rec.suggestion ? `<br><em>Fix: ${rec.suggestion}</em>` : ''}
+                </div>
+            `).join('') || '<p>No recommendations for this file.</p>'}
+        </div>
+    `).join('')}
+</body>
+</html>`;
+}
 
 program.parse();
