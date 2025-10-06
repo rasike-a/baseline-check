@@ -22,6 +22,7 @@ import { createFeatureDetector, getFeatureStats } from './features/index.js';
 import { SecurityAnalysis } from './security/index.js';
 import { AccessibilityAnalysis } from './accessibility/index.js';
 import { SEOAnalysis } from './seo/index.js';
+import { BundleAnalysis } from './bundle/index.js';
 import path from 'node:path';
 
 program
@@ -1643,6 +1644,139 @@ program
       await fs.promises.writeFile(outputPath, dashboardHTML);
 
       logger.success(`🌐 SEO dashboard generated: ${outputPath}`);
+      logger.info(`📊 Open in browser: file://${path.resolve(outputPath)}`);
+
+    } catch (error) {
+      logger.error(`Dashboard generation failed: ${error.message}`);
+      process.exit(1);
+    }
+  });
+
+program
+  .command('bundle')
+  .description('Analyze bundle for optimization issues')
+  .option('-p, --path <path>', 'Path to bundle file to analyze', 'dist/bundle.js')
+  .option('-r, --root <root>', 'Project root directory', '.')
+  .option('-o, --output <file>', 'Output file for bundle analysis', 'bundle-analysis.json')
+  .option('-d, --dashboard <file>', 'Generate bundle dashboard', 'bundle-dashboard.html')
+  .option('-t, --theme <theme>', 'Dashboard theme (light/dark)', 'dark')
+  .option('--no-size', 'Disable size analysis')
+  .option('--no-deps', 'Disable dependency analysis')
+  .option('--no-splitting', 'Disable code splitting analysis')
+  .option('--no-tree-shaking', 'Disable tree shaking analysis')
+  .option('--no-compression', 'Disable compression analysis')
+  .option('--no-caching', 'Disable caching analysis')
+  .option('--no-performance', 'Disable performance analysis')
+  .option('--no-security', 'Disable security analysis')
+  .option('--no-modernization', 'Disable modernization analysis')
+  .option('--no-optimization', 'Disable optimization analysis')
+  .option('--max-size <size>', 'Maximum bundle size in KB', '250')
+  .option('--max-chunk <size>', 'Maximum chunk size in KB', '100')
+  .option('--max-deps <count>', 'Maximum number of dependencies', '50')
+  .action(async (options) => {
+    const logger = new Logger();
+
+    try {
+      if (!fs.existsSync(options.path)) {
+        logger.error(`Bundle file not found: ${options.path}`);
+        logger.info('Please provide a valid path to your bundle file');
+        process.exit(1);
+      }
+
+      logger.info(`📦 Analyzing bundle: ${options.path}`);
+
+      // Configure bundle analysis
+      const bundleOptions = {
+        analyzer: {
+          enableSizeAnalysis: options.size !== false,
+          enableDependencyAnalysis: options.deps !== false,
+          enableCodeSplitting: options.splitting !== false,
+          enableTreeShaking: options.treeShaking !== false,
+          enableCompression: options.compression !== false,
+          enableCaching: options.caching !== false,
+          enablePerformance: options.performance !== false,
+          enableSecurity: options.security !== false,
+          enableModernization: options.modernization !== false,
+          enableOptimization: options.optimization !== false,
+          maxBundleSize: parseInt(options.maxSize) * 1024,
+          maxChunkSize: parseInt(options.maxChunk) * 1024,
+          maxDependencies: parseInt(options.maxDeps)
+        },
+        dashboard: {
+          theme: options.theme
+        }
+      };
+
+      const bundleAnalysis = new BundleAnalysis(bundleOptions);
+      const results = await bundleAnalysis.analyzeBundle(options.path, options.root);
+
+      // Save analysis results
+      await fs.promises.writeFile(options.output, JSON.stringify(results, null, 2));
+      logger.success(`📦 Bundle analysis saved: ${options.output}`);
+
+      // Generate dashboard if requested
+      if (options.dashboard) {
+        const dashboardPath = options.dashboard.startsWith('dashboards/') ? options.dashboard : `dashboards/bundle/${options.dashboard}`;
+        await fs.promises.mkdir(path.dirname(dashboardPath), { recursive: true });
+        
+        const recommendations = bundleAnalysis.generateRecommendations(results);
+        const dashboardHTML = bundleAnalysis.generateDashboard(results, recommendations);
+        await fs.promises.writeFile(dashboardPath, dashboardHTML);
+        
+        logger.success(`🌐 Bundle dashboard generated: ${dashboardPath}`);
+        logger.info(`📊 Open in browser: file://${path.resolve(dashboardPath)}`);
+      }
+
+      // Display summary
+      const summary = results.summary;
+      logger.info(`\n📊 Bundle Analysis Summary:`);
+      logger.info(`   Bundle Score: ${summary.bundleScore}/100`);
+      logger.info(`   Bundle Level: ${summary.bundleLevel}`);
+      logger.info(`   Total Issues: ${summary.totalIssues}`);
+      logger.info(`   Critical Issues: ${summary.bySeverity.high}`);
+      logger.info(`   Medium Issues: ${summary.bySeverity.medium}`);
+      logger.info(`   Low Issues: ${summary.bySeverity.low}`);
+
+      if (summary.totalIssues > 0) {
+        logger.info(`\n⚠️  ${summary.totalIssues} bundle issues found`);
+        logger.info(`   Run with --dashboard to see detailed analysis`);
+      } else {
+        logger.success(`\n✅ No bundle issues found!`);
+      }
+
+    } catch (error) {
+      logger.error(`Bundle analysis failed: ${error.message}`);
+      process.exit(1);
+    }
+  });
+
+program
+  .command('bundle-dashboard')
+  .description('Generate bundle dashboard from existing analysis')
+  .option('-i, --input <file>', 'Input bundle analysis file', 'bundle-analysis.json')
+  .option('-o, --output <file>', 'Output HTML file', 'bundle-dashboard.html')
+  .option('-t, --theme <theme>', 'Dashboard theme (light/dark)', 'dark')
+  .action(async (options) => {
+    const logger = new Logger();
+
+    try {
+      if (!fs.existsSync(options.input)) {
+        logger.error(`Bundle analysis file not found: ${options.input}`);
+        logger.info('Run "baseline-check bundle" first to generate analysis data');
+        process.exit(1);
+      }
+
+      const analysisData = JSON.parse(await fs.promises.readFile(options.input, 'utf8'));
+      const bundleAnalysis = new BundleAnalysis({ dashboard: { theme: options.theme } });
+      
+      const recommendations = bundleAnalysis.generateRecommendations(analysisData);
+      const dashboardHTML = bundleAnalysis.generateDashboard(analysisData, recommendations);
+      
+      const outputPath = options.output.startsWith('dashboards/') ? options.output : `dashboards/bundle/${options.output}`;
+      await fs.promises.mkdir(path.dirname(outputPath), { recursive: true });
+      await fs.promises.writeFile(outputPath, dashboardHTML);
+
+      logger.success(`🌐 Bundle dashboard generated: ${outputPath}`);
       logger.info(`📊 Open in browser: file://${path.resolve(outputPath)}`);
 
     } catch (error) {
