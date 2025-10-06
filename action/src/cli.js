@@ -20,6 +20,7 @@ import { RealtimeDashboard } from './monitoring/realtime-dashboard.js';
 import { handlePerformanceCommand } from './commands/performance-command.js';
 import { createFeatureDetector, getFeatureStats } from './features/index.js';
 import { SecurityAnalysis } from './security/index.js';
+import { AccessibilityAnalysis } from './accessibility/index.js';
 import path from 'node:path';
 
 program
@@ -1351,6 +1352,153 @@ program
       await fs.promises.writeFile(outputPath, dashboardHTML);
 
       logger.success(`🌐 Security dashboard generated: ${outputPath}`);
+      logger.info(`📊 Open in browser: file://${path.resolve(outputPath)}`);
+
+    } catch (error) {
+      logger.error(`Dashboard generation failed: ${error.message}`);
+      process.exit(1);
+    }
+  });
+
+program
+  .command('accessibility')
+  .description('Analyze codebase for accessibility issues')
+  .option('-p, --paths <paths>', 'Comma-separated paths to analyze', 'src')
+  .option('-o, --output <file>', 'Output file for accessibility analysis', 'accessibility-analysis.json')
+  .option('-d, --dashboard <file>', 'Generate accessibility dashboard', 'accessibility-dashboard.html')
+  .option('-t, --theme <theme>', 'Dashboard theme (light/dark)', 'dark')
+  .option('--no-wcag', 'Disable WCAG compliance analysis')
+  .option('--no-color', 'Disable color contrast analysis')
+  .option('--no-keyboard', 'Disable keyboard navigation analysis')
+  .option('--no-screen-reader', 'Disable screen reader analysis')
+  .option('--no-semantic', 'Disable semantic HTML analysis')
+  .option('--no-aria', 'Disable ARIA analysis')
+  .option('--no-focus', 'Disable focus management analysis')
+  .option('--no-alt', 'Disable alt text analysis')
+  .option('--no-labels', 'Disable form labels analysis')
+  .option('--no-headings', 'Disable heading structure analysis')
+  .option('--no-language', 'Disable language detection analysis')
+  .option('--no-motion', 'Disable motion preferences analysis')
+  .action(async (options) => {
+    const logger = new Logger();
+
+    try {
+      // Parse paths
+      const paths = options.paths.split(',').map(p => p.trim());
+      
+      // Find files to analyze
+      const files = [];
+      for (const path of paths) {
+        const stat = fs.statSync(path);
+        if (stat.isDirectory()) {
+          const glob = await import('globby');
+          const dirFiles = await glob.globby([`${path}/**/*.{js,ts,jsx,tsx,html,css,vue,svelte}`], {
+            ignore: ['**/node_modules/**', '**/dist/**', '**/build/**']
+          });
+          files.push(...dirFiles);
+        } else {
+          files.push(path);
+        }
+      }
+
+      if (files.length === 0) {
+        logger.warn('No files found to analyze');
+        return;
+      }
+
+      logger.info(`♿ Analyzing ${files.length} files for accessibility issues...`);
+
+      // Configure accessibility analysis
+      const accessibilityOptions = {
+        analyzer: {
+          enableWCAGAnalysis: options.wcag !== false,
+          enableColorContrast: options.color !== false,
+          enableKeyboardNavigation: options.keyboard !== false,
+          enableScreenReader: options.screenReader !== false,
+          enableSemanticHTML: options.semantic !== false,
+          enableARIA: options.aria !== false,
+          enableFocusManagement: options.focus !== false,
+          enableAltText: options.alt !== false,
+          enableFormLabels: options.labels !== false,
+          enableHeadingStructure: options.headings !== false,
+          enableLanguageDetection: options.language !== false,
+          enableMotionPreferences: options.motion !== false
+        },
+        dashboard: {
+          theme: options.theme
+        }
+      };
+
+      const accessibilityAnalysis = new AccessibilityAnalysis(accessibilityOptions);
+      const results = await accessibilityAnalysis.analyze(files);
+
+      // Save analysis results
+      await fs.promises.writeFile(options.output, JSON.stringify(results, null, 2));
+      logger.success(`♿ Accessibility analysis saved: ${options.output}`);
+
+      // Generate dashboard if requested
+      if (options.dashboard) {
+        const dashboardPath = options.dashboard.startsWith('dashboards/') ? options.dashboard : `dashboards/accessibility/${options.dashboard}`;
+        await fs.promises.mkdir(path.dirname(dashboardPath), { recursive: true });
+        
+        const recommendations = accessibilityAnalysis.generateRecommendations(results);
+        const dashboardHTML = accessibilityAnalysis.generateDashboard(results, recommendations);
+        await fs.promises.writeFile(dashboardPath, dashboardHTML);
+        
+        logger.success(`🌐 Accessibility dashboard generated: ${dashboardPath}`);
+        logger.info(`📊 Open in browser: file://${path.resolve(dashboardPath)}`);
+      }
+
+      // Display summary
+      const summary = results.summary;
+      logger.info(`\n📊 Accessibility Analysis Summary:`);
+      logger.info(`   Accessibility Score: ${summary.accessibilityScore}/100`);
+      logger.info(`   WCAG Level: ${summary.wcagLevel}`);
+      logger.info(`   Total Issues: ${summary.totalIssues}`);
+      logger.info(`   Critical Issues: ${summary.bySeverity.high}`);
+      logger.info(`   Medium Issues: ${summary.bySeverity.medium}`);
+      logger.info(`   Low Issues: ${summary.bySeverity.low}`);
+
+      if (summary.totalIssues > 0) {
+        logger.info(`\n⚠️  ${summary.totalIssues} accessibility issues found`);
+        logger.info(`   Run with --dashboard to see detailed analysis`);
+      } else {
+        logger.success(`\n✅ No accessibility issues found!`);
+      }
+
+    } catch (error) {
+      logger.error(`Accessibility analysis failed: ${error.message}`);
+      process.exit(1);
+    }
+  });
+
+program
+  .command('accessibility-dashboard')
+  .description('Generate accessibility dashboard from existing analysis')
+  .option('-i, --input <file>', 'Input accessibility analysis file', 'accessibility-analysis.json')
+  .option('-o, --output <file>', 'Output HTML file', 'accessibility-dashboard.html')
+  .option('-t, --theme <theme>', 'Dashboard theme (light/dark)', 'dark')
+  .action(async (options) => {
+    const logger = new Logger();
+
+    try {
+      if (!fs.existsSync(options.input)) {
+        logger.error(`Accessibility analysis file not found: ${options.input}`);
+        logger.info('Run "baseline-check accessibility" first to generate analysis data');
+        process.exit(1);
+      }
+
+      const analysisData = JSON.parse(await fs.promises.readFile(options.input, 'utf8'));
+      const accessibilityAnalysis = new AccessibilityAnalysis({ dashboard: { theme: options.theme } });
+      
+      const recommendations = accessibilityAnalysis.generateRecommendations(analysisData);
+      const dashboardHTML = accessibilityAnalysis.generateDashboard(analysisData, recommendations);
+      
+      const outputPath = options.output.startsWith('dashboards/') ? options.output : `dashboards/accessibility/${options.output}`;
+      await fs.promises.mkdir(path.dirname(outputPath), { recursive: true });
+      await fs.promises.writeFile(outputPath, dashboardHTML);
+
+      logger.success(`🌐 Accessibility dashboard generated: ${outputPath}`);
       logger.info(`📊 Open in browser: file://${path.resolve(outputPath)}`);
 
     } catch (error) {
