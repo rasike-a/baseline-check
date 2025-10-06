@@ -21,6 +21,7 @@ import { handlePerformanceCommand } from './commands/performance-command.js';
 import { createFeatureDetector, getFeatureStats } from './features/index.js';
 import { SecurityAnalysis } from './security/index.js';
 import { AccessibilityAnalysis } from './accessibility/index.js';
+import { SEOAnalysis } from './seo/index.js';
 import path from 'node:path';
 
 program
@@ -1499,6 +1500,149 @@ program
       await fs.promises.writeFile(outputPath, dashboardHTML);
 
       logger.success(`🌐 Accessibility dashboard generated: ${outputPath}`);
+      logger.info(`📊 Open in browser: file://${path.resolve(outputPath)}`);
+
+    } catch (error) {
+      logger.error(`Dashboard generation failed: ${error.message}`);
+      process.exit(1);
+    }
+  });
+
+program
+  .command('seo')
+  .description('Analyze codebase for SEO optimization issues')
+  .option('-p, --paths <paths>', 'Comma-separated paths to analyze', 'src')
+  .option('-o, --output <file>', 'Output file for SEO analysis', 'seo-analysis.json')
+  .option('-d, --dashboard <file>', 'Generate SEO dashboard', 'seo-dashboard.html')
+  .option('-t, --theme <theme>', 'Dashboard theme (light/dark)', 'dark')
+  .option('--no-technical', 'Disable technical SEO analysis')
+  .option('--no-content', 'Disable content SEO analysis')
+  .option('--no-performance', 'Disable performance SEO analysis')
+  .option('--no-mobile', 'Disable mobile SEO analysis')
+  .option('--no-schema', 'Disable schema markup analysis')
+  .option('--no-meta', 'Disable meta tags analysis')
+  .option('--no-headings', 'Disable heading structure analysis')
+  .option('--no-images', 'Disable image SEO analysis')
+  .option('--no-links', 'Disable internal linking analysis')
+  .option('--no-urls', 'Disable URL structure analysis')
+  .action(async (options) => {
+    const logger = new Logger();
+
+    try {
+      // Parse paths
+      const paths = options.paths.split(',').map(p => p.trim());
+      
+      // Find files to analyze
+      const files = [];
+      for (const path of paths) {
+        const stat = fs.statSync(path);
+        if (stat.isDirectory()) {
+          const glob = await import('globby');
+          const dirFiles = await glob.globby([`${path}/**/*.{js,ts,jsx,tsx,html,css,vue,svelte}`], {
+            ignore: ['**/node_modules/**', '**/dist/**', '**/build/**']
+          });
+          files.push(...dirFiles);
+        } else {
+          files.push(path);
+        }
+      }
+
+      if (files.length === 0) {
+        logger.warn('No files found to analyze');
+        return;
+      }
+
+      logger.info(`🔍 Analyzing ${files.length} files for SEO optimization issues...`);
+
+      // Configure SEO analysis
+      const seoOptions = {
+        analyzer: {
+          enableTechnicalSEO: options.technical !== false,
+          enableContentSEO: options.content !== false,
+          enablePerformanceSEO: options.performance !== false,
+          enableMobileSEO: options.mobile !== false,
+          enableSchemaMarkup: options.schema !== false,
+          enableMetaTags: options.meta !== false,
+          enableHeadingStructure: options.headings !== false,
+          enableImageSEO: options.images !== false,
+          enableInternalLinking: options.links !== false,
+          enableURLStructure: options.urls !== false
+        },
+        dashboard: {
+          theme: options.theme
+        }
+      };
+
+      const seoAnalysis = new SEOAnalysis(seoOptions);
+      const results = await seoAnalysis.analyze(files);
+
+      // Save analysis results
+      await fs.promises.writeFile(options.output, JSON.stringify(results, null, 2));
+      logger.success(`🔍 SEO analysis saved: ${options.output}`);
+
+      // Generate dashboard if requested
+      if (options.dashboard) {
+        const dashboardPath = options.dashboard.startsWith('dashboards/') ? options.dashboard : `dashboards/seo/${options.dashboard}`;
+        await fs.promises.mkdir(path.dirname(dashboardPath), { recursive: true });
+        
+        const recommendations = seoAnalysis.generateRecommendations(results);
+        const dashboardHTML = seoAnalysis.generateDashboard(results, recommendations);
+        await fs.promises.writeFile(dashboardPath, dashboardHTML);
+        
+        logger.success(`🌐 SEO dashboard generated: ${dashboardPath}`);
+        logger.info(`📊 Open in browser: file://${path.resolve(dashboardPath)}`);
+      }
+
+      // Display summary
+      const summary = results.summary;
+      logger.info(`\n📊 SEO Analysis Summary:`);
+      logger.info(`   SEO Score: ${summary.seoScore}/100`);
+      logger.info(`   SEO Level: ${summary.seoLevel}`);
+      logger.info(`   Total Issues: ${summary.totalIssues}`);
+      logger.info(`   Critical Issues: ${summary.bySeverity.high}`);
+      logger.info(`   Medium Issues: ${summary.bySeverity.medium}`);
+      logger.info(`   Low Issues: ${summary.bySeverity.low}`);
+
+      if (summary.totalIssues > 0) {
+        logger.info(`\n⚠️  ${summary.totalIssues} SEO issues found`);
+        logger.info(`   Run with --dashboard to see detailed analysis`);
+      } else {
+        logger.success(`\n✅ No SEO issues found!`);
+      }
+
+    } catch (error) {
+      logger.error(`SEO analysis failed: ${error.message}`);
+      process.exit(1);
+    }
+  });
+
+program
+  .command('seo-dashboard')
+  .description('Generate SEO dashboard from existing analysis')
+  .option('-i, --input <file>', 'Input SEO analysis file', 'seo-analysis.json')
+  .option('-o, --output <file>', 'Output HTML file', 'seo-dashboard.html')
+  .option('-t, --theme <theme>', 'Dashboard theme (light/dark)', 'dark')
+  .action(async (options) => {
+    const logger = new Logger();
+
+    try {
+      if (!fs.existsSync(options.input)) {
+        logger.error(`SEO analysis file not found: ${options.input}`);
+        logger.info('Run "baseline-check seo" first to generate analysis data');
+        process.exit(1);
+      }
+
+      const analysisData = JSON.parse(await fs.promises.readFile(options.input, 'utf8'));
+      const seoAnalysis = new SEOAnalysis({ dashboard: { theme: options.theme } });
+      
+      const recommendations = seoAnalysis.generateRecommendations(analysisData);
+      const dashboardHTML = seoAnalysis.generateDashboard(analysisData, recommendations);
+      
+      const outputPath = options.output.startsWith('dashboards/') ? options.output : `dashboards/seo/${options.output}`;
+      await fs.promises.mkdir(path.dirname(outputPath), { recursive: true });
+      await fs.promises.writeFile(outputPath, dashboardHTML);
+
+      logger.success(`🌐 SEO dashboard generated: ${outputPath}`);
       logger.info(`📊 Open in browser: file://${path.resolve(outputPath)}`);
 
     } catch (error) {
