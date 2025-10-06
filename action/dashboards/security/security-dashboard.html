@@ -281,18 +281,18 @@
         
     <div class="header">
         <h1>🔒 Security Analysis Dashboard</h1>
-        <div class="security-score score-good">82/100</div>
+        <div class="security-score score-good">83/100</div>
         <div class="risk-badge risk-critical">Risk Level: CRITICAL</div>
-        <p>Generated on 10/6/2025, 12:58:33 PM</p>
+        <p>Generated on 10/6/2025, 7:56:51 PM</p>
     </div>
         
     <div class="metrics-grid">
         <div class="metric-card">
-            <div class="metric-value">209</div>
+            <div class="metric-value">323</div>
             <div class="metric-label">Total Vulnerabilities</div>
         </div>
         <div class="metric-card">
-            <div class="metric-value" style="color: #dc2626;">16</div>
+            <div class="metric-value" style="color: #dc2626;">22</div>
             <div class="metric-label">Critical</div>
         </div>
         <div class="metric-card">
@@ -300,11 +300,11 @@
             <div class="metric-label">High</div>
         </div>
         <div class="metric-card">
-            <div class="metric-value" style="color: #f59e0b;">5</div>
+            <div class="metric-value" style="color: #f59e0b;">11</div>
             <div class="metric-label">Medium</div>
         </div>
         <div class="metric-card">
-            <div class="metric-value" style="color: #10b981;">181</div>
+            <div class="metric-value" style="color: #10b981;">283</div>
             <div class="metric-label">Low</div>
         </div>
         <div class="metric-card">
@@ -572,7 +572,7 @@
           </div>
           <div class="vuln-details">
               <p><strong>Description:</strong> JSON.parse without error handling can cause application crashes</p>
-              <p><strong>File:</strong> src/cli.js (Line 233)</p>
+              <p><strong>File:</strong> src/cli.js (Line 237)</p>
               <p><strong>Suggestion:</strong> Wrap JSON.parse in try-catch block</p>
               <div class="vuln-code">const report = JSON.parse(fs.readFileSync(options.report, 'utf8'));</div>
               <p><strong>CWE:</strong> CWE-20 | <strong>OWASP:</strong> A03:2021 – Injection</p>
@@ -586,7 +586,7 @@
           </div>
           <div class="vuln-details">
               <p><strong>Description:</strong> JSON.parse without error handling can cause application crashes</p>
-              <p><strong>File:</strong> src/cli.js (Line 575)</p>
+              <p><strong>File:</strong> src/cli.js (Line 579)</p>
               <p><strong>Suggestion:</strong> Wrap JSON.parse in try-catch block</p>
               <div class="vuln-code">const report = JSON.parse(fs.readFileSync(options.report, 'utf8'));</div>
               <p><strong>CWE:</strong> CWE-20 | <strong>OWASP:</strong> A03:2021 – Injection</p>
@@ -600,7 +600,7 @@
           </div>
           <div class="vuln-details">
               <p><strong>Description:</strong> JSON.parse without error handling can cause application crashes</p>
-              <p><strong>File:</strong> src/cli.js (Line 1027)</p>
+              <p><strong>File:</strong> src/cli.js (Line 1031)</p>
               <p><strong>Suggestion:</strong> Wrap JSON.parse in try-catch block</p>
               <div class="vuln-code">const reportData = JSON.parse(await fs.promises.readFile(options.report, 'utf8'));</div>
               <p><strong>CWE:</strong> CWE-20 | <strong>OWASP:</strong> A03:2021 – Injection</p>
@@ -614,7 +614,7 @@
           </div>
           <div class="vuln-details">
               <p><strong>Description:</strong> JSON.parse without error handling can cause application crashes</p>
-              <p><strong>File:</strong> src/cli.js (Line 1059)</p>
+              <p><strong>File:</strong> src/cli.js (Line 1063)</p>
               <p><strong>Suggestion:</strong> Wrap JSON.parse in try-catch block</p>
               <div class="vuln-code">const reportData = JSON.parse(await fs.promises.readFile('temp-scan-report.json', 'utf8'));</div>
               <p><strong>CWE:</strong> CWE-20 | <strong>OWASP:</strong> A03:2021 – Injection</p>
@@ -628,7 +628,7 @@
           </div>
           <div class="vuln-details">
               <p><strong>Description:</strong> JSON.parse without error handling can cause application crashes</p>
-              <p><strong>File:</strong> src/cli.js (Line 1129)</p>
+              <p><strong>File:</strong> src/cli.js (Line 1133)</p>
               <p><strong>Suggestion:</strong> Wrap JSON.parse in try-catch block</p>
               <div class="vuln-code">const analysisData = JSON.parse(await fs.promises.readFile(options.input, 'utf8'));</div>
               <p><strong>CWE:</strong> CWE-20 | <strong>OWASP:</strong> A03:2021 – Injection</p>
@@ -642,7 +642,91 @@
           </div>
           <div class="vuln-details">
               <p><strong>Description:</strong> JSON.parse without error handling can cause application crashes</p>
-              <p><strong>File:</strong> src/cli.js (Line 1343)</p>
+              <p><strong>File:</strong> src/cli.js (Line 1347)</p>
+              <p><strong>Suggestion:</strong> Wrap JSON.parse in try-catch block</p>
+              <div class="vuln-code">const analysisData = JSON.parse(await fs.promises.readFile(options.input, 'utf8'));</div>
+              <p><strong>CWE:</strong> CWE-20 | <strong>OWASP:</strong> A03:2021 – Injection</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Unsafe JSON parsing</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> JSON.parse without error handling can cause application crashes</p>
+              <p><strong>File:</strong> src/cli.js (Line 1494)</p>
+              <p><strong>Suggestion:</strong> Wrap JSON.parse in try-catch block</p>
+              <div class="vuln-code">const analysisData = JSON.parse(await fs.promises.readFile(options.input, 'utf8'));</div>
+              <p><strong>CWE:</strong> CWE-20 | <strong>OWASP:</strong> A03:2021 – Injection</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Unsafe JSON parsing</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> JSON.parse without error handling can cause application crashes</p>
+              <p><strong>File:</strong> src/cli.js (Line 1637)</p>
+              <p><strong>Suggestion:</strong> Wrap JSON.parse in try-catch block</p>
+              <div class="vuln-code">const analysisData = JSON.parse(await fs.promises.readFile(options.input, 'utf8'));</div>
+              <p><strong>CWE:</strong> CWE-20 | <strong>OWASP:</strong> A03:2021 – Injection</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Unsafe JSON parsing</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> JSON.parse without error handling can cause application crashes</p>
+              <p><strong>File:</strong> src/cli.js (Line 1770)</p>
+              <p><strong>Suggestion:</strong> Wrap JSON.parse in try-catch block</p>
+              <div class="vuln-code">const analysisData = JSON.parse(await fs.promises.readFile(options.input, 'utf8'));</div>
+              <p><strong>CWE:</strong> CWE-20 | <strong>OWASP:</strong> A03:2021 – Injection</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Unsafe JSON parsing</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> JSON.parse without error handling can cause application crashes</p>
+              <p><strong>File:</strong> src/cli.js (Line 1902)</p>
+              <p><strong>Suggestion:</strong> Wrap JSON.parse in try-catch block</p>
+              <div class="vuln-code">const analysisData = JSON.parse(await fs.promises.readFile(options.input, 'utf8'));</div>
+              <p><strong>CWE:</strong> CWE-20 | <strong>OWASP:</strong> A03:2021 – Injection</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Unsafe JSON parsing</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> JSON.parse without error handling can cause application crashes</p>
+              <p><strong>File:</strong> src/cli.js (Line 2028)</p>
+              <p><strong>Suggestion:</strong> Wrap JSON.parse in try-catch block</p>
+              <div class="vuln-code">const analysisData = JSON.parse(await fs.promises.readFile(options.input, 'utf8'));</div>
+              <p><strong>CWE:</strong> CWE-20 | <strong>OWASP:</strong> A03:2021 – Injection</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Unsafe JSON parsing</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> JSON.parse without error handling can cause application crashes</p>
+              <p><strong>File:</strong> src/cli.js (Line 2088)</p>
               <p><strong>Suggestion:</strong> Wrap JSON.parse in try-catch block</p>
               <div class="vuln-code">const analysisData = JSON.parse(await fs.promises.readFile(options.input, 'utf8'));</div>
               <p><strong>CWE:</strong> CWE-20 | <strong>OWASP:</strong> A03:2021 – Injection</p>
@@ -1407,6 +1491,286 @@
     
       <div class="vulnerability-item">
           <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-Frame-Options</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-Frame-Options is missing</p>
+              <p><strong>File:</strong> src/accessibility/accessibility-analyzer.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-Frame-Options header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-Content-Type-Options</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-Content-Type-Options is missing</p>
+              <p><strong>File:</strong> src/accessibility/accessibility-analyzer.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-Content-Type-Options header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-XSS-Protection</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-XSS-Protection is missing</p>
+              <p><strong>File:</strong> src/accessibility/accessibility-analyzer.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-XSS-Protection header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: Strict-Transport-Security</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header Strict-Transport-Security is missing</p>
+              <p><strong>File:</strong> src/accessibility/accessibility-analyzer.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add Strict-Transport-Security header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: Referrer-Policy</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header Referrer-Policy is missing</p>
+              <p><strong>File:</strong> src/accessibility/accessibility-analyzer.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add Referrer-Policy header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-Frame-Options</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-Frame-Options is missing</p>
+              <p><strong>File:</strong> src/accessibility/accessibility-dashboard.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-Frame-Options header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-Content-Type-Options</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-Content-Type-Options is missing</p>
+              <p><strong>File:</strong> src/accessibility/accessibility-dashboard.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-Content-Type-Options header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-XSS-Protection</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-XSS-Protection is missing</p>
+              <p><strong>File:</strong> src/accessibility/accessibility-dashboard.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-XSS-Protection header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: Strict-Transport-Security</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header Strict-Transport-Security is missing</p>
+              <p><strong>File:</strong> src/accessibility/accessibility-dashboard.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add Strict-Transport-Security header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: Referrer-Policy</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header Referrer-Policy is missing</p>
+              <p><strong>File:</strong> src/accessibility/accessibility-dashboard.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add Referrer-Policy header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-Frame-Options</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-Frame-Options is missing</p>
+              <p><strong>File:</strong> src/accessibility/accessibility-recommendations.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-Frame-Options header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-Content-Type-Options</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-Content-Type-Options is missing</p>
+              <p><strong>File:</strong> src/accessibility/accessibility-recommendations.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-Content-Type-Options header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-XSS-Protection</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-XSS-Protection is missing</p>
+              <p><strong>File:</strong> src/accessibility/accessibility-recommendations.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-XSS-Protection header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: Strict-Transport-Security</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header Strict-Transport-Security is missing</p>
+              <p><strong>File:</strong> src/accessibility/accessibility-recommendations.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add Strict-Transport-Security header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: Referrer-Policy</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header Referrer-Policy is missing</p>
+              <p><strong>File:</strong> src/accessibility/accessibility-recommendations.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add Referrer-Policy header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-Frame-Options</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-Frame-Options is missing</p>
+              <p><strong>File:</strong> src/accessibility/index.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-Frame-Options header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-Content-Type-Options</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-Content-Type-Options is missing</p>
+              <p><strong>File:</strong> src/accessibility/index.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-Content-Type-Options header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-XSS-Protection</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-XSS-Protection is missing</p>
+              <p><strong>File:</strong> src/accessibility/index.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-XSS-Protection header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: Strict-Transport-Security</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header Strict-Transport-Security is missing</p>
+              <p><strong>File:</strong> src/accessibility/index.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add Strict-Transport-Security header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: Referrer-Policy</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header Referrer-Policy is missing</p>
+              <p><strong>File:</strong> src/accessibility/index.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add Referrer-Policy header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
               <div class="vuln-title">Critical XSS via eval()</div>
               <div class="severity-badge severity-critical">critical</div>
           </div>
@@ -1813,6 +2177,958 @@
     
       <div class="vulnerability-item">
           <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-Frame-Options</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-Frame-Options is missing</p>
+              <p><strong>File:</strong> src/baseline/baseline-compliance.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-Frame-Options header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-Content-Type-Options</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-Content-Type-Options is missing</p>
+              <p><strong>File:</strong> src/baseline/baseline-compliance.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-Content-Type-Options header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-XSS-Protection</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-XSS-Protection is missing</p>
+              <p><strong>File:</strong> src/baseline/baseline-compliance.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-XSS-Protection header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: Strict-Transport-Security</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header Strict-Transport-Security is missing</p>
+              <p><strong>File:</strong> src/baseline/baseline-compliance.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add Strict-Transport-Security header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: Referrer-Policy</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header Referrer-Policy is missing</p>
+              <p><strong>File:</strong> src/baseline/baseline-compliance.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add Referrer-Policy header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-Frame-Options</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-Frame-Options is missing</p>
+              <p><strong>File:</strong> src/baseline/browser-detector.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-Frame-Options header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-Content-Type-Options</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-Content-Type-Options is missing</p>
+              <p><strong>File:</strong> src/baseline/browser-detector.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-Content-Type-Options header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-XSS-Protection</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-XSS-Protection is missing</p>
+              <p><strong>File:</strong> src/baseline/browser-detector.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-XSS-Protection header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: Strict-Transport-Security</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header Strict-Transport-Security is missing</p>
+              <p><strong>File:</strong> src/baseline/browser-detector.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add Strict-Transport-Security header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: Referrer-Policy</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header Referrer-Policy is missing</p>
+              <p><strong>File:</strong> src/baseline/browser-detector.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add Referrer-Policy header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-Frame-Options</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-Frame-Options is missing</p>
+              <p><strong>File:</strong> src/baseline/index.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-Frame-Options header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-Content-Type-Options</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-Content-Type-Options is missing</p>
+              <p><strong>File:</strong> src/baseline/index.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-Content-Type-Options header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-XSS-Protection</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-XSS-Protection is missing</p>
+              <p><strong>File:</strong> src/baseline/index.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-XSS-Protection header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: Strict-Transport-Security</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header Strict-Transport-Security is missing</p>
+              <p><strong>File:</strong> src/baseline/index.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add Strict-Transport-Security header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: Referrer-Policy</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header Referrer-Policy is missing</p>
+              <p><strong>File:</strong> src/baseline/index.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add Referrer-Policy header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Unsafe fetch request without CSRF protection</div>
+              <div class="severity-badge severity-medium">medium</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Fetch request without CSRF headers is vulnerable to CSRF attacks</p>
+              <p><strong>File:</strong> src/baseline/migration-assistant.js (Line 168)</p>
+              <p><strong>Suggestion:</strong> Add CSRF headers to fetch requests</p>
+              <div class="vuln-code">before: 'const data = await fetch(url);',</div>
+              <p><strong>CWE:</strong> CWE-352 | <strong>OWASP:</strong> A01:2021 – Broken Access Control</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Unsafe fetch request without CSRF protection</div>
+              <div class="severity-badge severity-medium">medium</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Fetch request without CSRF headers is vulnerable to CSRF attacks</p>
+              <p><strong>File:</strong> src/baseline/migration-assistant.js (Line 486)</p>
+              <p><strong>Suggestion:</strong> Add CSRF headers to fetch requests</p>
+              <div class="vuln-code">'fetch': 'const response = await fetch("/api/data");\nconst data = await response.json();',</div>
+              <p><strong>CWE:</strong> CWE-352 | <strong>OWASP:</strong> A01:2021 – Broken Access Control</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Unsafe fetch request without CSRF protection</div>
+              <div class="severity-badge severity-medium">medium</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Fetch request without CSRF headers is vulnerable to CSRF attacks</p>
+              <p><strong>File:</strong> src/baseline/migration-assistant.js (Line 574)</p>
+              <p><strong>Suggestion:</strong> Add CSRF headers to fetch requests</p>
+              <div class="vuln-code">before: 'const response = await fetch("/api/data");\nconst data = await response.json();',</div>
+              <p><strong>CWE:</strong> CWE-352 | <strong>OWASP:</strong> A01:2021 – Broken Access Control</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Unsafe fetch request without CSRF protection</div>
+              <div class="severity-badge severity-medium">medium</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Fetch request without CSRF headers is vulnerable to CSRF attacks</p>
+              <p><strong>File:</strong> src/baseline/migration-assistant.js (Line 575)</p>
+              <p><strong>Suggestion:</strong> Add CSRF headers to fetch requests</p>
+              <div class="vuln-code">after: 'async function fetchData(url) {\n  if (window.fetch) {\n    const response = await fetch(url);\n    return response.json();\n  } else {\n    return new Promise((resolve, reject) => {\n      const xhr = new XMLHttpRequest();\n      xhr.open("GET", url);\n      xhr.onload = () => resolve(JSON.parse(xhr.responseText));\n      xhr.onerror = reject;\n      xhr.send();\n    });\n  }\n}',</div>
+              <p><strong>CWE:</strong> CWE-352 | <strong>OWASP:</strong> A01:2021 – Broken Access Control</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Unsafe JSON parsing</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> JSON.parse without error handling can cause application crashes</p>
+              <p><strong>File:</strong> src/baseline/migration-assistant.js (Line 575)</p>
+              <p><strong>Suggestion:</strong> Wrap JSON.parse in try-catch block</p>
+              <div class="vuln-code">after: 'async function fetchData(url) {\n  if (window.fetch) {\n    const response = await fetch(url);\n    return response.json();\n  } else {\n    return new Promise((resolve, reject) => {\n      const xhr = new XMLHttpRequest();\n      xhr.open("GET", url);\n      xhr.onload = () => resolve(JSON.parse(xhr.responseText));\n      xhr.onerror = reject;\n      xhr.send();\n    });\n  }\n}',</div>
+              <p><strong>CWE:</strong> CWE-20 | <strong>OWASP:</strong> A03:2021 – Injection</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-Frame-Options</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-Frame-Options is missing</p>
+              <p><strong>File:</strong> src/baseline/migration-assistant.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-Frame-Options header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-Content-Type-Options</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-Content-Type-Options is missing</p>
+              <p><strong>File:</strong> src/baseline/migration-assistant.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-Content-Type-Options header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-XSS-Protection</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-XSS-Protection is missing</p>
+              <p><strong>File:</strong> src/baseline/migration-assistant.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-XSS-Protection header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: Strict-Transport-Security</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header Strict-Transport-Security is missing</p>
+              <p><strong>File:</strong> src/baseline/migration-assistant.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add Strict-Transport-Security header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: Referrer-Policy</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header Referrer-Policy is missing</p>
+              <p><strong>File:</strong> src/baseline/migration-assistant.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add Referrer-Policy header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-Frame-Options</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-Frame-Options is missing</p>
+              <p><strong>File:</strong> src/baseline/migration-dashboard.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-Frame-Options header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-Content-Type-Options</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-Content-Type-Options is missing</p>
+              <p><strong>File:</strong> src/baseline/migration-dashboard.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-Content-Type-Options header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-XSS-Protection</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-XSS-Protection is missing</p>
+              <p><strong>File:</strong> src/baseline/migration-dashboard.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-XSS-Protection header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: Strict-Transport-Security</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header Strict-Transport-Security is missing</p>
+              <p><strong>File:</strong> src/baseline/migration-dashboard.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add Strict-Transport-Security header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: Referrer-Policy</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header Referrer-Policy is missing</p>
+              <p><strong>File:</strong> src/baseline/migration-dashboard.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add Referrer-Policy header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Unsafe fetch request without CSRF protection</div>
+              <div class="severity-badge severity-medium">medium</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Fetch request without CSRF headers is vulnerable to CSRF attacks</p>
+              <p><strong>File:</strong> src/baseline/polyfill-recommender.js (Line 527)</p>
+              <p><strong>Suggestion:</strong> Add CSRF headers to fetch requests</p>
+              <div class="vuln-code">fetch('/api/data')</div>
+              <p><strong>CWE:</strong> CWE-352 | <strong>OWASP:</strong> A01:2021 – Broken Access Control</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-Frame-Options</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-Frame-Options is missing</p>
+              <p><strong>File:</strong> src/baseline/polyfill-recommender.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-Frame-Options header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-Content-Type-Options</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-Content-Type-Options is missing</p>
+              <p><strong>File:</strong> src/baseline/polyfill-recommender.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-Content-Type-Options header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-XSS-Protection</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-XSS-Protection is missing</p>
+              <p><strong>File:</strong> src/baseline/polyfill-recommender.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-XSS-Protection header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: Strict-Transport-Security</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header Strict-Transport-Security is missing</p>
+              <p><strong>File:</strong> src/baseline/polyfill-recommender.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add Strict-Transport-Security header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: Referrer-Policy</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header Referrer-Policy is missing</p>
+              <p><strong>File:</strong> src/baseline/polyfill-recommender.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add Referrer-Policy header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-Frame-Options</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-Frame-Options is missing</p>
+              <p><strong>File:</strong> src/baseline/progressive-enhancement.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-Frame-Options header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-Content-Type-Options</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-Content-Type-Options is missing</p>
+              <p><strong>File:</strong> src/baseline/progressive-enhancement.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-Content-Type-Options header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-XSS-Protection</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-XSS-Protection is missing</p>
+              <p><strong>File:</strong> src/baseline/progressive-enhancement.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-XSS-Protection header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: Strict-Transport-Security</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header Strict-Transport-Security is missing</p>
+              <p><strong>File:</strong> src/baseline/progressive-enhancement.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add Strict-Transport-Security header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: Referrer-Policy</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header Referrer-Policy is missing</p>
+              <p><strong>File:</strong> src/baseline/progressive-enhancement.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add Referrer-Policy header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Critical XSS via eval()</div>
+              <div class="severity-badge severity-critical">critical</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Using eval() with user input is extremely dangerous</p>
+              <p><strong>File:</strong> src/bundle/bundle-analyzer.js (Line 693)</p>
+              <p><strong>Suggestion:</strong> Never use eval() with user input</p>
+              <div class="vuln-code">'document.write', 'eval(', 'Function('</div>
+              <p><strong>CWE:</strong> CWE-95 | <strong>OWASP:</strong> A03:2021 – Injection</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Critical XSS via eval()</div>
+              <div class="severity-badge severity-critical">critical</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Using eval() with user input is extremely dangerous</p>
+              <p><strong>File:</strong> src/bundle/bundle-analyzer.js (Line 754)</p>
+              <p><strong>Suggestion:</strong> Never use eval() with user input</p>
+              <div class="vuln-code">'JSON.parse', 'JSON.stringify', 'eval('</div>
+              <p><strong>CWE:</strong> CWE-95 | <strong>OWASP:</strong> A03:2021 – Injection</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Critical XSS via eval()</div>
+              <div class="severity-badge severity-critical">critical</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Using eval() with user input is extremely dangerous</p>
+              <p><strong>File:</strong> src/bundle/bundle-analyzer.js (Line 764)</p>
+              <p><strong>Suggestion:</strong> Never use eval() with user input</p>
+              <div class="vuln-code">if (content.includes('eval(')) {</div>
+              <p><strong>CWE:</strong> CWE-95 | <strong>OWASP:</strong> A03:2021 – Injection</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Critical XSS via eval()</div>
+              <div class="severity-badge severity-critical">critical</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Using eval() with user input is extremely dangerous</p>
+              <p><strong>File:</strong> src/bundle/bundle-analyzer.js (Line 768)</p>
+              <p><strong>Suggestion:</strong> Never use eval() with user input</p>
+              <div class="vuln-code">description: 'eval() can execute arbitrary code and is a security risk',</div>
+              <p><strong>CWE:</strong> CWE-95 | <strong>OWASP:</strong> A03:2021 – Injection</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Critical XSS via eval()</div>
+              <div class="severity-badge severity-critical">critical</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Using eval() with user input is extremely dangerous</p>
+              <p><strong>File:</strong> src/bundle/bundle-analyzer.js (Line 769)</p>
+              <p><strong>Suggestion:</strong> Never use eval() with user input</p>
+              <div class="vuln-code">code: 'eval(',</div>
+              <p><strong>CWE:</strong> CWE-95 | <strong>OWASP:</strong> A03:2021 – Injection</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Critical XSS via eval()</div>
+              <div class="severity-badge severity-critical">critical</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Using eval() with user input is extremely dangerous</p>
+              <p><strong>File:</strong> src/bundle/bundle-analyzer.js (Line 770)</p>
+              <p><strong>Suggestion:</strong> Never use eval() with user input</p>
+              <div class="vuln-code">suggestion: 'Avoid using eval()',</div>
+              <p><strong>CWE:</strong> CWE-95 | <strong>OWASP:</strong> A03:2021 – Injection</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Unsafe fetch request without CSRF protection</div>
+              <div class="severity-badge severity-medium">medium</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Fetch request without CSRF headers is vulnerable to CSRF attacks</p>
+              <p><strong>File:</strong> src/bundle/bundle-analyzer.js (Line 742)</p>
+              <p><strong>Suggestion:</strong> Add CSRF headers to fetch requests</p>
+              <div class="vuln-code">fix: 'Replace with async XHR or fetch()',</div>
+              <p><strong>CWE:</strong> CWE-352 | <strong>OWASP:</strong> A01:2021 – Broken Access Control</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-Frame-Options</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-Frame-Options is missing</p>
+              <p><strong>File:</strong> src/bundle/bundle-analyzer.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-Frame-Options header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-Content-Type-Options</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-Content-Type-Options is missing</p>
+              <p><strong>File:</strong> src/bundle/bundle-analyzer.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-Content-Type-Options header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-XSS-Protection</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-XSS-Protection is missing</p>
+              <p><strong>File:</strong> src/bundle/bundle-analyzer.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-XSS-Protection header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: Strict-Transport-Security</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header Strict-Transport-Security is missing</p>
+              <p><strong>File:</strong> src/bundle/bundle-analyzer.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add Strict-Transport-Security header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: Referrer-Policy</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header Referrer-Policy is missing</p>
+              <p><strong>File:</strong> src/bundle/bundle-analyzer.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add Referrer-Policy header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-Frame-Options</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-Frame-Options is missing</p>
+              <p><strong>File:</strong> src/bundle/bundle-dashboard.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-Frame-Options header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-Content-Type-Options</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-Content-Type-Options is missing</p>
+              <p><strong>File:</strong> src/bundle/bundle-dashboard.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-Content-Type-Options header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-XSS-Protection</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-XSS-Protection is missing</p>
+              <p><strong>File:</strong> src/bundle/bundle-dashboard.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-XSS-Protection header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: Strict-Transport-Security</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header Strict-Transport-Security is missing</p>
+              <p><strong>File:</strong> src/bundle/bundle-dashboard.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add Strict-Transport-Security header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: Referrer-Policy</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header Referrer-Policy is missing</p>
+              <p><strong>File:</strong> src/bundle/bundle-dashboard.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add Referrer-Policy header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-Frame-Options</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-Frame-Options is missing</p>
+              <p><strong>File:</strong> src/bundle/bundle-recommendations.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-Frame-Options header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-Content-Type-Options</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-Content-Type-Options is missing</p>
+              <p><strong>File:</strong> src/bundle/bundle-recommendations.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-Content-Type-Options header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-XSS-Protection</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-XSS-Protection is missing</p>
+              <p><strong>File:</strong> src/bundle/bundle-recommendations.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-XSS-Protection header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: Strict-Transport-Security</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header Strict-Transport-Security is missing</p>
+              <p><strong>File:</strong> src/bundle/bundle-recommendations.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add Strict-Transport-Security header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: Referrer-Policy</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header Referrer-Policy is missing</p>
+              <p><strong>File:</strong> src/bundle/bundle-recommendations.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add Referrer-Policy header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-Frame-Options</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-Frame-Options is missing</p>
+              <p><strong>File:</strong> src/bundle/index.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-Frame-Options header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-Content-Type-Options</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-Content-Type-Options is missing</p>
+              <p><strong>File:</strong> src/bundle/index.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-Content-Type-Options header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-XSS-Protection</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-XSS-Protection is missing</p>
+              <p><strong>File:</strong> src/bundle/index.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-XSS-Protection header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: Strict-Transport-Security</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header Strict-Transport-Security is missing</p>
+              <p><strong>File:</strong> src/bundle/index.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add Strict-Transport-Security header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: Referrer-Policy</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header Referrer-Policy is missing</p>
+              <p><strong>File:</strong> src/bundle/index.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add Referrer-Policy header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
               <div class="vuln-title">Unsafe JSON parsing</div>
               <div class="severity-badge severity-low">low</div>
           </div>
@@ -2126,6 +3442,244 @@
           </div>
           <div class="vuln-details">
               <p><strong>Description:</strong> Security header X-Frame-Options is missing</p>
+              <p><strong>File:</strong> src/monitoring/alert-system.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-Frame-Options header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-Content-Type-Options</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-Content-Type-Options is missing</p>
+              <p><strong>File:</strong> src/monitoring/alert-system.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-Content-Type-Options header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-XSS-Protection</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-XSS-Protection is missing</p>
+              <p><strong>File:</strong> src/monitoring/alert-system.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-XSS-Protection header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: Strict-Transport-Security</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header Strict-Transport-Security is missing</p>
+              <p><strong>File:</strong> src/monitoring/alert-system.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add Strict-Transport-Security header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: Referrer-Policy</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header Referrer-Policy is missing</p>
+              <p><strong>File:</strong> src/monitoring/alert-system.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add Referrer-Policy header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Potential XSS via innerHTML</div>
+              <div class="severity-badge severity-high">high</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Using innerHTML with user input can lead to XSS attacks</p>
+              <p><strong>File:</strong> src/monitoring/realtime-dashboard.js (Line 653)</p>
+              <p><strong>Suggestion:</strong> Use textContent or sanitize input before using innerHTML</p>
+              <div class="vuln-code">document.getElementById('alertsList').innerHTML = '<div class="loading"><p>Alerts cleared</p></div>';</div>
+              <p><strong>CWE:</strong> CWE-79 | <strong>OWASP:</strong> A03:2021 – Injection</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Potential XSS via innerHTML</div>
+              <div class="severity-badge severity-high">high</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Using innerHTML with user input can lead to XSS attacks</p>
+              <p><strong>File:</strong> src/monitoring/realtime-dashboard.js (Line 825)</p>
+              <p><strong>Suggestion:</strong> Use textContent or sanitize input before using innerHTML</p>
+              <div class="vuln-code">alertsList.innerHTML = '<div class="loading"><p>No alerts</p></div>';</div>
+              <p><strong>CWE:</strong> CWE-79 | <strong>OWASP:</strong> A03:2021 – Injection</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-Frame-Options</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-Frame-Options is missing</p>
+              <p><strong>File:</strong> src/monitoring/realtime-dashboard.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-Frame-Options header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-Content-Type-Options</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-Content-Type-Options is missing</p>
+              <p><strong>File:</strong> src/monitoring/realtime-dashboard.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-Content-Type-Options header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-XSS-Protection</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-XSS-Protection is missing</p>
+              <p><strong>File:</strong> src/monitoring/realtime-dashboard.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-XSS-Protection header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: Strict-Transport-Security</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header Strict-Transport-Security is missing</p>
+              <p><strong>File:</strong> src/monitoring/realtime-dashboard.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add Strict-Transport-Security header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: Referrer-Policy</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header Referrer-Policy is missing</p>
+              <p><strong>File:</strong> src/monitoring/realtime-dashboard.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add Referrer-Policy header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-Frame-Options</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-Frame-Options is missing</p>
+              <p><strong>File:</strong> src/monitoring/realtime-monitor.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-Frame-Options header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-Content-Type-Options</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-Content-Type-Options is missing</p>
+              <p><strong>File:</strong> src/monitoring/realtime-monitor.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-Content-Type-Options header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-XSS-Protection</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-XSS-Protection is missing</p>
+              <p><strong>File:</strong> src/monitoring/realtime-monitor.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-XSS-Protection header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: Strict-Transport-Security</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header Strict-Transport-Security is missing</p>
+              <p><strong>File:</strong> src/monitoring/realtime-monitor.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add Strict-Transport-Security header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: Referrer-Policy</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header Referrer-Policy is missing</p>
+              <p><strong>File:</strong> src/monitoring/realtime-monitor.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add Referrer-Policy header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-Frame-Options</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-Frame-Options is missing</p>
               <p><strong>File:</strong> src/performance/index.js (Line 1)</p>
               <p><strong>Suggestion:</strong> Add X-Frame-Options header</p>
               <div class="vuln-code"><head></div>
@@ -2420,7 +3974,7 @@
           </div>
           <div class="vuln-details">
               <p><strong>Description:</strong> Security header X-Frame-Options is missing</p>
-              <p><strong>File:</strong> src/monitoring/alert-system.js (Line 1)</p>
+              <p><strong>File:</strong> src/reporters/summary.js (Line 1)</p>
               <p><strong>Suggestion:</strong> Add X-Frame-Options header</p>
               <div class="vuln-code"><head></div>
               <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
@@ -2434,7 +3988,7 @@
           </div>
           <div class="vuln-details">
               <p><strong>Description:</strong> Security header X-Content-Type-Options is missing</p>
-              <p><strong>File:</strong> src/monitoring/alert-system.js (Line 1)</p>
+              <p><strong>File:</strong> src/reporters/summary.js (Line 1)</p>
               <p><strong>Suggestion:</strong> Add X-Content-Type-Options header</p>
               <div class="vuln-code"><head></div>
               <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
@@ -2448,7 +4002,7 @@
           </div>
           <div class="vuln-details">
               <p><strong>Description:</strong> Security header X-XSS-Protection is missing</p>
-              <p><strong>File:</strong> src/monitoring/alert-system.js (Line 1)</p>
+              <p><strong>File:</strong> src/reporters/summary.js (Line 1)</p>
               <p><strong>Suggestion:</strong> Add X-XSS-Protection header</p>
               <div class="vuln-code"><head></div>
               <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
@@ -2462,7 +4016,7 @@
           </div>
           <div class="vuln-details">
               <p><strong>Description:</strong> Security header Strict-Transport-Security is missing</p>
-              <p><strong>File:</strong> src/monitoring/alert-system.js (Line 1)</p>
+              <p><strong>File:</strong> src/reporters/summary.js (Line 1)</p>
               <p><strong>Suggestion:</strong> Add Strict-Transport-Security header</p>
               <div class="vuln-code"><head></div>
               <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
@@ -2476,105 +4030,7 @@
           </div>
           <div class="vuln-details">
               <p><strong>Description:</strong> Security header Referrer-Policy is missing</p>
-              <p><strong>File:</strong> src/monitoring/alert-system.js (Line 1)</p>
-              <p><strong>Suggestion:</strong> Add Referrer-Policy header</p>
-              <div class="vuln-code"><head></div>
-              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
-          </div>
-      </div>
-    
-      <div class="vulnerability-item">
-          <div class="vuln-header">
-              <div class="vuln-title">Potential XSS via innerHTML</div>
-              <div class="severity-badge severity-high">high</div>
-          </div>
-          <div class="vuln-details">
-              <p><strong>Description:</strong> Using innerHTML with user input can lead to XSS attacks</p>
-              <p><strong>File:</strong> src/monitoring/realtime-dashboard.js (Line 653)</p>
-              <p><strong>Suggestion:</strong> Use textContent or sanitize input before using innerHTML</p>
-              <div class="vuln-code">document.getElementById('alertsList').innerHTML = '<div class="loading"><p>Alerts cleared</p></div>';</div>
-              <p><strong>CWE:</strong> CWE-79 | <strong>OWASP:</strong> A03:2021 – Injection</p>
-          </div>
-      </div>
-    
-      <div class="vulnerability-item">
-          <div class="vuln-header">
-              <div class="vuln-title">Potential XSS via innerHTML</div>
-              <div class="severity-badge severity-high">high</div>
-          </div>
-          <div class="vuln-details">
-              <p><strong>Description:</strong> Using innerHTML with user input can lead to XSS attacks</p>
-              <p><strong>File:</strong> src/monitoring/realtime-dashboard.js (Line 825)</p>
-              <p><strong>Suggestion:</strong> Use textContent or sanitize input before using innerHTML</p>
-              <div class="vuln-code">alertsList.innerHTML = '<div class="loading"><p>No alerts</p></div>';</div>
-              <p><strong>CWE:</strong> CWE-79 | <strong>OWASP:</strong> A03:2021 – Injection</p>
-          </div>
-      </div>
-    
-      <div class="vulnerability-item">
-          <div class="vuln-header">
-              <div class="vuln-title">Missing security header: X-Frame-Options</div>
-              <div class="severity-badge severity-low">low</div>
-          </div>
-          <div class="vuln-details">
-              <p><strong>Description:</strong> Security header X-Frame-Options is missing</p>
-              <p><strong>File:</strong> src/monitoring/realtime-dashboard.js (Line 1)</p>
-              <p><strong>Suggestion:</strong> Add X-Frame-Options header</p>
-              <div class="vuln-code"><head></div>
-              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
-          </div>
-      </div>
-    
-      <div class="vulnerability-item">
-          <div class="vuln-header">
-              <div class="vuln-title">Missing security header: X-Content-Type-Options</div>
-              <div class="severity-badge severity-low">low</div>
-          </div>
-          <div class="vuln-details">
-              <p><strong>Description:</strong> Security header X-Content-Type-Options is missing</p>
-              <p><strong>File:</strong> src/monitoring/realtime-dashboard.js (Line 1)</p>
-              <p><strong>Suggestion:</strong> Add X-Content-Type-Options header</p>
-              <div class="vuln-code"><head></div>
-              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
-          </div>
-      </div>
-    
-      <div class="vulnerability-item">
-          <div class="vuln-header">
-              <div class="vuln-title">Missing security header: X-XSS-Protection</div>
-              <div class="severity-badge severity-low">low</div>
-          </div>
-          <div class="vuln-details">
-              <p><strong>Description:</strong> Security header X-XSS-Protection is missing</p>
-              <p><strong>File:</strong> src/monitoring/realtime-dashboard.js (Line 1)</p>
-              <p><strong>Suggestion:</strong> Add X-XSS-Protection header</p>
-              <div class="vuln-code"><head></div>
-              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
-          </div>
-      </div>
-    
-      <div class="vulnerability-item">
-          <div class="vuln-header">
-              <div class="vuln-title">Missing security header: Strict-Transport-Security</div>
-              <div class="severity-badge severity-low">low</div>
-          </div>
-          <div class="vuln-details">
-              <p><strong>Description:</strong> Security header Strict-Transport-Security is missing</p>
-              <p><strong>File:</strong> src/monitoring/realtime-dashboard.js (Line 1)</p>
-              <p><strong>Suggestion:</strong> Add Strict-Transport-Security header</p>
-              <div class="vuln-code"><head></div>
-              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
-          </div>
-      </div>
-    
-      <div class="vulnerability-item">
-          <div class="vuln-header">
-              <div class="vuln-title">Missing security header: Referrer-Policy</div>
-              <div class="severity-badge severity-low">low</div>
-          </div>
-          <div class="vuln-details">
-              <p><strong>Description:</strong> Security header Referrer-Policy is missing</p>
-              <p><strong>File:</strong> src/monitoring/realtime-dashboard.js (Line 1)</p>
+              <p><strong>File:</strong> src/reporters/summary.js (Line 1)</p>
               <p><strong>Suggestion:</strong> Add Referrer-Policy header</p>
               <div class="vuln-code"><head></div>
               <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
@@ -2588,7 +4044,7 @@
           </div>
           <div class="vuln-details">
               <p><strong>Description:</strong> Security header X-Frame-Options is missing</p>
-              <p><strong>File:</strong> src/monitoring/realtime-monitor.js (Line 1)</p>
+              <p><strong>File:</strong> src/seo/index.js (Line 1)</p>
               <p><strong>Suggestion:</strong> Add X-Frame-Options header</p>
               <div class="vuln-code"><head></div>
               <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
@@ -2602,7 +4058,7 @@
           </div>
           <div class="vuln-details">
               <p><strong>Description:</strong> Security header X-Content-Type-Options is missing</p>
-              <p><strong>File:</strong> src/monitoring/realtime-monitor.js (Line 1)</p>
+              <p><strong>File:</strong> src/seo/index.js (Line 1)</p>
               <p><strong>Suggestion:</strong> Add X-Content-Type-Options header</p>
               <div class="vuln-code"><head></div>
               <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
@@ -2616,7 +4072,7 @@
           </div>
           <div class="vuln-details">
               <p><strong>Description:</strong> Security header X-XSS-Protection is missing</p>
-              <p><strong>File:</strong> src/monitoring/realtime-monitor.js (Line 1)</p>
+              <p><strong>File:</strong> src/seo/index.js (Line 1)</p>
               <p><strong>Suggestion:</strong> Add X-XSS-Protection header</p>
               <div class="vuln-code"><head></div>
               <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
@@ -2630,7 +4086,7 @@
           </div>
           <div class="vuln-details">
               <p><strong>Description:</strong> Security header Strict-Transport-Security is missing</p>
-              <p><strong>File:</strong> src/monitoring/realtime-monitor.js (Line 1)</p>
+              <p><strong>File:</strong> src/seo/index.js (Line 1)</p>
               <p><strong>Suggestion:</strong> Add Strict-Transport-Security header</p>
               <div class="vuln-code"><head></div>
               <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
@@ -2644,7 +4100,7 @@
           </div>
           <div class="vuln-details">
               <p><strong>Description:</strong> Security header Referrer-Policy is missing</p>
-              <p><strong>File:</strong> src/monitoring/realtime-monitor.js (Line 1)</p>
+              <p><strong>File:</strong> src/seo/index.js (Line 1)</p>
               <p><strong>Suggestion:</strong> Add Referrer-Policy header</p>
               <div class="vuln-code"><head></div>
               <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
@@ -2658,7 +4114,7 @@
           </div>
           <div class="vuln-details">
               <p><strong>Description:</strong> Security header X-Frame-Options is missing</p>
-              <p><strong>File:</strong> src/reporters/summary.js (Line 1)</p>
+              <p><strong>File:</strong> src/seo/seo-analyzer.js (Line 1)</p>
               <p><strong>Suggestion:</strong> Add X-Frame-Options header</p>
               <div class="vuln-code"><head></div>
               <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
@@ -2672,7 +4128,7 @@
           </div>
           <div class="vuln-details">
               <p><strong>Description:</strong> Security header X-Content-Type-Options is missing</p>
-              <p><strong>File:</strong> src/reporters/summary.js (Line 1)</p>
+              <p><strong>File:</strong> src/seo/seo-analyzer.js (Line 1)</p>
               <p><strong>Suggestion:</strong> Add X-Content-Type-Options header</p>
               <div class="vuln-code"><head></div>
               <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
@@ -2686,7 +4142,7 @@
           </div>
           <div class="vuln-details">
               <p><strong>Description:</strong> Security header X-XSS-Protection is missing</p>
-              <p><strong>File:</strong> src/reporters/summary.js (Line 1)</p>
+              <p><strong>File:</strong> src/seo/seo-analyzer.js (Line 1)</p>
               <p><strong>Suggestion:</strong> Add X-XSS-Protection header</p>
               <div class="vuln-code"><head></div>
               <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
@@ -2700,7 +4156,7 @@
           </div>
           <div class="vuln-details">
               <p><strong>Description:</strong> Security header Strict-Transport-Security is missing</p>
-              <p><strong>File:</strong> src/reporters/summary.js (Line 1)</p>
+              <p><strong>File:</strong> src/seo/seo-analyzer.js (Line 1)</p>
               <p><strong>Suggestion:</strong> Add Strict-Transport-Security header</p>
               <div class="vuln-code"><head></div>
               <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
@@ -2714,7 +4170,147 @@
           </div>
           <div class="vuln-details">
               <p><strong>Description:</strong> Security header Referrer-Policy is missing</p>
-              <p><strong>File:</strong> src/reporters/summary.js (Line 1)</p>
+              <p><strong>File:</strong> src/seo/seo-analyzer.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add Referrer-Policy header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-Frame-Options</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-Frame-Options is missing</p>
+              <p><strong>File:</strong> src/seo/seo-dashboard.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-Frame-Options header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-Content-Type-Options</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-Content-Type-Options is missing</p>
+              <p><strong>File:</strong> src/seo/seo-dashboard.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-Content-Type-Options header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-XSS-Protection</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-XSS-Protection is missing</p>
+              <p><strong>File:</strong> src/seo/seo-dashboard.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-XSS-Protection header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: Strict-Transport-Security</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header Strict-Transport-Security is missing</p>
+              <p><strong>File:</strong> src/seo/seo-dashboard.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add Strict-Transport-Security header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: Referrer-Policy</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header Referrer-Policy is missing</p>
+              <p><strong>File:</strong> src/seo/seo-dashboard.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add Referrer-Policy header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-Frame-Options</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-Frame-Options is missing</p>
+              <p><strong>File:</strong> src/seo/seo-recommendations.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-Frame-Options header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-Content-Type-Options</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-Content-Type-Options is missing</p>
+              <p><strong>File:</strong> src/seo/seo-recommendations.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-Content-Type-Options header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: X-XSS-Protection</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header X-XSS-Protection is missing</p>
+              <p><strong>File:</strong> src/seo/seo-recommendations.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add X-XSS-Protection header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: Strict-Transport-Security</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header Strict-Transport-Security is missing</p>
+              <p><strong>File:</strong> src/seo/seo-recommendations.js (Line 1)</p>
+              <p><strong>Suggestion:</strong> Add Strict-Transport-Security header</p>
+              <div class="vuln-code"><head></div>
+              <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
+          </div>
+      </div>
+    
+      <div class="vulnerability-item">
+          <div class="vuln-header">
+              <div class="vuln-title">Missing security header: Referrer-Policy</div>
+              <div class="severity-badge severity-low">low</div>
+          </div>
+          <div class="vuln-details">
+              <p><strong>Description:</strong> Security header Referrer-Policy is missing</p>
+              <p><strong>File:</strong> src/seo/seo-recommendations.js (Line 1)</p>
               <p><strong>Suggestion:</strong> Add Referrer-Policy header</p>
               <div class="vuln-code"><head></div>
               <p><strong>CWE:</strong> CWE-693 | <strong>OWASP:</strong> A05:2021 – Security Misconfiguration</p>
@@ -3551,8 +5147,29 @@
     
     // Initialize charts when page loads
     document.addEventListener('DOMContentLoaded', function() {
-        // This would be populated with actual analysis data
-        console.log('Security dashboard loaded');
+        // Sample security analysis data for demonstration
+        const sampleAnalysis = {
+            summary: {
+                bySeverity: {
+                    critical: 2,
+                    high: 3,
+                    medium: 5,
+                    low: 8
+                },
+                byCategory: {
+                    'XSS': 4,
+                    'CSRF': 2,
+                    'Injection': 3,
+                    'Missing Headers': 5,
+                    'Hardcoded Secrets': 2,
+                    'Insecure Dependencies': 2
+                }
+            }
+        };
+        
+        // Generate charts with sample data
+        generateCharts(sampleAnalysis);
+        console.log('Security dashboard loaded with sample data');
     });
     </script>
 </body>

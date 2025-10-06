@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import readline from 'node:readline';
 import { scan } from './scan.js';
 import { check } from './check.js';
 import { generateSummary } from './reporters/summary.js';
@@ -41,7 +42,6 @@ export class InteractiveMode {
   }
 
   startPrompt() {
-    const readline = require('readline');
     const rl = readline.createInterface({
       input: process.stdin,
       output: process.stdout,
@@ -271,7 +271,6 @@ export class InteractiveMode {
   async configWizard() {
     console.log('\n🧙‍♂️ Configuration Wizard\n');
     
-    const readline = require('readline');
     const rl = readline.createInterface({
       input: process.stdin,
       output: process.stdout

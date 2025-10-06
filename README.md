@@ -1,100 +1,242 @@
-# Baseline Check
+# 🔍 Baseline Check Tool
 
 [![CI/CD Pipeline](https://github.com/baseline-check/baseline-check/workflows/CI/CD%20Pipeline/badge.svg)](https://github.com/baseline-check/baseline-check/actions)
 [![Security Scan](https://github.com/baseline-check/baseline-check/workflows/Security%20Scan/badge.svg)](https://github.com/baseline-check/baseline-check/actions)
 [![NPM Version](https://img.shields.io/npm/v/baseline-check-tool.svg)](https://www.npmjs.com/package/baseline-check-tool)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A comprehensive tool for checking web features against baseline browser compatibility. Helps developers identify which modern web features they're using and whether they have broad browser support.
+> **A comprehensive, AI-powered web compatibility analysis tool that helps developers identify modern web features and ensure baseline browser support.**
 
-## Features
+## 🚀 **What is Baseline Check?**
 
-- 🔍 **Comprehensive Scanning**: Detects 30+ modern web APIs, CSS features, and JavaScript syntax
-- 🌐 **Browser Compatibility**: Uses official MDN Browser Compatibility Data
-- 📊 **Multiple Output Formats**: JSON, Markdown, and HTML reports
-- ⚙️ **Configurable**: Customize feature detection patterns and file scanning
-- 🚀 **CLI & Programmatic API**: Use as a command-line tool or import in your code
-- 📱 **Modern Dashboard**: Web interface for visualizing results
+Baseline Check is an advanced tool that analyzes your web codebase to identify modern web features and assess their compatibility with baseline browsers. It helps developers make informed decisions about feature usage, provides smart recommendations, and ensures your web applications work reliably across different browsers.
 
-## Installation
+### **🎯 Key Benefits**
+- **🔍 Comprehensive Analysis**: Detects 70+ modern web APIs, CSS features, and JavaScript syntax
+- **🤖 AI-Powered Insights**: Smart recommendations and automatic code fixes
+- **📊 Rich Visualizations**: Interactive dashboards and detailed reports
+- **⚡ Real-time Monitoring**: Live file watching with instant feedback
+- **🛠️ Developer Tools**: VS Code extension, CLI, and programmatic API
+- **🔒 Security & Quality**: Built-in security, accessibility, and SEO analysis
 
+---
+
+## 📦 **Installation**
+
+### **Quick Start (Recommended)**
 ```bash
-# Install dependencies
-cd action
+# One-time usage
+npx baseline-check-tool init
+npx baseline-check-tool run
+
+# Or install globally
+npm install -g baseline-check-tool
+baseline-check-tool init
+baseline-check-tool run
+```
+
+### **Project Integration**
+```bash
+# As a dev dependency
+npm install --save-dev baseline-check-tool
+
+# Initialize configuration
+npx baseline-check-tool init
+
+# Run analysis
+npx baseline-check-tool run
+```
+
+---
+
+## 🎯 **Core Features**
+
+### **1. 🔍 Enhanced Feature Detection**
+- **70+ Modern Features**: Web APIs, CSS, HTML, JavaScript, Framework-specific
+- **Smart Detection**: Context-aware pattern matching
+- **Framework Support**: React, Vue, Angular, Svelte, Next.js, Nuxt.js
+- **Custom Patterns**: Define your own detection rules
+
+### **2. 🌐 Browser Compatibility Analysis**
+- **MDN BCD Integration**: Official browser compatibility data
+- **Baseline Classification**: Features categorized as baseline, risky, or unknown
+- **Multi-browser Support**: Chrome, Firefox, Safari, Edge analysis
+- **Support Matrices**: Detailed browser version compatibility
+
+### **3. 🤖 AI-Powered Analysis**
+- **Smart Recommendations**: Context-aware suggestions for risky features
+- **Automatic Code Fixes**: AI-powered code improvements
+- **Learning System**: Adapts to your codebase patterns
+- **Risk Assessment**: Intelligent scoring and prioritization
+
+### **4. 📊 Advanced Analytics & Monitoring**
+- **Real-time Monitoring**: Live file watching with instant analysis
+- **Trend Analysis**: Track feature adoption over time
+- **Performance Metrics**: Bundle size, load time, optimization opportunities
+- **Usage Analytics**: Comprehensive reporting and insights
+
+---
+
+## 🛠️ **Analysis Modules**
+
+### **🔒 Security Analysis**
+```bash
+baseline-check-tool security --paths "src"
+baseline-check-tool security-dashboard
+```
+- **Vulnerability Detection**: XSS, CSRF, Injection attacks
+- **Security Headers**: Missing security configurations
+- **Secret Detection**: Hardcoded credentials and API keys
+- **OWASP Compliance**: Industry-standard security practices
+
+### **♿ Accessibility Analysis**
+```bash
+baseline-check-tool accessibility --paths "src"
+baseline-check-tool accessibility-dashboard
+```
+- **WCAG Compliance**: A, AA, AAA level checking
+- **Color Contrast**: Automated contrast ratio analysis
+- **Keyboard Navigation**: Focus management and tab order
+- **Screen Reader Support**: ARIA attributes and semantic HTML
+
+### **🔍 SEO Optimization**
+```bash
+baseline-check-tool seo --paths "src"
+baseline-check-tool seo-dashboard
+```
+- **Technical SEO**: Meta tags, sitemaps, structured data
+- **Content Analysis**: H1 tags, keyword density, content length
+- **Performance SEO**: Page speed, image optimization
+- **Mobile SEO**: Viewport, touch targets, responsive design
+
+### **⚡ Performance Analysis**
+```bash
+baseline-check-tool performance --paths "src"
+baseline-check-tool performance-dashboard
+```
+- **Bundle Analysis**: Size optimization, code splitting
+- **Performance Bottlenecks**: Large files, synchronous operations
+- **Optimization Recommendations**: Automatic performance improvements
+- **Bundle Visualization**: Interactive dependency graphs
+
+### **📦 Bundle Analysis**
+```bash
+baseline-check-tool bundle --paths "src"
+baseline-check-tool bundle-dashboard
+```
+- **Dependency Analysis**: Large dependencies, duplicates
+- **Tree Shaking**: Unused code detection
+- **Compression**: Gzip/Brotli optimization
+- **Caching**: Cache busting and optimization
+
+---
+
+## 🎨 **Interactive Dashboards**
+
+### **📊 Real-time Dashboard**
+```bash
+baseline-check-tool monitor --paths "src"
+```
+- **Live Statistics**: Real-time feature counts and trends
+- **Interactive Charts**: Bar, line, and pie charts
+- **Alert System**: Configurable notifications and warnings
+- **File Watching**: Automatic re-analysis on file changes
+
+### **📈 Analytics Dashboard**
+```bash
+baseline-check-tool analytics
+```
+- **Trend Analysis**: Feature adoption over time
+- **Risk Scoring**: Comprehensive risk assessment
+- **Performance Metrics**: Load times and optimization scores
+- **Export Options**: JSON, CSV, and HTML reports
+
+### **🎯 Specialized Dashboards**
+- **Security Dashboard**: Vulnerability overview and remediation
+- **Accessibility Dashboard**: WCAG compliance and recommendations
+- **SEO Dashboard**: Search optimization insights
+- **Performance Dashboard**: Speed and optimization metrics
+- **Bundle Dashboard**: Dependency and size analysis
+
+---
+
+## 🛠️ **Developer Tools**
+
+### **🔌 VS Code Extension**
+```bash
+# Install from VS Code Marketplace
+# Or install locally
+cd action/vscode-extension
 npm install
-
-# Make CLI globally available (optional)
-npm link
+npm run compile
 ```
 
-## Quick Start
+**Features:**
+- **Sidebar Panel**: Real-time analysis results
+- **Inline Diagnostics**: Code warnings and suggestions
+- **Command Palette**: Quick access to all features
+- **Interactive UI**: Beautiful visualizations and filtering
+- **Auto-scan**: Automatic analysis on file save
 
+### **⚡ CLI Commands**
+
+#### **Core Commands**
 ```bash
-# Run complete pipeline
-npm run start run
+# Complete analysis pipeline
+baseline-check-tool run --paths "src"
 
-# Or use individual commands
-npm run scan -- --paths "src,docs" --out "report.json"
-npm run check -- --report "report.json"
+# Individual analysis steps
+baseline-check-tool scan --paths "src"
+baseline-check-tool check --report "baseline-report.json"
+baseline-check-tool report --format html
+
+# Interactive mode
+baseline-check-tool interactive
 ```
 
-## CLI Usage
-
-### Commands
-
-#### `scan` - Scan codebase for features
+#### **Analysis Commands**
 ```bash
-baseline-check scan [options]
+# Security analysis
+baseline-check-tool security --paths "src"
 
-Options:
-  -p, --paths <paths>     Comma-separated paths to scan (default: ".")
-  -o, --out <file>        Output file for scan results (default: "baseline-report.json")
-  -c, --config <file>     Configuration file path
+# Accessibility analysis
+baseline-check-tool accessibility --paths "src"
+
+# SEO analysis
+baseline-check-tool seo --paths "src"
+
+# Performance analysis
+baseline-check-tool performance --paths "src"
+
+# Bundle analysis
+baseline-check-tool bundle --paths "src"
 ```
 
-#### `check` - Check feature compatibility
+#### **AI-Powered Features**
 ```bash
-baseline-check check [options]
+# AI analysis and recommendations
+baseline-check-tool ai-analyze --paths "src"
 
-Options:
-  -r, --report <file>     Input report file from scan (required)
-  -o, --out <file>        Output file for compatibility results
+# Automatic code fixing
+baseline-check-tool ai-fix --paths "src"
+
+# AI learning and personalization
+baseline-check-tool ai-learn --paths "src"
 ```
 
-#### `report` - Generate summary report
+#### **Framework Integration**
 ```bash
-baseline-check report [options]
-
-Options:
-  -r, --report <file>     Input report file (default: "baseline-report.json")
-  -f, --format <format>   Output format: markdown, json, html (default: "markdown")
-  -o, --out <file>        Output file
+# Setup for specific frameworks
+baseline-check-tool setup --framework react --github-action --vscode
+baseline-check-tool setup --framework vue --github-action
+baseline-check-tool setup --framework angular --github-action
 ```
 
-#### `run` - Complete pipeline
-```bash
-baseline-check run [options]
+---
 
-Options:
-  -p, --paths <paths>     Comma-separated paths to scan (default: ".")
-  -o, --out <file>        Output file for final results (default: "baseline-report.json")
-  -c, --config <file>     Configuration file path
-  --no-check              Skip compatibility checking
-  --no-report             Skip report generation
-```
+## ⚙️ **Configuration**
 
-#### `init` - Initialize configuration
-```bash
-baseline-check init [options]
-
-Options:
-  -f, --force             Overwrite existing config file
-```
-
-## Configuration
-
-Create a `baseline-check.config.js` file to customize behavior:
-
+### **Configuration File (`baseline-check.config.js`)**
 ```javascript
 export default {
   // File patterns to scan
@@ -113,219 +255,229 @@ export default {
     '**/coverage/**'
   ],
   
-  // Custom feature detection rules
+  // Feature detection settings
   features: {
-    'custom-feature': { 
-      re: /customPattern/g, 
-      category: 'api' 
+    preset: 'default', // 'minimal', 'modern', 'react', 'vue', 'angular', 'pwa'
+    custom: {
+      'my-feature': { 
+        re: /myPattern/g, 
+        category: 'api' 
+      }
     }
   },
   
   // Browser support thresholds
   baseline: {
-    minBrowsers: 3, // Minimum number of browsers for baseline status
+    minBrowsers: 3,
     browsers: ['chrome', 'firefox', 'safari', 'edge']
+  },
+  
+  // Performance settings
+  performance: {
+    maxFileSize: 1024 * 1024, // 1MB
+    concurrentFiles: 10,
+    cacheResults: true
+  },
+  
+  // AI settings
+  ai: {
+    enabled: true,
+    openaiApiKey: process.env.OPENAI_API_KEY,
+    localAnalysis: true
+  },
+  
+  // Monitoring settings
+  monitoring: {
+    enabled: true,
+    watchPaths: ['src'],
+    alertThresholds: {
+      risky: 5,
+      unknown: 10
+    }
   }
 };
 ```
 
-## Detected Features
+---
 
-### Web APIs
-- `fetch()` API
-- Clipboard API (`writeText`, `readText`)
-- WebSocket
-- IntersectionObserver, ResizeObserver, MutationObserver
+## 🎯 **Detected Features**
+
+### **Web APIs (30+ features)**
+- `fetch()`, `WebSocket`, `IntersectionObserver`
+- `Clipboard API`, `WebRTC`, `Service Workers`
+- `AbortController`, `Promise.allSettled`, `BigInt`
 - `requestAnimationFrame`, `requestIdleCallback`
-- URL API (`createObjectURL`, `revokeObjectURL`)
-- AbortController, AbortSignal
-- Promise methods (`allSettled`, `any`)
-- BigInt
 
-### HTML Elements
-- `<dialog>`, `<details>`, `<summary>`
-
-### CSS Features
-- `:has()` pseudo-class
-- Container queries (`@container`)
-- CSS Grid, Flexbox
-- Custom properties (`var(--*)`)
+### **CSS Features (20+ features)**
+- `:has()` pseudo-class, Container queries
+- CSS Grid, Flexbox, Custom properties
 - `clamp()`, `min()`, `max()` functions
-- Logical properties
-- `backdrop-filter`, `scroll-behavior`
+- Logical properties, `backdrop-filter`
 
-### JavaScript Syntax
-- Optional chaining (`?.`)
-- Nullish coalescing (`??`)
-- Dynamic imports (`import()`)
-- Top-level await
+### **HTML Elements (10+ features)**
+- `<dialog>`, `<details>`, `<summary>`
+- `<template>`, `<slot>`, Custom elements
 
-## Programmatic API
+### **JavaScript Syntax (15+ features)**
+- Optional chaining (`?.`), Nullish coalescing (`??`)
+- Dynamic imports, Top-level await
+- Private fields, Static blocks
 
-```javascript
-import { scan, check, generateSummary } from './src/index.js';
+### **Framework Features (20+ features)**
+- React: Hooks, Context, Suspense
+- Vue: Composition API, Teleport, Suspense
+- Angular: Signals, Standalone components
+- Svelte: Stores, Actions, Transitions
 
-// Scan for features
-const scanResult = await scan({
-  paths: ['src', 'docs'],
-  out: 'scan-report.json'
-});
+---
 
-// Check compatibility
-const checkResult = await check({
-  report: 'scan-report.json',
-  out: 'final-report.json'
-});
+## 📊 **Output Formats**
 
-// Generate summary
-const summary = await generateSummary({
-  report: 'final-report.json',
-  format: 'markdown'
-});
-```
-
-## Report Structure
-
+### **JSON Reports**
 ```json
 {
   "metadata": {
     "scannedFiles": 150,
     "processedFiles": 148,
-    "errorCount": 2,
-    "generatedAt": "2024-01-15T10:30:00.000Z",
-    "version": "2.0.0"
+    "generatedAt": "2024-01-15T10:30:00Z"
   },
+  "detected": [
+    {
+      "feature": "fetch",
+      "files": ["src/api.js", "src/utils.js"],
+      "count": 5,
+      "status": "baseline_like"
+    }
+  ],
   "results": [
     {
-      "feature": "window.fetch",
+      "feature": "fetch",
       "status": "baseline_like",
-      "files": ["src/api.js", "src/utils.js"],
-      "count": 2,
-      "mdn": "https://developer.mozilla.org/en-US/docs/Web/API/fetch",
       "browsers": {
-        "chrome": [{"version": "42"}],
-        "firefox": [{"version": "39"}],
-        "safari": [{"version": "10.1"}]
-      }
+        "chrome": "42+",
+        "firefox": "39+",
+        "safari": "10.1+",
+        "edge": "14+"
+      },
+      "recommendations": []
     }
   ]
 }
 ```
 
-## Status Types
+### **HTML Dashboards**
+- **Interactive Visualizations**: Charts, graphs, and tables
+- **Real-time Updates**: Live data refresh
+- **Responsive Design**: Works on all devices
+- **Export Options**: PDF, PNG, SVG
 
-- **`baseline_like`**: Supported in 3+ major browsers
-- **`risky`**: Limited browser support
-- **`unknown`**: No compatibility data available
+### **Markdown Reports**
+- **GitHub-friendly**: Perfect for PR comments
+- **Structured Format**: Easy to read and share
+- **Actionable Items**: Clear next steps
 
-## Dashboard
+---
 
-The dashboard provides a web interface for viewing results:
+## 🚀 **CI/CD Integration**
 
-1. Run the scan and check pipeline
-2. Copy the generated `baseline-report.json` to the `dashboard/` directory
-3. Open `dashboard/index.html` in your browser
-
-## GitHub Actions Integration
-
-Create `.github/workflows/baseline-check.yml`:
-
+### **GitHub Actions**
 ```yaml
-name: Baseline Compatibility Check
-on:
-  pull_request:
-  push:
-    branches: [main]
+name: Baseline Check
+on: [push, pull_request]
 
 jobs:
-  baseline:
+  baseline-check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: 20
-          
-      - name: Install dependencies
-        run: |
-          cd action
-          npm ci
-          
-      - name: Run baseline check
-        run: |
-          cd action
-          npm run start run -- --paths "../" --out "../baseline-report.json"
-          
-      - name: Upload report
-        uses: actions/upload-artifact@v4
+          node-version: '18'
+      - run: npm install -g baseline-check-tool
+      - run: baseline-check-tool run --paths "src"
+      - uses: actions/upload-artifact@v3
         with:
           name: baseline-report
           path: baseline-report.json
-          
-      - name: Generate PR comment
-        if: github.event_name == 'pull_request'
-        run: |
-          cd action
-          npm run start report -- --report "../baseline-report.json" --format markdown > comment.md
-          gh pr comment ${{ github.event.pull_request.number }} --body-file comment.md
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
-## 🚀 CI/CD Integration
+### **Docker Support**
+```dockerfile
+FROM node:18-alpine
+RUN npm install -g baseline-check-tool
+COPY . .
+RUN baseline-check-tool run
+```
 
-This project includes comprehensive GitHub Actions workflows for:
+---
 
-### Automated Workflows
-- **CI/CD Pipeline**: Automated testing, building, and deployment
-- **Pull Request Checks**: Validates changes and runs compatibility checks
-- **Security Scanning**: Regular security audits and vulnerability scanning
-- **Docker Builds**: Automated container builds and publishing
-- **Release Management**: Automated versioning and NPM publishing
+## 📈 **Analytics & Monitoring**
 
-### Workflow Features
-- ✅ **Multi-Node Testing**: Tests on Node.js 18+
-- ✅ **Security Scanning**: Trivy and CodeQL analysis
-- ✅ **Compatibility Checks**: Self-testing with baseline-check
-- ✅ **Automated Releases**: GitHub releases with changelogs
-- ✅ **Docker Publishing**: Multi-arch container builds
-- ✅ **Dependency Updates**: Automated via Dependabot
+### **Usage Analytics**
+- **Feature Adoption**: Track which features are being used
+- **Risk Trends**: Monitor risky feature usage over time
+- **Performance Metrics**: Bundle size and optimization scores
+- **Team Insights**: Collaboration and code quality metrics
 
-### Status Badges
-The project includes status badges showing:
-- Build status
-- Security scan results
-- NPM package version
-- License information
+### **Real-time Monitoring**
+- **File Watching**: Automatic re-analysis on changes
+- **Alert System**: Configurable notifications
+- **Dashboard Updates**: Live statistics and charts
+- **Performance Tracking**: Continuous optimization monitoring
 
-## Contributing
+---
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
+## 🤝 **Contributing**
 
-## License
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
 
-MIT License - see LICENSE file for details.
+### **Development Setup**
+```bash
+# Clone the repository
+git clone https://github.com/your-org/baseline-check.git
+cd baseline-check
 
-## Changelog
+# Install dependencies
+cd action
+npm install
 
-### v2.0.0
-- Complete rewrite with modular architecture
-- Enhanced CLI with Commander.js
-- Expanded feature detection (30+ features)
-- Multiple output formats (JSON, Markdown, HTML)
-- Configuration system
-- Better error handling and validation
-- Improved dashboard
-- Programmatic API
+# Run tests
+npm test
 
-### v1.0.0
-- Initial release
-- Basic feature scanning
-- MDN compatibility checking
-- Simple CLI interface
+# Build the project
+npm run build
+```
+
+---
+
+## 📄 **License**
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 🙏 **Acknowledgments**
+
+- **MDN Web Docs** for browser compatibility data
+- **OpenAI** for AI-powered analysis capabilities
+- **VS Code** for the excellent extension platform
+- **The web development community** for feedback and contributions
+
+---
+
+## 📞 **Support**
+
+- **Documentation**: [Full Documentation](docs/)
+- **Issues**: [GitHub Issues](https://github.com/your-org/baseline-check/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/your-org/baseline-check/discussions)
+- **Email**: support@baseline-check.dev
+
+---
+
+<div align="center">
+
+**Made with ❤️ for the web development community**
+
+[Website](https://baseline-check.dev) • [Documentation](https://docs.baseline-check.dev) • [Changelog](CHANGELOG.md) • [Roadmap](ROADMAP.md)
+
+</div>

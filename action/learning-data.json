@@ -5,10 +5,28 @@
       {
         "pattern": "test-pattern",
         "type": "compatibility",
-        "acceptanceCount": 34,
+        "acceptanceCount": 40,
         "rejectionCount": 0,
         "modificationCount": 0,
         "contexts": [
+          {
+            "framework": "react"
+          },
+          {
+            "framework": "react"
+          },
+          {
+            "framework": "react"
+          },
+          {
+            "framework": "react"
+          },
+          {
+            "framework": "react"
+          },
+          {
+            "framework": "react"
+          },
           {
             "framework": "react"
           },
@@ -122,13 +140,13 @@
       {
         "preferredTypes": {
           "compatibility": {
-            "accepted": 34,
+            "accepted": 40,
             "rejected": 0
           }
         },
         "preferredSeverities": {
           "undefined": {
-            "accepted": 34,
+            "accepted": 40,
             "rejected": 0
           }
         },
@@ -139,5 +157,5 @@
   ],
   "performanceMetrics": [],
   "version": "1.0.0",
-  "lastUpdated": "2025-10-06T11:52:59.034Z"
+  "lastUpdated": "2025-10-06T23:25:09.178Z"
 }

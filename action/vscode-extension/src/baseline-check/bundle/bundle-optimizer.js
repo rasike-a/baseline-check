@@ -272,53 +272,6 @@ export class BundleOptimizer {
     detectBundleIssues(content) {
         const issues = [];
 
-        // Check bundle size
-        if (content.length > this.optimizationRules.size.maxBundleSize) {
-            issues.push({
-                type: 'bundle_size',
-                severity: 'high',
-                description: `Bundle size ${(content.length / 1024).toFixed(1)}KB exceeds recommended ${(this.optimizationRules.size.maxBundleSize / 1024).toFixed(1)}KB`,
-                fix: 'code_splitting'
-            });
-        }
-
-        // Check for unminified code
-        if (content.includes('  ') || content.includes('\n    ')) {
-            issues.push({
-                type: 'unminified_code',
-                severity: 'medium',
-                description: 'Bundle appears to be unminified',
-                fix: 'minification'
-            });
-        }
-
-        // Check for source maps in production
-        if (content.includes('sourceMappingURL')) {
-            issues.push({
-                type: 'source_maps_production',
-                severity: 'low',
-                description: 'Source maps detected in production bundle',
-                fix: 'remove_source_maps'
-            });
-        }
-
-        // Check for duplicate dependencies
-        const dependencies = this.extractDependencies(content);
-        const depCounts = {};
-        dependencies.forEach(dep => {
-            depCounts[dep.name] = (depCounts[dep.name] || 0) + 1;
-        });
-        
-        const duplicates = Object.entries(depCounts).filter(([name, count]) => count > 1);
-        if (duplicates.length > 0) {
-            issues.push({
-                type: 'duplicate_dependencies',
-                severity: 'medium',
-                description: `Found ${duplicates.length} duplicate dependencies`,
-                fix: 'deduplicate_dependencies'
-            });
-        }
-
         // Check for bad patterns
         for (const badPattern of this.bundlePatterns.badPatterns) {
             if (badPattern.pattern.test(content) && badPattern.check('bundle', content)) {
