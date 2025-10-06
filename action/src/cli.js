@@ -2068,6 +2068,67 @@ program
     }
   });
 
+program
+  .command('migrate')
+  .description('Generate migration plan for risky features')
+  .option('-i, --input <file>', 'Input baseline analysis file', 'baseline-analysis.json')
+  .option('-o, --output <file>', 'Output file for migration plan', 'migration-plan.json')
+  .option('-d, --dashboard <file>', 'Generate migration dashboard', 'migration-dashboard.html')
+  .option('-t, --theme <theme>', 'Dashboard theme (light/dark)', 'dark')
+  .action(async (options) => {
+    const logger = new Logger();
+
+    try {
+      if (!fs.existsSync(options.input)) {
+        logger.error(`Baseline analysis file not found: ${options.input}`);
+        logger.info('Run "baseline-check baseline" first to generate analysis data');
+        process.exit(1);
+      }
+
+      const analysisData = JSON.parse(await fs.promises.readFile(options.input, 'utf8'));
+      const baselineAnalysis = new BaselineAnalysis();
+      
+      // Generate migration plan
+      const migrationPlan = await baselineAnalysis.generateMigrationPlan(analysisData);
+
+      // Save migration plan
+      await fs.promises.writeFile(options.output, JSON.stringify(migrationPlan, null, 2));
+      logger.success(`🚀 Migration plan saved: ${options.output}`);
+
+      // Generate dashboard if requested
+      if (options.dashboard) {
+        const dashboardPath = options.dashboard.startsWith('dashboards/') ? options.dashboard : `dashboards/baseline/${options.dashboard}`;
+        await fs.promises.mkdir(path.dirname(dashboardPath), { recursive: true });
+        
+        const dashboardHTML = baselineAnalysis.generateMigrationDashboard(migrationPlan, options.theme);
+        await fs.promises.writeFile(dashboardPath, dashboardHTML);
+        
+        logger.success(`🌐 Migration dashboard generated: ${dashboardPath}`);
+        logger.info(`📊 Open in browser: file://${path.resolve(dashboardPath)}`);
+      }
+
+      // Display summary
+      const summary = migrationPlan.summary;
+      logger.info(`\n📊 Migration Plan Summary:`);
+      logger.info(`   Features to Migrate: ${summary.totalFeatures}`);
+      logger.info(`   Migration Complexity: ${summary.migrationComplexity.toUpperCase()}`);
+      logger.info(`   Estimated Time: ${summary.estimatedTime} hours`);
+      logger.info(`   Risk Reduction: ${summary.riskReduction}%`);
+      logger.info(`   Baseline Improvement: ${summary.baselineImprovement}%`);
+
+      if (summary.totalFeatures > 0) {
+        logger.info(`\n🚀 Migration plan generated for ${summary.totalFeatures} features`);
+        logger.info(`   Run with --dashboard to see detailed migration plan`);
+      } else {
+        logger.success(`\n✅ No risky features found - no migration needed!`);
+      }
+
+    } catch (error) {
+      logger.error(`Migration plan generation failed: ${error.message}`);
+      process.exit(1);
+    }
+  });
+
 // Helper function to load BCD data
 async function loadBCDData() {
   try {

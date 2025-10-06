@@ -7,6 +7,8 @@ import { BrowserDetector } from './browser-detector.js';
 import { PolyfillRecommender } from './polyfill-recommender.js';
 import { ProgressiveEnhancementAnalyzer } from './progressive-enhancement.js';
 import { BaselineComplianceScorer } from './baseline-compliance.js';
+import { MigrationAssistant } from './migration-assistant.js';
+import { MigrationDashboard } from './migration-dashboard.js';
 
 export class BaselineAnalysis {
   constructor(options = {}) {
@@ -22,6 +24,8 @@ export class BaselineAnalysis {
     this.polyfillRecommender = new PolyfillRecommender();
     this.progressiveEnhancementAnalyzer = new ProgressiveEnhancementAnalyzer();
     this.baselineComplianceScorer = new BaselineComplianceScorer(this.options);
+    this.migrationAssistant = new MigrationAssistant(this.options);
+    this.migrationDashboard = new MigrationDashboard(this.options);
   }
 
   /**
@@ -358,6 +362,31 @@ export class BaselineAnalysis {
   }
 
   /**
+   * Generate migration plan for risky features
+   */
+  async generateMigrationPlan(analysisResults) {
+    const riskyFeatures = [];
+    
+    // Extract risky features from browser support analysis
+    if (analysisResults.browserSupport && analysisResults.browserSupport.features) {
+      const risky = analysisResults.browserSupport.features.filter(f => f.risky);
+      riskyFeatures.push(...risky);
+    }
+
+    // Generate migration plan
+    const migrationPlan = this.migrationAssistant.generateMigrationPlan(riskyFeatures, analysisResults);
+    
+    return migrationPlan;
+  }
+
+  /**
+   * Generate migration dashboard
+   */
+  generateMigrationDashboard(migrationPlan, theme = 'dark') {
+    return this.migrationDashboard.generateDashboard(migrationPlan, theme);
+  }
+
+  /**
    * Generate baseline dashboard
    */
   generateDashboard(results, theme = 'dark') {
@@ -671,4 +700,4 @@ export class BaselineAnalysis {
   }
 }
 
-export { BrowserDetector, PolyfillRecommender, ProgressiveEnhancementAnalyzer, BaselineComplianceScorer };
+export { BrowserDetector, PolyfillRecommender, ProgressiveEnhancementAnalyzer, BaselineComplianceScorer, MigrationAssistant, MigrationDashboard };
