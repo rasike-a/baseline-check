@@ -23,6 +23,7 @@ import { SecurityAnalysis } from './security/index.js';
 import { AccessibilityAnalysis } from './accessibility/index.js';
 import { SEOAnalysis } from './seo/index.js';
 import { BundleAnalysis } from './bundle/index.js';
+import { BaselineAnalysis } from './baseline/index.js';
 import path from 'node:path';
 
 program
@@ -1784,5 +1785,391 @@ program
       process.exit(1);
     }
   });
+
+// Baseline-specific commands
+program
+  .command('baseline')
+  .description('Run comprehensive baseline analysis with browser-specific detection')
+  .option('-p, --paths <paths>', 'Comma-separated paths to analyze', 'src')
+  .option('-o, --output <file>', 'Output file for baseline analysis', 'baseline-analysis.json')
+  .option('-d, --dashboard <file>', 'Generate baseline dashboard', 'baseline-dashboard.html')
+  .option('-t, --theme <theme>', 'Dashboard theme (light/dark)', 'dark')
+  .option('-b, --browsers <browsers>', 'Target browsers (chrome,firefox,safari,edge)', 'chrome,firefox,safari,edge')
+  .option('--threshold <threshold>', 'Baseline threshold (0-1)', '0.95')
+  .option('--no-mobile', 'Exclude mobile browsers')
+  .option('--include-beta', 'Include beta browser versions')
+  .action(async (options) => {
+    const logger = new Logger();
+
+    try {
+      // Parse paths
+      const paths = options.paths.split(',').map(p => p.trim());
+      
+      // Find files to analyze
+      const files = [];
+      for (const path of paths) {
+        const stat = fs.statSync(path);
+        if (stat.isDirectory()) {
+          const glob = await import('globby');
+          const dirFiles = await glob.globby([`${path}/**/*.{js,ts,jsx,tsx,html,css,vue,svelte}`], {
+            ignore: ['**/node_modules/**', '**/dist/**', '**/build/**']
+          });
+          files.push(...dirFiles);
+        } else {
+          files.push(path);
+        }
+      }
+
+      if (files.length === 0) {
+        logger.warn('No files found to analyze');
+        return;
+      }
+
+      logger.info(`🎯 Analyzing ${files.length} files for baseline compliance...`);
+
+      // Configure baseline analysis
+      const baselineOptions = {
+        targetBrowsers: options.browsers.split(',').map(b => b.trim()),
+        baselineThreshold: parseFloat(options.threshold),
+        includeMobile: options.mobile !== false,
+        includeBeta: options.includeBeta
+      };
+
+      const baselineAnalysis = new BaselineAnalysis(baselineOptions);
+      
+      // Load BCD data
+      const bcdData = await loadBCDData();
+      
+      // Run analysis
+      const results = await baselineAnalysis.analyze(files, bcdData);
+
+      // Save analysis results
+      await fs.promises.writeFile(options.output, JSON.stringify(results, null, 2));
+      logger.success(`🎯 Baseline analysis saved: ${options.output}`);
+
+      // Generate dashboard if requested
+      if (options.dashboard) {
+        const dashboardPath = options.dashboard.startsWith('dashboards/') ? options.dashboard : `dashboards/baseline/${options.dashboard}`;
+        await fs.promises.mkdir(path.dirname(dashboardPath), { recursive: true });
+        
+        const dashboardHTML = baselineAnalysis.generateDashboard(results, options.theme);
+        await fs.promises.writeFile(dashboardPath, dashboardHTML);
+        
+        logger.success(`🌐 Baseline dashboard generated: ${dashboardPath}`);
+        logger.info(`📊 Open in browser: file://${path.resolve(dashboardPath)}`);
+      }
+
+      // Display summary
+      const summary = results.summary;
+      const compliance = results.compliance;
+      logger.info(`\n📊 Baseline Analysis Summary:`);
+      logger.info(`   Overall Score: ${compliance?.scores?.overall || 0}/100`);
+      logger.info(`   Browser Support: ${compliance?.scores?.browserSupport?.toFixed(1) || 0}/100`);
+      logger.info(`   Feature Stability: ${compliance?.scores?.featureStability?.toFixed(1) || 0}/100`);
+      logger.info(`   Performance: ${compliance?.scores?.performance?.toFixed(1) || 0}/100`);
+      logger.info(`   Accessibility: ${compliance?.scores?.accessibility?.toFixed(1) || 0}/100`);
+      logger.info(`   Analysis Time: ${summary.analysisTime}ms`);
+
+      if (compliance?.scores?.overall < 80) {
+        logger.warn(`\n⚠️  Baseline compliance score is below 80`);
+        logger.info(`   Run with --dashboard to see detailed analysis and recommendations`);
+      } else {
+        logger.success(`\n✅ Excellent baseline compliance!`);
+      }
+
+    } catch (error) {
+      logger.error(`Baseline analysis failed: ${error.message}`);
+      process.exit(1);
+    }
+  });
+
+program
+  .command('baseline-dashboard')
+  .description('Generate baseline dashboard from existing analysis')
+  .option('-i, --input <file>', 'Input baseline analysis file', 'baseline-analysis.json')
+  .option('-o, --output <file>', 'Output HTML file', 'baseline-dashboard.html')
+  .option('-t, --theme <theme>', 'Dashboard theme (light/dark)', 'dark')
+  .action(async (options) => {
+    const logger = new Logger();
+
+    try {
+      if (!fs.existsSync(options.input)) {
+        logger.error(`Baseline analysis file not found: ${options.input}`);
+        logger.info('Run "baseline-check baseline" first to generate analysis data');
+        process.exit(1);
+      }
+
+      const analysisData = JSON.parse(await fs.promises.readFile(options.input, 'utf8'));
+      const baselineAnalysis = new BaselineAnalysis();
+      
+      const dashboardHTML = baselineAnalysis.generateDashboard(analysisData, options.theme);
+      
+      const outputPath = options.output.startsWith('dashboards/') ? options.output : `dashboards/baseline/${options.output}`;
+      await fs.promises.mkdir(path.dirname(outputPath), { recursive: true });
+      await fs.promises.writeFile(outputPath, dashboardHTML);
+
+      logger.success(`🌐 Baseline dashboard generated: ${outputPath}`);
+      logger.info(`📊 Open in browser: file://${path.resolve(outputPath)}`);
+
+    } catch (error) {
+      logger.error(`Dashboard generation failed: ${error.message}`);
+      process.exit(1);
+    }
+  });
+
+program
+  .command('browser-support')
+  .description('Analyze browser-specific feature support')
+  .option('-p, --paths <paths>', 'Comma-separated paths to analyze', 'src')
+  .option('-o, --output <file>', 'Output file for browser support analysis', 'browser-support.json')
+  .option('-d, --dashboard <file>', 'Generate browser support dashboard', 'browser-support-dashboard.html')
+  .option('-t, --theme <theme>', 'Dashboard theme (light/dark)', 'dark')
+  .option('-b, --browsers <browsers>', 'Target browsers (chrome,firefox,safari,edge)', 'chrome,firefox,safari,edge')
+  .option('--threshold <threshold>', 'Baseline threshold (0-1)', '0.95')
+  .action(async (options) => {
+    const logger = new Logger();
+
+    try {
+      // Parse paths
+      const paths = options.paths.split(',').map(p => p.trim());
+      
+      // Find files to analyze
+      const files = [];
+      for (const path of paths) {
+        const stat = fs.statSync(path);
+        if (stat.isDirectory()) {
+          const glob = await import('globby');
+          const dirFiles = await glob.globby([`${path}/**/*.{js,ts,jsx,tsx,html,css,vue,svelte}`], {
+            ignore: ['**/node_modules/**', '**/dist/**', '**/build/**']
+          });
+          files.push(...dirFiles);
+        } else {
+          files.push(path);
+        }
+      }
+
+      if (files.length === 0) {
+        logger.warn('No files found to analyze');
+        return;
+      }
+
+      logger.info(`🌐 Analyzing browser support for ${files.length} files...`);
+
+      // Configure browser detector
+      const browserOptions = {
+        targetBrowsers: options.browsers.split(',').map(b => b.trim()),
+        baselineThreshold: parseFloat(options.threshold)
+      };
+
+      const browserDetector = new (await import('./baseline/browser-detector.js')).BrowserDetector(browserOptions);
+      
+      // Load BCD data
+      const bcdData = await loadBCDData();
+      
+      // Extract features
+      const baselineAnalysis = new BaselineAnalysis();
+      const features = await baselineAnalysis.extractFeatures(files);
+      
+      // Run browser support analysis
+      const results = await browserDetector.analyzeBrowserSupport(features, bcdData);
+
+      // Save analysis results
+      await fs.promises.writeFile(options.output, JSON.stringify(results, null, 2));
+      logger.success(`🌐 Browser support analysis saved: ${options.output}`);
+
+      // Generate dashboard if requested
+      if (options.dashboard) {
+        const dashboardPath = options.dashboard.startsWith('dashboards/') ? options.dashboard : `dashboards/baseline/${options.dashboard}`;
+        await fs.promises.mkdir(path.dirname(dashboardPath), { recursive: true });
+        
+        // Generate simple browser support dashboard
+        const dashboardHTML = generateBrowserSupportDashboard(results, options.theme);
+        await fs.promises.writeFile(dashboardPath, dashboardHTML);
+        
+        logger.success(`🌐 Browser support dashboard generated: ${dashboardPath}`);
+        logger.info(`📊 Open in browser: file://${path.resolve(dashboardPath)}`);
+      }
+
+      // Display summary
+      const summary = results.summary;
+      logger.info(`\n📊 Browser Support Summary:`);
+      logger.info(`   Total Features: ${summary.totalFeatures}`);
+      logger.info(`   Baseline Features: ${summary.baselineFeatures}`);
+      logger.info(`   Risky Features: ${summary.riskyFeatures}`);
+      logger.info(`   Unsupported Features: ${summary.unsupportedFeatures}`);
+
+      for (const [browser, data] of Object.entries(summary.browserSupport)) {
+        logger.info(`   ${browser}: ${data.coverage.toFixed(1)}% coverage`);
+      }
+
+    } catch (error) {
+      logger.error(`Browser support analysis failed: ${error.message}`);
+      process.exit(1);
+    }
+  });
+
+program
+  .command('polyfills')
+  .description('Generate polyfill recommendations')
+  .option('-i, --input <file>', 'Input browser support analysis file', 'browser-support.json')
+  .option('-o, --output <file>', 'Output file for polyfill recommendations', 'polyfill-recommendations.json')
+  .option('-d, --dashboard <file>', 'Generate polyfill dashboard', 'polyfill-dashboard.html')
+  .option('-t, --theme <theme>', 'Dashboard theme (light/dark)', 'dark')
+  .action(async (options) => {
+    const logger = new Logger();
+
+    try {
+      if (!fs.existsSync(options.input)) {
+        logger.error(`Browser support analysis file not found: ${options.input}`);
+        logger.info('Run "baseline-check browser-support" first to generate analysis data');
+        process.exit(1);
+      }
+
+      const analysisData = JSON.parse(await fs.promises.readFile(options.input, 'utf8'));
+      const polyfillRecommender = new (await import('./baseline/polyfill-recommender.js')).PolyfillRecommender();
+      
+      const recommendations = polyfillRecommender.generateRecommendations(analysisData.features);
+
+      // Save recommendations
+      await fs.promises.writeFile(options.output, JSON.stringify(recommendations, null, 2));
+      logger.success(`🔧 Polyfill recommendations saved: ${options.output}`);
+
+      // Generate dashboard if requested
+      if (options.dashboard) {
+        const dashboardPath = options.dashboard.startsWith('dashboards/') ? options.dashboard : `dashboards/baseline/${options.dashboard}`;
+        await fs.promises.mkdir(path.dirname(dashboardPath), { recursive: true });
+        
+        // Generate simple polyfill dashboard
+        const dashboardHTML = generatePolyfillDashboard(recommendations, options.theme);
+        await fs.promises.writeFile(dashboardPath, dashboardHTML);
+        
+        logger.success(`🌐 Polyfill dashboard generated: ${dashboardPath}`);
+        logger.info(`📊 Open in browser: file://${path.resolve(dashboardPath)}`);
+      }
+
+      // Display summary
+      const summary = recommendations.summary;
+      logger.info(`\n📊 Polyfill Recommendations Summary:`);
+      logger.info(`   Total Polyfills: ${summary.totalPolyfills}`);
+      logger.info(`   Estimated Size: ${Math.round(summary.estimatedSize / 1024)} KB`);
+      logger.info(`   Maintenance Level: ${summary.maintenanceLevel}`);
+      logger.info(`   Performance Impact: ${summary.performanceImpact}`);
+
+      if (summary.totalPolyfills > 0) {
+        logger.info(`\n💡 ${summary.totalPolyfills} polyfill recommendations generated`);
+        logger.info(`   Run with --dashboard to see detailed recommendations`);
+      } else {
+        logger.success(`\n✅ No polyfills needed!`);
+      }
+
+    } catch (error) {
+      logger.error(`Polyfill analysis failed: ${error.message}`);
+      process.exit(1);
+    }
+  });
+
+// Helper function to load BCD data
+async function loadBCDData() {
+  try {
+    const bcdPath = path.join(process.cwd(), 'node_modules/@mdn/browser-compat-data/data.json');
+    const bcdData = JSON.parse(await fs.promises.readFile(bcdPath, 'utf8'));
+    return bcdData;
+  } catch (error) {
+    console.warn('Could not load BCD data, using empty data');
+    return {};
+  }
+}
+
+// Helper function to generate browser support dashboard
+function generateBrowserSupportDashboard(results, theme) {
+  return `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browser Support Dashboard</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: ${theme === 'dark' ? '#1a1a1a' : '#ffffff'};
+            color: ${theme === 'dark' ? '#ffffff' : '#333333'};
+            margin: 0;
+            padding: 20px;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 40px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .card { background: ${theme === 'dark' ? '#2d2d2d' : '#ffffff'}; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .stat { display: flex; justify-content: space-between; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌐 Browser Support Dashboard</h1>
+        </div>
+        <div class="grid">
+            <div class="card">
+                <h3>Summary</h3>
+                <div class="stat"><span>Total Features:</span><span>${results.summary.totalFeatures}</span></div>
+                <div class="stat"><span>Baseline Features:</span><span>${results.summary.baselineFeatures}</span></div>
+                <div class="stat"><span>Risky Features:</span><span>${results.summary.riskyFeatures}</span></div>
+                <div class="stat"><span>Unsupported Features:</span><span>${results.summary.unsupportedFeatures}</span></div>
+            </div>
+            <div class="card">
+                <h3>Browser Coverage</h3>
+                ${Object.entries(results.summary.browserSupport).map(([browser, data]) => 
+                  `<div class="stat"><span>${browser}:</span><span>${data.coverage.toFixed(1)}%</span></div>`
+                ).join('')}
+            </div>
+        </div>
+    </div>
+</body>
+</html>`;
+}
+
+// Helper function to generate polyfill dashboard
+function generatePolyfillDashboard(recommendations, theme) {
+  return `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polyfill Recommendations Dashboard</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: ${theme === 'dark' ? '#1a1a1a' : '#ffffff'};
+            color: ${theme === 'dark' ? '#ffffff' : '#333333'};
+            margin: 0;
+            padding: 20px;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 40px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .card { background: ${theme === 'dark' ? '#2d2d2d' : '#ffffff'}; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .stat { display: flex; justify-content: space-between; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔧 Polyfill Recommendations Dashboard</h1>
+        </div>
+        <div class="grid">
+            <div class="card">
+                <h3>Summary</h3>
+                <div class="stat"><span>Total Polyfills:</span><span>${recommendations.summary.totalPolyfills}</span></div>
+                <div class="stat"><span>Estimated Size:</span><span>${Math.round(recommendations.summary.estimatedSize / 1024)} KB</span></div>
+                <div class="stat"><span>Maintenance Level:</span><span>${recommendations.summary.maintenanceLevel}</span></div>
+                <div class="stat"><span>Performance Impact:</span><span>${recommendations.summary.performanceImpact}</span></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>`;
+}
 
 program.parse();
