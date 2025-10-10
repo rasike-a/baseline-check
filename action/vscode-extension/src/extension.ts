@@ -64,8 +64,45 @@ export class BaselineCheckProvider {
                 throw new Error('No workspace folder found');
             }
 
-            const baselineCheckPath = path.join(workspaceFolder.uri.fsPath, 'node_modules', '.bin', 'baseline-check');
-            const fullCommand = `${baselineCheckPath} ${command} ${args.join(' ')}`;
+            // Try multiple locations for baseline-check tool
+            // __dirname could be dist/ or out/ depending on which version runs
+            const extensionRoot = path.join(__dirname, '..');
+            const possiblePaths = [
+                // 1. Bundled with extension (v2.4.0+) - from dist/
+                path.join(extensionRoot, 'node_modules', 'baseline-check-tool', 'src', 'cli.js'),
+                // 2. Bundled with extension - from out/
+                path.join(__dirname, '..', '..', 'node_modules', 'baseline-check-tool', 'src', 'cli.js'),
+                // 3. Bundled .bin symlink
+                path.join(extensionRoot, 'node_modules', '.bin', 'baseline-check'),
+                // 4. Project's node_modules CLI
+                path.join(workspaceFolder.uri.fsPath, 'node_modules', 'baseline-check-tool', 'src', 'cli.js'),
+                // 5. Project's .bin symlink
+                path.join(workspaceFolder.uri.fsPath, 'node_modules', '.bin', 'baseline-check'),
+            ];
+            
+            let baselineCheckPath = null;
+            this.outputChannel.appendLine(`🔍 Searching for baseline-check tool...`);
+            for (const checkPath of possiblePaths) {
+                this.outputChannel.appendLine(`  Checking: ${checkPath}`);
+                if (fs.existsSync(checkPath)) {
+                    baselineCheckPath = checkPath;
+                    this.outputChannel.appendLine(`✅ Found baseline-check at: ${checkPath}`);
+                    break;
+                }
+            }
+            
+            // If not found in any location, show helpful error
+            if (!baselineCheckPath) {
+                throw new Error(
+                    'Baseline Check Tool not found. Please install it:\n' +
+                    'npm install -g baseline-check-tool\n\n' +
+                    'Or install in your project:\n' +
+                    'npm install --save-dev baseline-check-tool'
+                );
+            }
+            
+            // Use node to run the CLI script
+            const fullCommand = `node "${baselineCheckPath}" ${command} ${args.join(' ')}`;
             
             this.outputChannel.appendLine(`Running: ${fullCommand}`);
             const { stdout, stderr } = await execAsync(fullCommand, { 
@@ -403,11 +440,26 @@ export class BaselineCheckProvider {
             this.updateStatusBar(results);
             this.updateWebview(results);
 
+            // Add dashboard link to output
+            const dashboardPath = path.join(workspaceFolder.uri.fsPath, 'dashboards', 'index.html');
+            this.outputChannel.appendLine('\n═══════════════════════════════════════════════════════════');
+            this.outputChannel.appendLine('📊 View Dashboard:');
+            this.outputChannel.appendLine(`🏠 Dashboard Hub: file://${dashboardPath}`);
+            this.outputChannel.appendLine('═══════════════════════════════════════════════════════════\n');
+            
             if (vscode.workspace.getConfiguration('baseline-check').get('showNotifications')) {
                 const summary = results.summary || {};
-                vscode.window.showInformationMessage(
-                    `Workspace scan completed: ${summary.baselineLike || 0} baseline, ${summary.risky || 0} risky, ${summary.unknown || 0} unknown`
+                const result = await vscode.window.showInformationMessage(
+                    `✅ Scan completed: ${summary.baselineLike || 0} baseline, ${summary.risky || 0} risky, ${summary.unknown || 0} unknown`,
+                    'View Dashboard',
+                    'Show Output'
                 );
+                
+                if (result === 'View Dashboard') {
+                    this.openDashboard();
+                } else if (result === 'Show Output') {
+                    this.outputChannel.show();
+                }
             }
         } catch (error: any) {
             vscode.window.showErrorMessage(`Workspace scan failed: ${error.message}`);
@@ -416,6 +468,12 @@ export class BaselineCheckProvider {
     }
 
     public async runFullAnalysis(): Promise<void> {
+        const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
+        if (!workspaceFolder) {
+            vscode.window.showErrorMessage('No workspace folder found');
+            return;
+        }
+        
         try {
             this.statusBarItem.text = "$(loading~spin) Running full analysis...";
             
@@ -429,11 +487,30 @@ export class BaselineCheckProvider {
             
             this.updateStatusBar(results);
             
-            vscode.window.showInformationMessage(
-                'Full analysis completed! Check the output panel for details.'
+            // Add dashboard link to output
+            const dashboardPath = path.join(workspaceFolder.uri.fsPath, 'dashboards', 'index.html');
+            this.outputChannel.appendLine('\n═══════════════════════════════════════════════════════════');
+            this.outputChannel.appendLine('📊 View Interactive Dashboards:');
+            this.outputChannel.appendLine(`🏠 Main Hub: file://${dashboardPath}`);
+            this.outputChannel.appendLine(`⚡ Performance: file://${path.join(workspaceFolder.uri.fsPath, 'dashboards', 'performance.html')}`);
+            this.outputChannel.appendLine(`🔒 Security: file://${path.join(workspaceFolder.uri.fsPath, 'dashboards', 'security.html')}`);
+            this.outputChannel.appendLine(`♿ Accessibility: file://${path.join(workspaceFolder.uri.fsPath, 'dashboards', 'accessibility.html')}`);
+            this.outputChannel.appendLine(`🔍 SEO: file://${path.join(workspaceFolder.uri.fsPath, 'dashboards', 'seo.html')}`);
+            this.outputChannel.appendLine(`📦 Bundle: file://${path.join(workspaceFolder.uri.fsPath, 'dashboards', 'bundle.html')}`);
+            this.outputChannel.appendLine('═══════════════════════════════════════════════════════════\n');
+            
+            // Show notification with button to open dashboard
+            const result = await vscode.window.showInformationMessage(
+                '✅ Full analysis completed!',
+                'View Dashboard',
+                'Show Output'
             );
             
-            this.outputChannel.show();
+            if (result === 'View Dashboard') {
+                this.openDashboard();
+            } else if (result === 'Show Output') {
+                this.outputChannel.show();
+            }
         } catch (error: any) {
             vscode.window.showErrorMessage(`Full analysis failed: ${error.message}`);
             this.statusBarItem.text = "$(check) Baseline Check";
@@ -451,11 +528,28 @@ export class BaselineCheckProvider {
             const results = await this.runBaselineCheckCommand('run', ['.']);
             this.analysisResults.set('performance', results);
             
-            vscode.window.showInformationMessage(
-                'Performance analysis completed! Check the output panel for details.'
+            // Add dashboard link to output
+            const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
+            if (workspaceFolder) {
+                const perfDashboard = path.join(workspaceFolder.uri.fsPath, 'dashboards', 'performance.html');
+                this.outputChannel.appendLine('\n═══════════════════════════════════════════════════════════');
+                this.outputChannel.appendLine('📊 View Performance Dashboard:');
+                this.outputChannel.appendLine(`⚡ Performance Dashboard: file://${perfDashboard}`);
+                this.outputChannel.appendLine('═══════════════════════════════════════════════════════════\n');
+            }
+            
+            // Show notification with button to open dashboard
+            const result = await vscode.window.showInformationMessage(
+                '⚡ Performance analysis completed!',
+                'View Dashboard',
+                'Show Output'
             );
             
-            this.outputChannel.show();
+            if (result === 'View Dashboard') {
+                this.openDashboard();
+            } else if (result === 'Show Output') {
+                this.outputChannel.show();
+            }
         } catch (error: any) {
             vscode.window.showErrorMessage(`Performance analysis failed: ${error.message}`);
             this.statusBarItem.text = "$(check) Baseline Check";
@@ -553,14 +647,19 @@ export class BaselineCheckProvider {
         const dashboardPath = path.join(workspaceFolder.uri.fsPath, 'dashboards', 'index.html');
         
         if (fs.existsSync(dashboardPath)) {
-            vscode.commands.executeCommand('vscode.open', vscode.Uri.file(dashboardPath));
+            // Open in browser instead of VS Code editor
+            const uri = vscode.Uri.file(dashboardPath);
+            await vscode.env.openExternal(uri);
+            this.outputChannel.appendLine(`Opening dashboard in browser: ${dashboardPath}`);
         } else {
             // Generate a simple dashboard on the fly
             await this.generateSimpleDashboard(workspaceFolder.uri.fsPath);
             
             // Try to open the generated dashboard
             if (fs.existsSync(dashboardPath)) {
-                vscode.commands.executeCommand('vscode.open', vscode.Uri.file(dashboardPath));
+                const uri = vscode.Uri.file(dashboardPath);
+                await vscode.env.openExternal(uri);
+                this.outputChannel.appendLine(`Opening dashboard in browser: ${dashboardPath}`);
             } else {
                 vscode.window.showWarningMessage(
                     'Dashboard generation failed. Please run an analysis first.',
@@ -576,31 +675,202 @@ export class BaselineCheckProvider {
 
     private async generateSimpleDashboard(workspacePath: string): Promise<void> {
         try {
-            // Create dashboards directory if it doesn't exist
-            const dashboardsDir = path.join(workspacePath, 'dashboards');
-            if (!fs.existsSync(dashboardsDir)) {
-                fs.mkdirSync(dashboardsDir, { recursive: true });
-            }
+            // Use the CLI's dashboard-hub command for full-featured dashboards
+            this.outputChannel.appendLine(`📊 Generating dashboard hub...`);
+            
+            try {
+                await this.runBaselineCheckCommand('dashboard-hub', []);
+                this.outputChannel.appendLine(`✅ Dashboard hub generated with full navigation`);
+            } catch (error: any) {
+                // Fallback to basic dashboard if command fails
+                this.outputChannel.appendLine(`⚠️ dashboard-hub command not available, generating basic dashboard`);
+                
+                const dashboardsDir = path.join(workspacePath, 'dashboards');
+                if (!fs.existsSync(dashboardsDir)) {
+                    fs.mkdirSync(dashboardsDir, { recursive: true });
+                }
 
-            // Read the latest analysis results
-            const reportPath = path.join(workspacePath, 'baseline-report.json');
-            let reportData = null;
-            
-            if (fs.existsSync(reportPath)) {
-                const reportContent = fs.readFileSync(reportPath, 'utf8');
-                reportData = JSON.parse(reportContent);
+                const hubHTML = this.generateDashboardHub(workspacePath);
+                const hubPath = path.join(dashboardsDir, 'index.html');
+                fs.writeFileSync(hubPath, hubHTML);
+                
+                const reportPath = path.join(workspacePath, 'baseline-report.json');
+                if (fs.existsSync(reportPath)) {
+                    const reportContent = fs.readFileSync(reportPath, 'utf8');
+                    const reportData = JSON.parse(reportContent);
+                    const compatHTML = this.generateDashboardHTML(reportData);
+                    const compatPath = path.join(dashboardsDir, 'compatibility.html');
+                    fs.writeFileSync(compatPath, compatHTML);
+                }
+                
+                this.outputChannel.appendLine(`✅ Basic dashboard generated: ${hubPath}`);
             }
-
-            // Generate a simple HTML dashboard
-            const dashboardHTML = this.generateDashboardHTML(reportData);
-            const dashboardPath = path.join(dashboardsDir, 'index.html');
-            
-            fs.writeFileSync(dashboardPath, dashboardHTML);
-            
-            this.outputChannel.appendLine(`Dashboard generated: ${dashboardPath}`);
         } catch (error: any) {
             this.outputChannel.appendLine(`Failed to generate dashboard: ${error.message}`);
         }
+    }
+    
+    private generateDashboardHub(workspacePath: string): string {
+        return `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baseline Check - Dashboard Hub</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header {
+            text-align: center;
+            color: white;
+            padding: 60px 20px;
+        }
+        .header h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        .header p { font-size: 1.3em; opacity: 0.9; }
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            padding: 20px 0;
+        }
+        .dashboard-card {
+            background: white;
+            border-radius: 12px;
+            padding: 35px;
+            text-align: center;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            display: block;
+        }
+        .dashboard-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--accent-color);
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+        .dashboard-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+        }
+        .dashboard-card:hover::before { transform: scaleX(1); }
+        .card-icon { font-size: 4em; margin-bottom: 15px; }
+        .card-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .card-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        .card-status {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+        .status-ready { background: #d3f9d8; color: #2b8a3e; }
+        .footer {
+            text-align: center;
+            color: white;
+            padding: 40px 20px;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Baseline Check Dashboard Hub</h1>
+            <p>Comprehensive Web Development Analysis Platform</p>
+        </div>
+        
+        <div class="dashboard-grid">
+            <a href="compatibility.html" class="dashboard-card" style="--accent-color: #667eea">
+                <div class="card-icon">🌐</div>
+                <div class="card-title">Baseline Compatibility</div>
+                <div class="card-description">
+                    Browser feature detection and baseline compatibility analysis
+                </div>
+                <span class="card-status status-ready">View Report</span>
+            </a>
+            
+            <a href="performance.html" class="dashboard-card" style="--accent-color: #f5576c">
+                <div class="card-icon">⚡</div>
+                <div class="card-title">Performance Analysis</div>
+                <div class="card-description">
+                    Code performance, bundle sizes, and optimization opportunities
+                </div>
+                <span class="card-status status-ready">View Report</span>
+            </a>
+            
+            <a href="security.html" class="dashboard-card" style="--accent-color: #c92a2a">
+                <div class="card-icon">🔒</div>
+                <div class="card-title">Security Analysis</div>
+                <div class="card-description">
+                    XSS, CSRF, injection vulnerabilities and security best practices
+                </div>
+                <span class="card-status status-ready">View Report</span>
+            </a>
+            
+            <a href="accessibility.html" class="dashboard-card" style="--accent-color: #845ef7">
+                <div class="card-icon">♿</div>
+                <div class="card-title">Accessibility Analysis</div>
+                <div class="card-description">
+                    WCAG compliance, color contrast, ARIA attributes
+                </div>
+                <span class="card-status status-ready">View Report</span>
+            </a>
+            
+            <a href="seo.html" class="dashboard-card" style="--accent-color: #20c997">
+                <div class="card-icon">🔍</div>
+                <div class="card-title">SEO Analysis</div>
+                <div class="card-description">
+                    Meta tags, Open Graph, structured data optimization
+                </div>
+                <span class="card-status status-ready">View Report</span>
+            </a>
+            
+            <a href="bundle.html" class="dashboard-card" style="--accent-color: #fd7e14">
+                <div class="card-icon">📦</div>
+                <div class="card-title">Bundle Analysis</div>
+                <div class="card-description">
+                    Bundle size, code splitting, tree shaking, minification
+                </div>
+                <span class="card-status status-ready">View Report</span>
+            </a>
+        </div>
+        
+        <div class="footer">
+            <p><strong>Baseline Check Tool v2.4.0</strong></p>
+            <p>Comprehensive web compatibility and optimization analysis</p>
+        </div>
+    </div>
+</body>
+</html>`;
     }
 
     private generateDashboardHTML(reportData: any): string {

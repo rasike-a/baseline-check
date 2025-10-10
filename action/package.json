@@ -1,6 +1,6 @@
 {
   "name": "baseline-check-tool",
-  "version": "2.3.0",
+  "version": "2.3.2",
   "description": "Check web features for baseline browser compatibility with smart recommendations and analytics",
   "type": "module",
   "bin": {
@@ -10,7 +10,9 @@
   "files": [
     "src/",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "CHANGELOG.md",
+    "USAGE.md"
   ],
   "scripts": {
     "start": "node src/cli.js",
@@ -59,13 +61,13 @@
     "url": "https://github.com/baseline-check"
   },
   "license": "MIT",
-  "homepage": "https://github.com/baseline-check/baseline-check#readme",
+  "homepage": "https://github.com/rasike-a/baseline-check#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/baseline-check/baseline-check.git"
+    "url": "https://github.com/rasike-a/baseline-check.git"
   },
   "bugs": {
-    "url": "https://github.com/baseline-check/baseline-check/issues"
+    "url": "https://github.com/rasike-a/baseline-check/issues"
   },
   "dependencies": {
     "@mdn/browser-compat-data": "^5.7.6",

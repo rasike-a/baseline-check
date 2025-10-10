@@ -2,6 +2,37 @@
 
 A comprehensive VS Code extension for web compatibility analysis and optimization. This extension integrates the Baseline Check Tool directly into your VS Code workflow, providing real-time analysis, automatic fixes, and detailed reporting.
 
+## ✨ What's New in v2.4.0
+
+### 🎉 Zero Setup Required!
+- **Self-contained extension** - baseline-check-tool now bundled
+- **No npm install needed** - Works immediately after installation
+- **Smart tool detection** - Automatically finds bundled, project, or global installation
+- **Better error messages** - Helpful guidance if issues occur
+
+### Interactive Dashboards
+- **7 specialized dashboards** with beautiful UI and navigation
+- **Automatic hub generation** - Main dashboard created automatically
+- **Clickable file:// links** in Output panel for instant dashboard access
+- **Action buttons** in notifications ("View Dashboard" / "Show Output")
+- **Navigation bar** on all dashboards for seamless switching
+- **Dashboard Hub** as central access point for all analyses
+
+### Enhanced Developer Experience
+- **Color-coded severity** (Critical, High, Medium, Low) in all dashboards
+- **Statistics cards** showing issue counts at a glance
+- **Detailed issue lists** with file locations and fix suggestions
+- **MDN documentation links** for browser features
+- **Responsive design** that works on all screen sizes
+- **Debug logging** shows tool detection process
+
+### Better Workflow
+- Install extension → Use immediately (no setup!)
+- Run analysis → Get notification → Click button → View results instantly
+- All dashboard links accessible from Output panel
+- Seamless navigation between different analysis types
+- Return to hub anytime with "Home" link
+
 ## Features
 
 ### 🔍 **Comprehensive Analysis**
@@ -22,6 +53,9 @@ A comprehensive VS Code extension for web compatibility analysis and optimizatio
 - **Code Snippets** - Pre-built snippets for common patterns with baseline checks
 - **Command Palette** - Easy access to all analysis commands
 - **Context Menus** - Right-click integration for files and folders
+- **Interactive Dashboards** - Beautiful HTML dashboards with charts and navigation
+- **Clickable Links** - File:// URLs in Output panel for quick dashboard access
+- **Action Buttons** - Notification buttons to view dashboards or show output
 - **Webview Dashboard** - Interactive results panel with statistics and actions
 
 ### ⚡ **Automatic Fixes**
@@ -37,6 +71,17 @@ A comprehensive VS Code extension for web compatibility analysis and optimizatio
 3. Search for "Baseline Check Tool"
 4. Click Install
 
+### 🎉 No Additional Setup Required!
+
+**v2.4.0 is self-contained** - the baseline-check-tool is bundled with the extension. Just install and start using immediately!
+
+**Optional:** If you want to use the latest version of baseline-check-tool or use it outside VS Code:
+```bash
+npm install -g baseline-check-tool
+```
+
+The extension will automatically use whichever version is available (bundled, project, or global).
+
 ### From Source
 1. Clone this repository
 2. Run `npm install` in the `vscode-extension` directory
@@ -47,9 +92,11 @@ A comprehensive VS Code extension for web compatibility analysis and optimizatio
 
 ### Quick Start
 1. Open a web project in VS Code
-2. Use `Ctrl+Shift+P` to open the command palette
+2. Use `Ctrl+Shift+P` (or `Cmd+Shift+P` on Mac) to open the command palette
 3. Type "Baseline Check" to see all available commands
 4. Select "Scan for Baseline Compatibility" to start analysis
+5. Click "View Dashboard" button in the notification to see results
+6. Or click the file:// links in the Output panel to open specific dashboards
 
 ### Commands
 
@@ -118,6 +165,34 @@ The extension can be configured through VS Code settings:
 }
 ```
 
+### Interactive Dashboards
+
+After running analysis, the extension generates beautiful interactive dashboards:
+
+#### Dashboard Hub
+The main dashboard hub provides access to all analysis types:
+- 🌐 **Baseline Compatibility** - Browser feature detection and compatibility
+- ⚡ **Performance Analysis** - Performance issues, bundle sizes, optimizations
+- 🔒 **Security Analysis** - XSS, CSRF, vulnerabilities, security headers
+- ♿ **Accessibility Analysis** - WCAG compliance, color contrast, ARIA
+- 🔍 **SEO Analysis** - Meta tags, Open Graph, structured data
+- 📦 **Bundle Analysis** - Code splitting, tree shaking, minification
+- 📄 **Raw Reports** - JSON data for custom processing
+
+#### Dashboard Features
+- **Navigation Bar** - Seamless switching between dashboards
+- **Statistics Cards** - Visual summary of findings by severity
+- **Issue Lists** - Detailed issues with file locations and suggestions
+- **Color Coding** - Critical (red), High (orange), Medium (yellow), Low (green)
+- **Clickable Links** - Direct access from Output panel notifications
+- **Action Buttons** - "View Dashboard" and "Show Output" in notifications
+
+#### Accessing Dashboards
+1. **Via Notification** - Click "View Dashboard" button after analysis
+2. **Via Output Panel** - Cmd/Ctrl+Click on file:// links
+3. **Via Command** - Run `Baseline Check: View Dashboard`
+4. **Via Browser** - Open `dashboards/index.html` in your workspace
+
 ### Workspace Integration
 
 The extension integrates seamlessly with VS Code workspaces:
@@ -126,7 +201,7 @@ The extension integrates seamlessly with VS Code workspaces:
 2. **Editor Integration** - Right-click in editor for file-specific analysis
 3. **Status Bar** - Quick access to scan commands and results
 4. **Problems Panel** - Issues appear in the Problems panel with detailed information
-5. **Output Panel** - Detailed analysis logs and recommendations
+5. **Output Panel** - Detailed analysis logs, recommendations, and dashboard links
 
 ### Real-time Monitoring
 
@@ -137,11 +212,31 @@ Enable real-time monitoring to automatically analyze files as you work:
 3. Results appear in the sidebar panel and Problems panel
 4. Use `baseline-check.stopMonitor` to stop monitoring
 
+## Screenshots
+
+### Dashboard Hub
+The main dashboard provides easy access to all analysis types with beautiful cards and hover effects.
+
+### Performance Dashboard
+View performance issues with color-coded severity, statistics cards, and actionable recommendations.
+
+### Navigation Flow
+1. Run analysis → Get notification with action buttons
+2. Click "View Dashboard" → Opens in browser
+3. Use navigation bar → Switch between dashboards
+4. Click "Home" → Return to hub
+
+### Output Panel Integration
+File:// URLs in the Output panel are clickable (Cmd/Ctrl+Click) for quick dashboard access.
+
 ## Requirements
 
 - VS Code 1.74.0 or higher
-- Node.js 16.x or higher (for the underlying Baseline Check Tool)
+- Node.js 16.x or higher (for running the analysis)
 - Supported file types: `.js`, `.ts`, `.jsx`, `.tsx`, `.html`, `.css`, `.scss`, `.sass`
+
+### ✅ No External Dependencies
+v2.4.0 bundles the baseline-check-tool directly with the extension. No additional installation required!
 
 ## Extension Settings
 

@@ -2252,4 +2252,27 @@ function generatePolyfillDashboard(recommendations, theme) {
 </html>`;
 }
 
+// Generate unified dashboard hub
+program
+  .command('dashboard-hub')
+  .description('Generate unified dashboard hub with all analysis dashboards')
+  .option('-o, --output <dir>', 'Output directory for dashboards', 'dashboards')
+  .action(async (options) => {
+    const logger = new Logger();
+    
+    try {
+      const { DashboardGenerator } = await import('./dashboard-generator.js');
+      const generator = new DashboardGenerator(options.output);
+      
+      logger.info('📊 Generating unified dashboard hub...');
+      const hubPath = await generator.generateAll(process.cwd());
+      
+      logger.success(`Dashboard hub generated: ${hubPath}`);
+      logger.info(`\n🌐 Open in browser: open ${hubPath}`);
+    } catch (error) {
+      logger.error(`Dashboard generation failed: ${error.message}`);
+      process.exit(1);
+    }
+  });
+
 program.parse();
